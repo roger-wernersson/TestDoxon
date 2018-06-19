@@ -54,15 +54,15 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import testdoxon.exceptionHandlers.TDException;
-import testdoxon.handlers.FileCrawlerHandler;
-import testdoxon.handlers.FileHandler;
-import testdoxon.listeners.HeaderToolTipListener;
-import testdoxon.listeners.OpenMethodAction;
-import testdoxon.listeners.TDPartListener;
-import testdoxon.listeners.UpdateOnFileChangedListener;
-import testdoxon.listeners.UpdateOnSaveListener;
-import testdoxon.models.TDFile;
+import testdoxon.exceptionHandler.TDException;
+import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.handler.FileHandler;
+import testdoxon.listener.HeaderToolTipListener;
+import testdoxon.listener.OpenMethodAction;
+import testdoxon.listener.TDPartListener;
+import testdoxon.listener.UpdateOnFileChangedListener;
+import testdoxon.listener.UpdateOnSaveListener;
+import testdoxon.model.TDFile;
 
 @SuppressWarnings("deprecation")
 public class View extends ViewPart {
