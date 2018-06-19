@@ -133,14 +133,15 @@ public class View extends ViewPart {
 			if (this.file != null) {
 				try {
 					header.setText(this.file.getHeaderName());
-					return fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
+					String[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
+					if(retVal != null && retVal.length > 0) {
+						return retVal;
+					}
 				} catch (TDException e) {
 					header.setText(e.getMessage());
-					return new String[] {};
 				}
-			} else {
-				return new String[] {};
 			}
+			return new String[] {};
 		}
 	}
 
