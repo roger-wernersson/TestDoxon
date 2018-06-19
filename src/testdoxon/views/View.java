@@ -1,16 +1,8 @@
 package testdoxon.views;
 
-import java.io.File;
-import java.util.HashMap;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -19,14 +11,9 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -48,15 +35,13 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.texteditor.ITextEditor;
 
 import testdoxon.exceptionHandlers.TDException;
 import testdoxon.handlers.FileCrawlerHandler;
 import testdoxon.handlers.FileHandler;
+import testdoxon.listeners.OpenMethodAction;
 import testdoxon.listeners.TDPartListener;
 import testdoxon.listeners.UpdateOnFileChangedListener;
 import testdoxon.listeners.UpdateOnSaveListener;
@@ -288,81 +273,7 @@ public class View extends ViewPart {
 	}
 
 	private void makeActions() {
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				@SuppressWarnings("unused")
-				Object obj = ((IStructuredSelection) selection).getFirstElement();
-				File file = (File) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-						.getActiveEditor().getEditorInput().getAdapter(File.class);
-
-				if (file.getAbsolutePath().equals(View.currentTestFile.getAbsolutePath().toString())) {
-					// Opened class is the correct Test class, so just move to the correct line in
-					// that class.
-					ITextEditor editor = (ITextEditor) getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
-					IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-
-					if (document != null) {
-						IRegion lineInfo = null;
-
-						try {
-							int lineNumber = 1;
-							try {
-								lineNumber = fileHandler.getLineNumberOfSpecificMethod(
-										View.currentTestFile.getAbsolutePath(), obj.toString());
-								if (lineNumber == -1) {
-									lineNumber = 1;
-								}
-							} catch (TDException e1) {
-								e1.printStackTrace();
-							}
-							lineInfo = document.getLineInformation(lineNumber - 1);
-						} catch (BadLocationException e) {
-
-						}
-
-						if (lineInfo != null) {
-							editor.selectAndReveal(lineInfo.getOffset(), lineInfo.getLength());
-						}
-					}
-
-				} else {
-					// Open Test class and jump to correct line
-					IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
-					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
-
-					if (iFile != null) {
-						IWorkbenchPage iWorkbenchPage = getSite().getPage();
-
-						@SuppressWarnings("rawtypes")
-						HashMap<String, Comparable> map = new HashMap<String, Comparable>();
-						int lineNumber = 0;
-						try {
-							lineNumber = fileHandler.getLineNumberOfSpecificMethod(iFile.getRawLocation().toOSString(),
-									obj.toString());
-							if (lineNumber == 0) {
-								map.put(IMarker.LINE_NUMBER, 1);
-							} else {
-								map.put(IMarker.LINE_NUMBER, lineNumber);
-							}
-
-						} catch (TDException e) {
-							e.printStackTrace();
-						}
-
-						try {
-							IMarker marker = iFile.createMarker(IMarker.TEXT);
-							marker.setAttributes(map);
-							marker.setAttribute(IDE.EDITOR_ID_ATTR, "org.eclipse.ui.MarkdownTextEditor");
-							IDE.openEditor(iWorkbenchPage, marker, true);
-							marker.delete();
-						} catch (CoreException e2) {
-							e2.printStackTrace();
-						}
-					}
-				}
-			}
-		};
+		doubleClickAction = new OpenMethodAction(viewer, this, fileHandler);
 	}
 
 	private void hookDoubleClickAction() {
