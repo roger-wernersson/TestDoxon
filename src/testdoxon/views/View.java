@@ -41,6 +41,7 @@ import org.eclipse.ui.part.ViewPart;
 import testdoxon.exceptionHandlers.TDException;
 import testdoxon.handlers.FileCrawlerHandler;
 import testdoxon.handlers.FileHandler;
+import testdoxon.listeners.HeaderToolTipListener;
 import testdoxon.listeners.OpenMethodAction;
 import testdoxon.listeners.TDPartListener;
 import testdoxon.listeners.UpdateOnFileChangedListener;
@@ -178,6 +179,7 @@ public class View extends ViewPart {
 		this.saveFileListener = new UpdateOnSaveListener(this.viewer, this);
 		this.fileSelected = new UpdateOnFileChangedListener(fileCrawlerHandler, viewer);
 		this.fileChanged = new TDPartListener(this.viewer, this.fileCrawlerHandler);
+		this.header.addListener(SWT.MouseHover, new HeaderToolTipListener(this.header));
 
 		// Adding listeners
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(saveFileListener, IResourceChangeEvent.POST_BUILD);
@@ -191,7 +193,7 @@ public class View extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		GridLayout gl = new GridLayout(1, false);
-		gl.marginLeft = 10;
+		gl.marginLeft = 0;
 		gl.marginHeight = 10;
 		gl.marginRight = 0;
 		gl.marginBottom = 0;
@@ -212,14 +214,13 @@ public class View extends ViewPart {
 	}
 
 	private void populatePlugin(Composite parent) {
-		header = new Label(parent, SWT.NONE);
+		header = new Label(parent, SWT.CENTER);
 		header.setText("File not found.");
 		header.setBackground(widgetColor);
-		header.setSize(200, 20);
 
 		GridData gridDataLabel = new GridData(SWT.FILL, SWT.NONE, true, false);
 		header.setLayoutData(gridDataLabel);
-
+		
 		Display display = Display.getCurrent();
 		FontDescriptor fd = FontDescriptor.createFrom(header.getFont());
 		Font font = fd.setStyle(SWT.BOLD).createFont(display);
