@@ -14,6 +14,9 @@ public class UpdateOnFileChangeListener implements IPartListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
 
 	@Override
 	public void partBroughtToTop(IWorkbenchPart arg0) {
