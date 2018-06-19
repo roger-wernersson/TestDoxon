@@ -5,13 +5,9 @@ import java.util.HashMap;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -37,39 +33,34 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CaretEvent;
-import org.eclipse.swt.custom.CaretListener;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import testdoxon.exceptionHandlers.TDException;
 import testdoxon.handlers.FileCrawlerHandler;
 import testdoxon.handlers.FileHandler;
+import testdoxon.listeners.TDPartListener;
+import testdoxon.listeners.UpdateOnFileChangedListener;
+import testdoxon.listeners.UpdateOnSaveListener;
 import testdoxon.models.TDFile;
-import testdoxon.utils.DoxonUtils;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
@@ -106,12 +97,13 @@ public class View extends ViewPart {
 	private FileHandler fileHandler;
 	private FileCrawlerHandler fileCrawlerHandler;
 
-	private TDFile currentOpenFile;
-	private TDFile currentTestFile;
+	public static TDFile currentOpenFile;
+	public static TDFile currentTestFile;
 
 	// Listeners
 	private IResourceChangeListener saveFileListener;
-	private CaretListener wordListener;
+	// private CaretListener wordListener;
+
 	private ISelectionListener fileSelected;
 	private IPartListener fileChanged;
 
@@ -190,215 +182,23 @@ public class View extends ViewPart {
 		this.fileHandler = new FileHandler();
 		this.fileCrawlerHandler = new FileCrawlerHandler();
 
-		this.currentOpenFile = null;
-		this.currentTestFile = null;
+		View.currentOpenFile = null;
+		View.currentTestFile = null;
 
 		this.viewContentProvider = new ViewContentProvider();
 		this.widgetColor = new Color(null, 255, 255, 230);
-		this.initiateListeners();
 	}
 
 	private void initiateListeners() {
-		this.saveFileListener = new IResourceChangeListener() {
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta resourceDelta = event.getDelta();
+		this.saveFileListener = new UpdateOnSaveListener(this.viewer, this);
+		this.fileSelected = new UpdateOnFileChangedListener(fileCrawlerHandler, viewer);
+		this.fileChanged = new TDPartListener(this.viewer, this.fileCrawlerHandler);
 
-				IResourceDeltaVisitor recourceDeltaVisitor = new IResourceDeltaVisitor() {
-					boolean changed = false;
-
-					@Override
-					public boolean visit(IResourceDelta arg0) throws CoreException {
-						IResource resource = arg0.getResource();
-						if (resource.getType() == IResource.FILE && !changed) {
-							if (arg0.getKind() == IResourceDelta.CHANGED) {
-								updateTable();
-								changed = true;
-							}
-						}
-						return true;
-					}
-				};
-
-				try {
-					resourceDelta.accept(recourceDeltaVisitor);
-				} catch (CoreException e) {
-					System.out.println(e.getMessage());
-				}
-
-			}
-		};
-
-		this.wordListener = null;
-
-		this.fileSelected = new ISelectionListener() {
-
-			@Override
-			public void selectionChanged(IWorkbenchPart arg0, ISelection arg1) {
-				if (arg0.getTitle().matches(".*\\.java")) {
-					File file = (File) arg0.getSite().getPage().getActiveEditor().getEditorInput()
-							.getAdapter(File.class);
-
-					if (currentOpenFile == null || !file.getName().equals(currentOpenFile.getName())) {
-						currentOpenFile = new TDFile(file);
-
-						// Get all test classes
-						DoxonUtils doxonUtils = new DoxonUtils();
-						String testFolder = doxonUtils.findTestFolder(currentOpenFile.getAbsolutePath());
-						if (testFolder != null) {
-							fileCrawlerHandler.getAllTestClasses(testFolder);
-						}
-
-						findFileToOpen();
-					}
-
-				}
-			}
-		};
-
-		this.fileChanged = new IPartListener() {
-
-			@Override
-			public void partOpened(IWorkbenchPart arg0) {
-			}
-
-			@Override
-			public void partDeactivated(IWorkbenchPart arg0) {
-				// TODO Auto-generated method stub
-				if (wordListener != null) {
-					IEditorPart iep = arg0.getSite().getPage().getActiveEditor();
-					if (iep != null) {
-						AbstractTextEditor e = (AbstractTextEditor) iep;
-						Control adapter = e.getAdapter(Control.class);
-
-						if (adapter instanceof StyledText) {
-							StyledText text = (StyledText) adapter;
-							text.removeCaretListener(wordListener);
-						}
-					}
-				}
-			}
-
-			@Override
-			public void partClosed(IWorkbenchPart arg0) {
-			}
-
-			@Override
-			public void partBroughtToTop(IWorkbenchPart arg0) {
-			}
-
-			@Override
-			public void partActivated(IWorkbenchPart arg0) {
-				// TODO Auto-generated method stub
-				IEditorPart iep = arg0.getSite().getPage().getActiveEditor();
-				if (iep != null) {
-					AbstractTextEditor e = (AbstractTextEditor) iep;
-					Control adapter = e.getAdapter(Control.class);
-
-					if (adapter instanceof StyledText) {
-						StyledText text = (StyledText) adapter;
-
-						wordListener = new CaretListener() {
-
-							@Override
-							public void caretMoved(CaretEvent arg0) {
-								String word = getWordUnderCaret(arg0.caretOffset, text);
-
-								if (word.length() > 0 && Character.isUpperCase(word.charAt(0))) {
-									String fileToLookFor = "Test" + word + ".java";
-									String newTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(
-											fileToLookFor, currentOpenFile.getAbsolutePath(),
-											currentOpenFile.getName());
-
-									if (newTestFilepath != null
-											&& !newTestFilepath.equals(currentTestFile.getAbsolutePath())) {
-										currentTestFile = new TDFile(new File(newTestFilepath));
-										currentTestFile.setHeaderFilepath(currentTestFile.getAbsolutePath());
-
-										if (currentTestFile != null) {
-											Display.getDefault().syncExec(new Runnable() {
-												@Override
-												public void run() {
-													try {
-														viewer.setInput(currentTestFile);
-													} catch (AssertionFailedException e) {
-														// Do nothing
-													}
-												}
-											});
-										}
-									}
-								} else {
-									// Show current class test class.
-									findFileToOpen();
-								}
-							}
-
-						};
-
-						text.addCaretListener(wordListener);
-					}
-				}
-			}
-		};
-	}
-
-	private void findFileToOpen() {
-		if (currentOpenFile != null) {
-
-			// If a test class already is open
-			if (currentOpenFile.getName().matches("^Test.*")) {
-				currentTestFile = currentOpenFile;				
-			// If a regular class is open
-			} else {
-				DoxonUtils doxonUtils = new DoxonUtils();
-				String newTestFilepath = doxonUtils.createTestPath(currentOpenFile) + "Test" + currentOpenFile.getName();
-				currentTestFile = new TDFile(new File(newTestFilepath));
-			}
-			currentTestFile.setHeaderFilepath(currentOpenFile.getAbsolutePath());
-
-			if (currentTestFile != null) {
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							viewer.setInput(currentTestFile);
-						} catch (AssertionFailedException e) {
-							// Do nothing
-						}
-
-					}
-				});
-			}
-		}
-	}
-
-	private void updateTable() {
-		IEditorPart iEditorPart = this.getSite().getWorkbenchWindow().getActivePage().getActivePart().getSite()
-				.getPage().getActiveEditor();
-
-		if (iEditorPart != null) {
-			File file = iEditorPart.getEditorInput().getAdapter(File.class);
-
-			if (file != null) {
-				// Always update on save
-				currentOpenFile = new TDFile(file);
-				currentTestFile = currentOpenFile;
-				currentTestFile.setHeaderFilepath(currentOpenFile.getAbsolutePath());
-
-				if (currentTestFile != null && viewer != null) {
-					Display.getDefault().syncExec(new Runnable() {
-						@Override
-						public void run() {
-							try {
-								viewer.setInput(currentTestFile);
-							} catch (AssertionFailedException e) {
-								// Do nothing
-							}
-						}
-					});
-				}
-			}
-		}
+		// Adding listeners
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(saveFileListener, IResourceChangeEvent.POST_BUILD);
+		ISelectionService iSelectionService = this.getSite().getWorkbenchWindow().getSelectionService();
+		iSelectionService.addPostSelectionListener(fileSelected);
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(fileChanged);
 	}
 
 	/**
@@ -417,23 +217,18 @@ public class View extends ViewPart {
 
 		this.populatePlugin(parent);
 
-		// Adding listeners
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(saveFileListener, IResourceChangeEvent.POST_BUILD);
-		ISelectionService iSelectionService = this.getSite().getWorkbenchWindow().getSelectionService();
-		iSelectionService.addPostSelectionListener(fileSelected);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().addPartListener(fileChanged);
-
 		// Create the help context id for the viewer's control
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "TestDoxon.viewer");
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
 		contributeToActionBars();
+		this.initiateListeners();
 	}
 
 	private void populatePlugin(Composite parent) {
 		header = new Label(parent, SWT.NONE);
-		header.setText("Test label");
+		header.setText("File not found.");
 		header.setBackground(widgetColor);
 		header.setSize(200, 20);
 
@@ -460,23 +255,6 @@ public class View extends ViewPart {
 		viewer.getControl().setBackground(widgetColor);
 		GridData gridDataTableView = new GridData(SWT.FILL, SWT.FILL, true, true);
 		viewer.getControl().setLayoutData(gridDataTableView);
-	}
-
-	private String getWordUnderCaret(int pos, StyledText text) {
-		int lineOffset = pos - text.getOffsetAtLine(text.getLineAtOffset(pos));
-		String line = text.getLine(text.getLineAtOffset(pos));
-		String[] words = line.split("[ \t\\\\(\\\\);\\\\.{}]");
-		String desiredWord = "";
-
-		for (String word : words) {
-			if (lineOffset <= word.length()) {
-				desiredWord = word;
-				break;
-			}
-			lineOffset -= word.length() + 1;
-		}
-
-		return desiredWord;
 	}
 
 	private void hookContextMenu() {
@@ -518,7 +296,7 @@ public class View extends ViewPart {
 				File file = (File) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 						.getActiveEditor().getEditorInput().getAdapter(File.class);
 
-				if (file.getAbsolutePath().equals(currentTestFile.getAbsolutePath().toString())) {
+				if (file.getAbsolutePath().equals(View.currentTestFile.getAbsolutePath().toString())) {
 					// Opened class is the correct Test class, so just move to the correct line in
 					// that class.
 					ITextEditor editor = (ITextEditor) getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
@@ -531,7 +309,7 @@ public class View extends ViewPart {
 							int lineNumber = 1;
 							try {
 								lineNumber = fileHandler.getLineNumberOfSpecificMethod(
-										currentTestFile.getAbsolutePath(), obj.toString());
+										View.currentTestFile.getAbsolutePath(), obj.toString());
 								if (lineNumber == -1) {
 									lineNumber = 1;
 								}
@@ -550,7 +328,7 @@ public class View extends ViewPart {
 
 				} else {
 					// Open Test class and jump to correct line
-					IPath location = Path.fromOSString(currentTestFile.getAbsolutePath());
+					IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 
 					if (iFile != null) {
