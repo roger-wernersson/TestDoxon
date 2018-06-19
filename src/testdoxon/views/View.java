@@ -1,3 +1,19 @@
+/**
+Copyright 2018 Delicate Sound Of Software AB, All Rights Reserved
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package testdoxon.views;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -48,27 +64,8 @@ import testdoxon.listeners.UpdateOnFileChangedListener;
 import testdoxon.listeners.UpdateOnSaveListener;
 import testdoxon.models.TDFile;
 
-/**
- * This sample class demonstrates how to plug-in a new workbench view. The view
- * shows data obtained from the model. The sample creates a dummy model on the
- * fly, but a real implementation would connect to the model available either in
- * this or another plug-in (e.g. the workspace). The view is connected to the
- * model using a content provider.
- * <p>
- * The view uses a label provider to define how model objects should be
- * presented in the view. Each view can present the same model objects using
- * different labels and icons, if needed. Alternatively, a single label provider
- * can be shared between views in order to ensure that objects of the same type
- * are presented in the same way everywhere.
- * <p>
- */
-
 @SuppressWarnings("deprecation")
 public class View extends ViewPart {
-
-	/**
-	 * The ID of the view as specified by the extension.
-	 */
 	public static final String ID = "testdoxon.views.View";
 
 	private Color widgetColor;
@@ -88,22 +85,11 @@ public class View extends ViewPart {
 
 	// Listeners
 	private IResourceChangeListener saveFileListener;
-	// private CaretListener wordListener;
 
 	private ISelectionListener fileSelected;
 	private IPartListener fileChanged;
 
-	/*
-	 * The content provider class is responsible for providing objects to the view.
-	 * It can wrap existing objects in adapters or simply return objects as-is.
-	 * These objects may be sensitive to the current input of the view, or ignore it
-	 * and always show the same content (like Task List, for example).
-	 */
-
 	class ViewContentProvider implements IStructuredContentProvider {
-		// private String filePath = "";
-		// private String fileName = "";
-
 		private TDFile file = null;
 
 		/**
@@ -267,7 +253,6 @@ public class View extends ViewPart {
 	}
 
 	private void fillContextMenu(IMenuManager manager) {
-		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 
@@ -302,4 +287,5 @@ public class View extends ViewPart {
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class arg0) {
 		return null;
 	}
+	
 }
