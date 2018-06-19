@@ -85,7 +85,6 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 				View.currentTestFile = View.currentOpenFile;
 				// If a regular class is open
 			} else {
-				// DoxonUtils doxonUtils = new DoxonUtils();
 				String newTestFilepath = DoxonUtils.createTestPath(View.currentOpenFile) + "Test"
 						+ View.currentOpenFile.getName();
 				View.currentTestFile = new TDFile(new File(newTestFilepath));
