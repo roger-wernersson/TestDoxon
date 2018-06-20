@@ -16,9 +16,14 @@ limitations under the License.
 
 package testdoxon.views;
 
+import java.net.URL;
+
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -27,6 +32,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -43,16 +49,18 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileCrawlerHandler;
@@ -63,6 +71,7 @@ import testdoxon.listener.TDPartListener;
 import testdoxon.listener.UpdateOnFileChangedListener;
 import testdoxon.listener.UpdateOnSaveListener;
 import testdoxon.model.TDFile;
+import testdoxon.model.TDTableItem;
 
 @SuppressWarnings("deprecation")
 public class View extends ViewPart {
@@ -119,7 +128,7 @@ public class View extends ViewPart {
 			if (this.file != null) {
 				try {
 					header.setText(this.file.getHeaderName());
-					String[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
+					TDTableItem[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
 					if(retVal != null && retVal.length > 0) {
 						return retVal;
 					}
@@ -132,7 +141,44 @@ public class View extends ViewPart {
 	}
 
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
+		public final Image redDot;
+		public final Image greenDot;
+		public final Image grayDot;
+		public final Image blueDot;
+		public final Image yellowDot;
+		
+		public ViewLabelProvider () {
+			Bundle bundle = Platform.getBundle("TestDoxon");
+			URL url = null;
+			ImageDescriptor imageDesc = null;
+			
+			url = FileLocator.find(bundle, new Path("icons/testDox-red8px.png"), null);
+			imageDesc = ImageDescriptor.createFromURL(url);
+			this.redDot = imageDesc.createImage();
+			
+			url = FileLocator.find(bundle, new Path("icons/testDox-green8px.png"), null);
+			imageDesc = ImageDescriptor.createFromURL(url);
+			this.greenDot = imageDesc.createImage();
+			
+			url = FileLocator.find(bundle, new Path("icons/testDox-gray8px.png"), null);
+			imageDesc = ImageDescriptor.createFromURL(url);
+			this.grayDot = imageDesc.createImage();
+			
+			url = FileLocator.find(bundle, new Path("icons/testDox-blue8px.png"), null);
+			imageDesc = ImageDescriptor.createFromURL(url);
+			this.blueDot = imageDesc.createImage();
+			
+			url = FileLocator.find(bundle, new Path("icons/testDox-yellow8px.png"), null);
+			imageDesc = ImageDescriptor.createFromURL(url);
+			this.yellowDot = imageDesc.createImage();
+		}
+		
 		public String getColumnText(Object obj, int index) {
+			//System.out.println("Index" + index + ": " + getText(obj));
+			if (obj instanceof TDTableItem) {
+				TDTableItem _tmp = (TDTableItem) obj;
+				return _tmp.getMethodName(); 
+			}
 			return getText(obj);
 		}
 
@@ -141,7 +187,24 @@ public class View extends ViewPart {
 		}
 
 		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD_DISABLED);
+			if(obj instanceof TDTableItem) {
+				TDTableItem _tmp = (TDTableItem) obj;
+				
+				switch(_tmp.getPictureIndex()) {
+					case TDTableItem.NONE:
+						return redDot;
+					case TDTableItem.TEST:
+						return greenDot;
+					case TDTableItem.IGNORE:
+						return yellowDot;
+					case TDTableItem.BOTH_TEST_IGNORE:
+						return blueDot;
+					default:
+						return grayDot;
+				}
+			}
+			
+			return grayDot;
 		}
 	}
 

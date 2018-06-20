@@ -19,6 +19,7 @@ package testdoxon.handler;
 import java.io.File;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.model.TDTableItem;
 import testdoxon.repository.FileRepository;
 
 public class FileHandler {
@@ -38,7 +39,7 @@ public class FileHandler {
 	 * @return String []
 	 * @throws TDException
 	 */
-	public String[] getMethodsFromFile(String filePath) throws TDException {
+	public TDTableItem[] getMethodsFromFile(String filePath) throws TDException {
 		if (this.fileExists(filePath)) {
 			return fileRepository.fetchMethodNames(filePath);
 		} else {
