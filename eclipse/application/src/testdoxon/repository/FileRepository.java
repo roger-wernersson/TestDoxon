@@ -112,7 +112,7 @@ public class FileRepository {
 				String _strMatch = matcher.group(2);
 				boolean hasTest = lookForAtTest(fileContent, i);
 				boolean hasIgnore = lookForAtIgnore(fileContent, i);
-				
+
 				// 2. Check if method name have arguments If not - do not continue
 				if (!_strMatch.matches(".*\\(\\)")) {
 					methodNames.add(new TDTableItem(_strMatch, hasTest, hasIgnore));
@@ -129,7 +129,6 @@ public class FileRepository {
 			}
 		}
 
-		// methodNames.sort(Comparator.comparing(TDTableItem::getMethodName));
 		TDTableItem[] retVal = new TDTableItem[methodNames.size()];
 		retVal = methodNames.toArray(retVal);
 
@@ -137,11 +136,24 @@ public class FileRepository {
 	}
 
 	private boolean lookForAtTest(String[] fileContent, int lineNumber) {
+		if((lineNumber - 1) < 0) {
+			return false;
+		}
+		if((lineNumber - 2) < 0 ) {
+			return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*");
+		}
+		
 		return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*")
 				|| fileContent[lineNumber - 2].matches("[ \t\n]*@test[ \t\n]*");
 	}
 
 	private boolean lookForAtIgnore(String[] fileContent, int lineNumber) {
+		if((lineNumber - 1) < 0) {
+			return false;
+		}
+		if((lineNumber - 2) < 0 ) {
+			return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*");
+		}
 		return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*")
 				|| fileContent[lineNumber - 2].matches("[ \t\n]*@Ignore[ \t\n]*");
 	}
