@@ -29,16 +29,10 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -49,12 +43,13 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import testdoxon.exceptionHandler.TDException;
+import testdoxon.gui.SortByNameSorter;
+import testdoxon.gui.TestMethodLabelProvider;
+import testdoxon.gui.TestMethodTableContentProvider;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.HeaderToolTipListener;
@@ -64,7 +59,6 @@ import testdoxon.listener.UpdateOnFileChangedListener;
 import testdoxon.listener.UpdateOnSaveListener;
 import testdoxon.model.TDFile;
 
-@SuppressWarnings("deprecation")
 public class View extends ViewPart {
 	public static final String ID = "testdoxon.views.View";
 
@@ -75,7 +69,7 @@ public class View extends ViewPart {
 
 	private Action doubleClickAction;
 
-	private ViewContentProvider viewContentProvider;
+	private TestMethodTableContentProvider contentProvider;
 
 	private FileHandler fileHandler;
 	private FileCrawlerHandler fileCrawlerHandler;
@@ -85,68 +79,8 @@ public class View extends ViewPart {
 
 	// Listeners
 	private IResourceChangeListener saveFileListener;
-
 	private ISelectionListener fileSelected;
 	private IPartListener fileChanged;
-
-	class ViewContentProvider implements IStructuredContentProvider {
-		private TDFile file = null;
-
-		/**
-		 * Checks the current files name and package name
-		 * 
-		 * @param v
-		 * @param oldInput
-		 * @param newInput
-		 */
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-			if (newInput instanceof TDFile) {
-				this.file = (TDFile) newInput;
-			}
-		}
-
-		public void dispose() {
-		}
-
-		/**
-		 * Updates the header with the current testfile name and package name. If file
-		 * is not found return is "file not found"
-		 * 
-		 * @param parent
-		 * @return String[]
-		 */
-		public Object[] getElements(Object parent) {
-			if (this.file != null) {
-				try {
-					header.setText(this.file.getHeaderName());
-					String[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
-					if(retVal != null && retVal.length > 0) {
-						return retVal;
-					}
-				} catch (TDException e) {
-					header.setText(e.getMessage());
-				}
-			}
-			return new String[] {};
-		}
-	}
-
-	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
-		}
-
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
-		}
-
-		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_FORWARD_DISABLED);
-		}
-	}
-
-	class NameSorter extends ViewerSorter {
-	}
 
 	/**
 	 * The constructor.
@@ -154,11 +88,12 @@ public class View extends ViewPart {
 	public View() {
 		this.fileHandler = new FileHandler();
 		this.fileCrawlerHandler = new FileCrawlerHandler();
+		this.contentProvider = null;
 
 		View.currentOpenFile = null;
 		View.currentTestFile = null;
 
-		this.viewContentProvider = new ViewContentProvider();
+		//this.viewContentProvider = new ViewContentProvider();
 		this.widgetColor = new Color(null, 255, 255, 230);
 	}
 
@@ -202,7 +137,7 @@ public class View extends ViewPart {
 
 	private void populatePlugin(Composite parent) {
 		header = new Label(parent, SWT.CENTER);
-		header.setText("File not found.");
+		header.setText("Go to a class or test class");
 		header.setBackground(widgetColor);
 
 		GridData gridDataLabel = new GridData(SWT.FILL, SWT.NONE, true, false);
@@ -214,10 +149,11 @@ public class View extends ViewPart {
 		header.setFont(font);
 
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(this.viewContentProvider);
-		viewer.setLabelProvider(new ViewLabelProvider());
-		viewer.setSorter(new NameSorter());
-
+		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
+		viewer.setContentProvider(this.contentProvider);
+		viewer.setLabelProvider(new TestMethodLabelProvider());
+		viewer.setComparator(new SortByNameSorter());
+		
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {

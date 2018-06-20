@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.model.TDTableItem;
 
 public class FileRepository {
 
@@ -40,9 +41,9 @@ public class FileRepository {
 	 * @return String[]
 	 * @throws TDException
 	 */
-	public String[] fetchMethodNames(String filePath) throws TDException {
+	public TDTableItem[] fetchMethodNames(String filePath) throws TDException {
 		String[] fileContent = this.readFileContent(filePath);
-		String[] methodNames = this.extractMethodNames(fileContent);
+		TDTableItem[] methodNames = this.extractMethodNames(fileContent);
 
 		if (methodNames.length == 0) {
 			return null;
@@ -99,38 +100,62 @@ public class FileRepository {
 	 * @param fileContent
 	 * @return String[]
 	 */
-	private String[] extractMethodNames(String[] fileContent) {
-		ArrayList<String> methodNames = new ArrayList<>();
+	private TDTableItem[] extractMethodNames(String[] fileContent) {
+		ArrayList<TDTableItem> methodNames = new ArrayList<>();
 
-		for (String line : fileContent) {
+		for (int i = 0; i < fileContent.length; i++) {
 			// 1. Filter out all method names
-			//Pattern pattern = Pattern.compile("^[ \t]*public.*void.*(test|should)([A-Z0-9].*[^ ] *\\(.*\\))");
 			Pattern pattern = Pattern.compile("^[ \t\n]*public[ \t\n]+void[ \t\n]+(test|should)([A-Z0-9]+.*\\(.*\\))");
-			Matcher matcher = pattern.matcher(line);
+			Matcher matcher = pattern.matcher(fileContent[i]);
 
 			if (matcher.find()) {
 				String _strMatch = matcher.group(2);
+				boolean hasTest = lookForAtTest(fileContent, i);
+				boolean hasIgnore = lookForAtIgnore(fileContent, i);
 
 				// 2. Check if method name have arguments If not - do not continue
 				if (!_strMatch.matches(".*\\(\\)")) {
-					methodNames.add(_strMatch);
+					methodNames.add(new TDTableItem(_strMatch, hasTest, hasIgnore));
 				} else {
-
 					// 3. Extract method name and separate every word with a space and return
 					pattern = Pattern.compile("(.*[^ ]).*\\(");
 					matcher = pattern.matcher(_strMatch);
 
 					if (matcher.find()) {
-						methodNames.add(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9_$]*)", "$0 "));
+						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9_$]*)", "$0 "),
+								hasTest, hasIgnore));
 					}
 				}
 			}
 		}
 
-		String[] retVal = new String[methodNames.size()];
+		TDTableItem[] retVal = new TDTableItem[methodNames.size()];
 		retVal = methodNames.toArray(retVal);
 
 		return retVal;
+	}
+
+	private boolean lookForAtTest(String[] fileContent, int lineNumber) {
+		if((lineNumber - 1) < 0) {
+			return false;
+		}
+		if((lineNumber - 2) < 0 ) {
+			return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*");
+		}
+		
+		return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*")
+				|| fileContent[lineNumber - 2].matches("[ \t\n]*@test[ \t\n]*");
+	}
+
+	private boolean lookForAtIgnore(String[] fileContent, int lineNumber) {
+		if((lineNumber - 1) < 0) {
+			return false;
+		}
+		if((lineNumber - 2) < 0 ) {
+			return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*");
+		}
+		return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*")
+				|| fileContent[lineNumber - 2].matches("[ \t\n]*@Ignore[ \t\n]*");
 	}
 
 	/**
@@ -148,7 +173,6 @@ public class FileRepository {
 			methodName = methodName.replaceAll("([\\(\\)])", "\\\\$0");
 		}
 
-		
 		final String regex = "^[ \t\n]*public.*void.*(test|should)" + methodName + ".*";
 
 		int result = -1;
