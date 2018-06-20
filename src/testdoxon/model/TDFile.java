@@ -39,6 +39,10 @@ public class TDFile {
 		this.headerFilepath = filepath;
 	}
 
+	/**
+	 * 
+	 * @return String
+	 */
 	public String getHeaderName() {
 		String packageName = "Package name not found.";
 		if (this.headerFilepath != null) {

@@ -26,11 +26,18 @@ public class FileCrawlerRepository {
 	private ArrayList<TestFile> testFiles;
 	private ArrayList<String> foldersToCheck;
 
+	/**
+	 * Constructor
+	 */
 	public FileCrawlerRepository() {
 		this.testFiles = new ArrayList<>();
 		this.foldersToCheck = new ArrayList<>();
 	}
 
+	/**
+	 * Recursively walk through folders
+	 * @param path
+	 */
 	public void checkFolderHierarchy(String path) {
 		this.testFiles.clear();
 		this.foldersToCheck.clear();
@@ -45,6 +52,10 @@ public class FileCrawlerRepository {
 		}
 	}
 
+	/**
+	 * Checks content of folders, saves all TestXx...x.java classes
+	 * @param path
+	 */
 	private void listFolder(String path) {
 		File file = new File(path);
 		if (file != null && file.isDirectory()) {
@@ -62,6 +73,10 @@ public class FileCrawlerRepository {
 		}
 	}
 
+	/**
+	 * 
+	 * @return ArrayList<TestFile>
+	 */
 	public ArrayList<TestFile> getAllTestFiles() {
 		return this.testFiles;
 	}
