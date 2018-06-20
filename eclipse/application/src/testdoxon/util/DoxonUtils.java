@@ -27,6 +27,12 @@ import testdoxon.model.TDFile;
 import testdoxon.views.View;
 
 public class DoxonUtils {
+	
+	/**
+	 * 
+	 * @param file
+	 * @return String
+	 */
 	public static String createTestPath(TDFile file) {
 		String[] parts = file.getAbsolutePath().split("\\\\");
 		String newFile = "";
@@ -41,6 +47,11 @@ public class DoxonUtils {
 		return newFile;
 	}
 
+	/**
+	 * Locates test folder
+	 * @param filepath
+	 * @return String
+	 */
 	public static String findTestFolder(String filepath) {
 		String[] parts = filepath.split("\\\\");
 		String newFilepath = "";
@@ -56,6 +67,12 @@ public class DoxonUtils {
 		return newFilepath;
 	}
 
+	/**
+	 * 
+	 * @param pos
+	 * @param text
+	 * @return String
+	 */
 	public static String getWordUnderCaret(int pos, StyledText text) {
 		int lineOffset = pos - text.getOffsetAtLine(text.getLineAtOffset(pos));
 		String line = text.getLine(text.getLineAtOffset(pos));
@@ -73,6 +90,10 @@ public class DoxonUtils {
 		return desiredWord;
 	}
 
+	/**
+	 * Decides whether a test class is open or not and locates the path
+	 * @param viewer
+	 */
 	public static void findFileToOpen(TableViewer viewer) {
 		if (View.currentOpenFile != null) {
 			// If a test class already is open

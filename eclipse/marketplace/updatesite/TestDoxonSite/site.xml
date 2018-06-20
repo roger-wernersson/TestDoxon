@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/TestDoxon_Tools_0.0.9.jar" id="TestDoxon_Tools" version="0.0.9">
+      <category name="Alpha"/>
+   </feature>
+   <category-def name="Alpha" label="Alpha"/>
+</site>

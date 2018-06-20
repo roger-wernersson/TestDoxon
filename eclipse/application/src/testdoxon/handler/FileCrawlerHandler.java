@@ -29,10 +29,21 @@ public class FileCrawlerHandler {
 		this.fileCrawlerRepository = new FileCrawlerRepository();
 	}
 
+	/**
+	 * 
+	 * @param path
+	 */
 	public void getAllTestClasses(String path) {
 		this.fileCrawlerRepository.checkFolderHierarchy(path);
 	}
 
+	/**
+	 * 
+	 * @param filename
+	 * @param currentFilepath
+	 * @param currentFilename
+	 * @return String
+	 */
 	public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename) {
 		// Get the location of where the actual testclass should be
 		currentFilepath = currentFilepath.replaceAll("\\\\main\\\\", "\\\\test\\\\");
