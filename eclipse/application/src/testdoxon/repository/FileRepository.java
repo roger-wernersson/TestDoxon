@@ -140,11 +140,11 @@ public class FileRepository {
 			return false;
 		}
 		if((lineNumber - 2) < 0 ) {
-			return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*");
+			return fileContent[lineNumber - 1].matches("[ \t\n]*@Test[ \t\n]*");
 		}
 		
-		return fileContent[lineNumber - 1].matches("[ \t\n]*@test[ \t\n]*")
-				|| fileContent[lineNumber - 2].matches("[ \t\n]*@test[ \t\n]*");
+		return fileContent[lineNumber - 1].matches("[ \t\n]*@Test[ \t\n]*")
+				|| fileContent[lineNumber - 2].matches("[ \t\n]*@Test[ \t\n]*");
 	}
 
 	private boolean lookForAtIgnore(String[] fileContent, int lineNumber) {
