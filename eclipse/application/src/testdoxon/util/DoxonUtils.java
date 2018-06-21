@@ -57,7 +57,7 @@ public class DoxonUtils {
 		String newFilepath = "";
 
 		for (String part : parts) {
-			if (part.equals("main")) {
+			if (part.equals("main") || part.equals("test")) {
 				newFilepath += "test";
 				break;
 			}

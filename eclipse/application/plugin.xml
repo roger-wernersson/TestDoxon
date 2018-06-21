@@ -10,7 +10,7 @@
       </category>
       <view
             name="TestDoxon"
-            icon="icons/sample.gif"
+            icon="icons/testDox16px.png"
             category="TestDoxon"
             class="testdoxon.views.View"
             id="testdoxon.views.View">

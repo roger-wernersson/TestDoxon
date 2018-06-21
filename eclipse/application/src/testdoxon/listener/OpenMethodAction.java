@@ -40,6 +40,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
+import testdoxon.model.TDTableItem;
 import testdoxon.views.View;
 
 public class OpenMethodAction extends Action {
@@ -47,81 +48,88 @@ public class OpenMethodAction extends Action {
 	private TableViewer viewer;
 	private ViewPart view;
 	private FileHandler fileHandler;
-	
+
 	public OpenMethodAction(TableViewer viewer, ViewPart view, FileHandler fileHandler) {
 		this.viewer = viewer;
 		this.view = view;
 		this.fileHandler = fileHandler;
 	}
-	
+
 	public void run() {
 		ISelection selection = viewer.getSelection();
 		@SuppressWarnings("unused")
 		Object obj = ((IStructuredSelection) selection).getFirstElement();
-		File file = (File) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getActiveEditor().getEditorInput().getAdapter(File.class);
 
-		if (file.getAbsolutePath().equals(View.currentTestFile.getAbsolutePath().toString())) {
-			// Opened class is the correct Test class, so just move to the correct line in
-			// that class.
-			ITextEditor editor = (ITextEditor) view.getSite().getWorkbenchWindow().getActivePage().getActiveEditor();
-			IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		if (obj instanceof TDTableItem) {
+			TDTableItem _tmp = (TDTableItem) obj;
+			
+			File file = (File) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+					.getEditorInput().getAdapter(File.class);
 
-			if (document != null) {
-				IRegion lineInfo = null;
+			if (file.getAbsolutePath().equals(View.currentTestFile.getAbsolutePath().toString())) {
+				// Opened class is the correct Test class, so just move to the correct line in
+				// that class.
+				ITextEditor editor = (ITextEditor) view.getSite().getWorkbenchWindow().getActivePage()
+						.getActiveEditor();
+				IDocument document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
-				try {
-					int lineNumber = 1;
+				if (document != null) {
+					IRegion lineInfo = null;
+
 					try {
-						lineNumber = fileHandler.getLineNumberOfSpecificMethod(View.currentTestFile.getAbsolutePath(), obj.toString());
-						if (lineNumber == -1) {
-							lineNumber = 1;
+						int lineNumber = 1;
+						try {
+							lineNumber = fileHandler.getLineNumberOfSpecificMethod(
+									View.currentTestFile.getAbsolutePath(), _tmp.getMethodName());
+							if (lineNumber == -1) {
+								lineNumber = 1;
+							}
+						} catch (TDException e1) {
+							e1.printStackTrace();
 						}
-					} catch (TDException e1) {
-						e1.printStackTrace();
-					}
-					lineInfo = document.getLineInformation(lineNumber - 1);
-				} catch (BadLocationException e) {
+						lineInfo = document.getLineInformation(lineNumber - 1);
+					} catch (BadLocationException e) {
 
-				}
-
-				if (lineInfo != null) {
-					editor.selectAndReveal(lineInfo.getOffset(), lineInfo.getLength());
-				}
-			}
-
-		} else {
-			// Open Test class and jump to correct line
-			IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
-			IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
-
-			if (iFile != null) {
-				IWorkbenchPage iWorkbenchPage = view.getSite().getPage();
-
-				@SuppressWarnings("rawtypes")
-				HashMap<String, Comparable> map = new HashMap<String, Comparable>();
-				int lineNumber = 0;
-				try {
-					lineNumber = fileHandler.getLineNumberOfSpecificMethod(iFile.getRawLocation().toOSString(),
-							obj.toString());
-					if (lineNumber == 0) {
-						map.put(IMarker.LINE_NUMBER, 1);
-					} else {
-						map.put(IMarker.LINE_NUMBER, lineNumber);
 					}
 
-				} catch (TDException e) {
-					e.printStackTrace();
+					if (lineInfo != null) {
+						editor.selectAndReveal(lineInfo.getOffset(), lineInfo.getLength());
+					}
 				}
 
-				try {
-					IMarker marker = iFile.createMarker(IMarker.TEXT);
-					marker.setAttributes(map);
-					marker.setAttribute(IDE.EDITOR_ID_ATTR, "org.eclipse.ui.MarkdownTextEditor");
-					IDE.openEditor(iWorkbenchPage, marker, true);
-					marker.delete();
-				} catch (CoreException e2) {
-					e2.printStackTrace();
+			} else {
+				// Open Test class and jump to correct line
+				IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
+				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
+
+				if (iFile != null) {
+					IWorkbenchPage iWorkbenchPage = view.getSite().getPage();
+
+					@SuppressWarnings("rawtypes")
+					HashMap<String, Comparable> map = new HashMap<String, Comparable>();
+					int lineNumber = 0;
+					try {
+						lineNumber = fileHandler.getLineNumberOfSpecificMethod(iFile.getRawLocation().toOSString(),
+								_tmp.getMethodName());
+						if (lineNumber == 0) {
+							map.put(IMarker.LINE_NUMBER, 1);
+						} else {
+							map.put(IMarker.LINE_NUMBER, lineNumber);
+						}
+
+					} catch (TDException e) {
+						e.printStackTrace();
+					}
+
+					try {
+						IMarker marker = iFile.createMarker(IMarker.TEXT);
+						marker.setAttributes(map);
+						marker.setAttribute(IDE.EDITOR_ID_ATTR, "org.eclipse.ui.MarkdownTextEditor");
+						IDE.openEditor(iWorkbenchPage, marker, true);
+						marker.delete();
+					} catch (CoreException e2) {
+						e2.printStackTrace();
+					}
 				}
 			}
 		}

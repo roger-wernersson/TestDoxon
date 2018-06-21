@@ -17,6 +17,7 @@ limitations under the License.
 package testdoxon.listener;
 
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.custom.CaretListener;
 import org.eclipse.swt.custom.StyledText;
@@ -34,11 +35,13 @@ public class TDPartListener implements IPartListener {
 	private FileCrawlerHandler fileCrawlerHandler;
 
 	private TableViewer viewer;
+	private ComboViewer methodNamesComboBox;
 
-	public TDPartListener(TableViewer viewer, FileCrawlerHandler fileCrawlerHandler) {
+	public TDPartListener(TableViewer viewer, FileCrawlerHandler fileCrawlerHandler, ComboViewer methodNamesComboBox) {
 		super();
 		this.viewer = viewer;
 		this.fileCrawlerHandler = fileCrawlerHandler;
+		this.methodNamesComboBox = methodNamesComboBox;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class TDPartListener implements IPartListener {
 
 				if (adapter instanceof StyledText) {
 					StyledText text = (StyledText) adapter;
-					this.wordListener = new UpdateOnCaretMovedListener(this.viewer, text, this.fileCrawlerHandler);
+					this.wordListener = new UpdateOnCaretMovedListener(this.viewer, text, this.fileCrawlerHandler, this.methodNamesComboBox);
 					text.addCaretListener(this.wordListener);
 				}
 			}
