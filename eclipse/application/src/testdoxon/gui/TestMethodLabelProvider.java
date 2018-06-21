@@ -68,14 +68,14 @@ public class TestMethodLabelProvider extends LabelProvider implements ITableLabe
 				case TDTableItem.TEST:
 					return greenDot;
 				case TDTableItem.IGNORE:
-					return yellowDot;
-				case TDTableItem.BOTH_TEST_IGNORE:
-					return blueDot;
-				default:
 					return grayDot;
+				case TDTableItem.BOTH_TEST_IGNORE:
+					return yellowDot;
+				default:
+					return blueDot;
 			}
 		}
 		
-		return grayDot;
+		return blueDot;
 	}
 }
