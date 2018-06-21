@@ -18,8 +18,11 @@ package testdoxon.listener;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -31,11 +34,13 @@ import testdoxon.views.View;
 public class UpdateOnFileChangedListener implements ISelectionListener {
 	private FileCrawlerHandler fileCrawlerHandler;
 	private TableViewer viewer;
+	private ComboViewer testClassPathsComboBox;
 
-	public UpdateOnFileChangedListener(FileCrawlerHandler fileCrawlerHandler, TableViewer viewer) {
+	public UpdateOnFileChangedListener(FileCrawlerHandler fileCrawlerHandler, TableViewer viewer, ComboViewer testClassPathsComboBox) {
 		super();
 		this.fileCrawlerHandler = fileCrawlerHandler;
 		this.viewer = viewer;
+		this.testClassPathsComboBox = testClassPathsComboBox;
 	}
 
 	@Override
@@ -52,6 +57,18 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 				if (testFolder != null) {
 					this.fileCrawlerHandler.getAllTestClasses(testFolder);
 				}
+				
+				// Update combo viewer to show all test classes
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							testClassPathsComboBox.setInput(fileCrawlerHandler.getAllTestClassesAsTestFileArray());
+						} catch (AssertionFailedException e) {
+							// Do nothing
+						}
+					}
+				});
 
 				DoxonUtils.findFileToOpen(this.viewer);
 			}

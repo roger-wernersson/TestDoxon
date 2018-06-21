@@ -19,6 +19,7 @@ package testdoxon.listener;
 import java.io.File;
 
 import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.custom.CaretEvent;
 import org.eclipse.swt.custom.CaretListener;
@@ -35,12 +36,14 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 
 	private StyledText text;
 	private TableViewer viewer;
+	private ComboViewer testClassPathsComboBox;
 
-	public UpdateOnCaretMovedListener(TableViewer viewer, StyledText text, FileCrawlerHandler fileCrawlerHandler) {
+	public UpdateOnCaretMovedListener(TableViewer viewer, StyledText text, FileCrawlerHandler fileCrawlerHandler, ComboViewer testClassPathsComboBox) {
 		super();
 		this.viewer = viewer;
 		this.text = text;
 		this.fileCrawlerHandler = fileCrawlerHandler;
+		this.testClassPathsComboBox = testClassPathsComboBox;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 			String fileToLookFor = "Test" + word + ".java";
 			if (View.currentOpenFile != null) {
 				String newTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookFor,
-						View.currentOpenFile.getAbsolutePath(), View.currentOpenFile.getName());
+						View.currentOpenFile.getAbsolutePath(), View.currentOpenFile.getName(), this.testClassPathsComboBox);
 
 				if (newTestFilepath != null && !newTestFilepath.equals(View.currentTestFile.getAbsolutePath())) {
 					View.currentTestFile = new TDFile(new File(newTestFilepath));
@@ -75,6 +78,18 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 		} else {
 			// Show current class test class.
 			this.findFileToOpen();
+			
+			// Update combo viewer to show all test classes
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						testClassPathsComboBox.setInput(fileCrawlerHandler.getAllTestClassesAsTestFileArray());
+					} catch (AssertionFailedException e) {
+						// Do nothing
+					}
+				}
+			});
 		}
 	}
 
