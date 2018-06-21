@@ -19,6 +19,7 @@ package testdoxon.views;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -27,8 +28,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -48,11 +52,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import testdoxon.gui.SortByNameSorter;
+import testdoxon.gui.TestClassPathsComboContentProvider;
 import testdoxon.gui.TestMethodLabelProvider;
 import testdoxon.gui.TestMethodTableContentProvider;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.HeaderToolTipListener;
+import testdoxon.listener.OpenClassAction;
 import testdoxon.listener.OpenMethodAction;
 import testdoxon.listener.TDPartListener;
 import testdoxon.listener.UpdateOnFileChangedListener;
@@ -63,11 +69,13 @@ public class View extends ViewPart {
 	public static final String ID = "testdoxon.views.View";
 
 	private Color widgetColor;
-
+	
 	private TableViewer viewer;
 	private Label header;
+	private ComboViewer testClassPaths;
 
-	private Action doubleClickAction;
+	private Action dblClickTableViewer;
+	private Action selectionChangedComboViewer;
 
 	private TestMethodTableContentProvider contentProvider;
 
@@ -93,14 +101,13 @@ public class View extends ViewPart {
 		View.currentOpenFile = null;
 		View.currentTestFile = null;
 
-		//this.viewContentProvider = new ViewContentProvider();
 		this.widgetColor = new Color(null, 255, 255, 230);
 	}
 
 	private void initiateListeners() {
 		this.saveFileListener = new UpdateOnSaveListener(this.viewer, this);
-		this.fileSelected = new UpdateOnFileChangedListener(fileCrawlerHandler, viewer);
-		this.fileChanged = new TDPartListener(this.viewer, this.fileCrawlerHandler);
+		this.fileSelected = new UpdateOnFileChangedListener(fileCrawlerHandler, viewer, testClassPaths);
+		this.fileChanged = new TDPartListener(this.viewer, this.fileCrawlerHandler, this.testClassPaths);
 		this.header.addListener(SWT.MouseHover, new HeaderToolTipListener(this.header));
 
 		// Adding listeners
@@ -130,40 +137,60 @@ public class View extends ViewPart {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "TestDoxon.viewer");
 		makeActions();
 		hookContextMenu();
-		hookDoubleClickAction();
+		hookActions();
 		contributeToActionBars();
 		this.initiateListeners();
 	}
 
 	private void populatePlugin(Composite parent) {
-		header = new Label(parent, SWT.CENTER);
-		header.setText("Go to a class or test class");
-		header.setBackground(widgetColor);
-
-		GridData gridDataLabel = new GridData(SWT.FILL, SWT.NONE, true, false);
-		header.setLayoutData(gridDataLabel);
-		
-		Display display = Display.getCurrent();
-		FontDescriptor fd = FontDescriptor.createFrom(header.getFont());
-		Font font = fd.setStyle(SWT.BOLD).createFont(display);
-		header.setFont(font);
-
-		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
-		viewer.setContentProvider(this.contentProvider);
-		viewer.setLabelProvider(new TestMethodLabelProvider());
-		viewer.setComparator(new SortByNameSorter());
+		this.testClassPaths = new ComboViewer(parent, SWT.NONE);
+		GridData gridDataComboBox = new GridData(SWT.FILL, SWT.NONE, true, false);
+		this.testClassPaths.getControl().setLayoutData(gridDataComboBox);
+		this.testClassPaths.setContentProvider(new TestClassPathsComboContentProvider());
 		
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
-				viewer.setInput(getViewSite());
+				try {
+					testClassPaths.setInput(getViewSite());
+				} catch (AssertionFailedException e) {
+					// Do nothing
+				}
+			}
+		});
+		
+		this.header = new Label(parent, SWT.CENTER);
+		this.header.setText("Go to a class or test class");
+		this.header.setBackground(widgetColor);
+
+		GridData gridDataLabel = new GridData(SWT.FILL, SWT.NONE, true, false);
+		this.header.setLayoutData(gridDataLabel);
+		
+		Display display = Display.getCurrent();
+		FontDescriptor fd = FontDescriptor.createFrom(header.getFont());
+		Font font = fd.setStyle(SWT.BOLD).createFont(display);
+		this.header.setFont(font);
+
+		this.viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
+		this.viewer.setContentProvider(this.contentProvider);
+		this.viewer.setLabelProvider(new TestMethodLabelProvider());
+		this.viewer.setComparator(new SortByNameSorter());
+		
+		Display.getDefault().syncExec(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					viewer.setInput(getViewSite());
+				} catch (AssertionFailedException e) {
+					// Do nothing
+				}
 			}
 		});
 
-		viewer.getControl().setBackground(widgetColor);
+		this.viewer.getControl().setBackground(widgetColor);
 		GridData gridDataTableView = new GridData(SWT.FILL, SWT.FILL, true, true);
-		viewer.getControl().setLayoutData(gridDataTableView);
+		this.viewer.getControl().setLayoutData(gridDataTableView);
 	}
 
 	private void hookContextMenu() {
@@ -196,13 +223,20 @@ public class View extends ViewPart {
 	}
 
 	private void makeActions() {
-		doubleClickAction = new OpenMethodAction(viewer, this, fileHandler);
+		dblClickTableViewer = new OpenMethodAction(this.viewer, this, this.fileHandler);
+		selectionChangedComboViewer = new OpenClassAction(this.testClassPaths, this.viewer);
 	}
 
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
+	private void hookActions() {
+		this.viewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
+				dblClickTableViewer.run();
+			}
+		});
+		
+		this.testClassPaths.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent arg0) {
+				selectionChangedComboViewer.run();
 			}
 		});
 	}
