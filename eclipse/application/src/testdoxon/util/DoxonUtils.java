@@ -34,6 +34,9 @@ public class DoxonUtils {
 	 * @return String
 	 */
 	public static String createTestPath(TDFile file) {
+		if(file == null) {
+			return null;
+		}
 		String[] parts = file.getAbsolutePath().split("\\\\");
 		String newFile = "";
 
@@ -53,6 +56,9 @@ public class DoxonUtils {
 	 * @return String
 	 */
 	public static String findTestFolder(String filepath) {
+		if(filepath == null || filepath.isEmpty()) {
+			return null;
+		}
 		String[] parts = filepath.split("\\\\");
 		String newFilepath = "";
 

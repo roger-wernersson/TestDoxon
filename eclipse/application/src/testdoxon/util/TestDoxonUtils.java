@@ -43,27 +43,15 @@ class TestDoxonUtils {
 	{
 		String path = null;
 		
-		assertEquals(null,DoxonUtils.findTestFolder(path));
+		assertNull(null,DoxonUtils.findTestFolder(path));
 	}
-	
-	@Test
-	public void testFindTestFolderBadPath()
-	{
-		String path = "\\TestDoxon\\src\\badpathing\\testdoxon";
-		
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
-	}
-	
-	@Test
-	public void testFindTestFolderWrongSlashes()
-	{
-		String path = "/TestDoxon/src/main/testdoxon";
-		
-		System.out.println(DoxonUtils.findTestFolder(path));
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
-	}
-	
-	
 
+	@Test
+	public void testFindTestFolderEmptyPath()
+	{
+		String path = "";
+		
+		assertNull(DoxonUtils.findTestFolder(path));
+	}
 
 }
