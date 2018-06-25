@@ -60,7 +60,8 @@ public class DoxonUtils {
 	 * @param filepath
 	 * @return String
 	 */
-	public static String findTestFolder(String filepath) {
+	public static String findRootFolder(String filepath) {
+		System.out.println(filepath);
 		String[] parts;
 		if(System.getProperty("os.name").contains("Windows")) {
 			parts = filepath.split("\\\\");
@@ -71,8 +72,10 @@ public class DoxonUtils {
 
 		String newFilepath = "";
 		for (String part : parts) {
-			if (part.equals("main") || part.equals("test")) {
-				newFilepath += "test";
+			//if (part.equals("main") || part.equals("test") || part.equals("src")) {
+			if (part.equals("src")) {
+				//newFilepath += "test";
+				newFilepath += "src";
 				break;
 			}
 			newFilepath += part + "/";
