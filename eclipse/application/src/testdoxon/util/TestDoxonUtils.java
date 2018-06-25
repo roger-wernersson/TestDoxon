@@ -63,12 +63,6 @@ class TestDoxonUtils {
 		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
 	}
 	
-	@Test
-	@Ignore
-	public void testGetWordUnderCaretReturn()
-	{
-		
-	}
 	
 
 
