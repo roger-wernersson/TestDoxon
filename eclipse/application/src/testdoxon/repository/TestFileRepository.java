@@ -27,6 +27,24 @@ class TestFileRepository {
 	}
 	
 	@Test
+	public void testFetchMethodNamesEmptyString() throws TDException
+	{
+		String path = "";
+		FileRepository FR = new FileRepository();
+		
+		assertNull(FR.fetchMethodNames(path));
+	}
+	
+	@Test
+	public void testFetchMethodNamesNullParam() throws TDException
+	{
+		String path = null;
+		FileRepository FR = new FileRepository();
+		
+		assertNull(FR.fetchMethodNames(path));
+	}
+	
+	@Test
 	public void testFindLineNumberOfMethod() throws TDException
 	{
 		String path = System.getProperty("user.dir") + "\\src\\testdoxon\\util\\TestDoxonUtils.java";
@@ -42,6 +60,24 @@ class TestFileRepository {
 		FileRepository FR = new FileRepository();
 		
 		assertEquals(0,FR.findLineNumberOfMethod(path, "FindTestFolder"));
+	}
+	
+	@Test
+	public void testFindLineNumberOfMethodEmptyString() throws TDException
+	{
+		String path = "";
+		FileRepository FR = new FileRepository();
+		
+		assertNull(FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
+	}
+	
+	@Test
+	public void testFindLineNumberOfMethodPathNull() throws TDException
+	{
+		String path = null;
+		FileRepository FR = new FileRepository();
+		
+		assertNull(FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
 	}
 
 }
