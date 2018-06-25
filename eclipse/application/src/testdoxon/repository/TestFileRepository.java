@@ -2,9 +2,11 @@ package testdoxon.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.model.TDTableItem;
 
 class TestFileRepository {
 
@@ -36,12 +38,16 @@ class TestFileRepository {
 	}
 	
 	@Test
-	public void testFetchMethodNamesNullParam() throws TDException
+	public void testFetchMethodNamesNullParam()
 	{
 		String path = null;
 		FileRepository FR = new FileRepository();
-		
-		assertNull(FR.fetchMethodNames(path));
+
+		try {
+			assertNull(FR.fetchMethodNames(path));
+		} catch (TDException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -68,16 +74,20 @@ class TestFileRepository {
 		String path = "";
 		FileRepository FR = new FileRepository();
 		
-		assertNull(FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
+		assertEquals(-1,FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
 	}
 	
 	@Test
-	public void testFindLineNumberOfMethodPathNull() throws TDException
+	public void testFindLineNumberOfMethodPathNull()
 	{
 		String path = null;
 		FileRepository FR = new FileRepository();
 		
-		assertNull(FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
+		try {
+			assertEquals(-1,FR.findLineNumberOfMethod(path, "FindTestFolderReturn"));
+		} catch (TDException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
