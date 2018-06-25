@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Display;
 
+import testdoxon.handler.FileHandler;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.views.View;
@@ -32,9 +33,13 @@ public class OpenClassAction extends Action {
 
 		if (obj != null && obj instanceof TestFile) {
 			TestFile _tmp = (TestFile) obj;
-			if (!_tmp.getFilepath().equals(View.currentTestFile.getAbsolutePath())) {
-				View.currentTestFile = new TDFile(new File(_tmp.getFilepath()));
-				View.currentTestFile.setHeaderFilepath(View.currentTestFile.getAbsolutePath());
+			
+			if (View.currentTestFile == null || !_tmp.getFilepath().equals(View.currentTestFile.getAbsolutePath())) {
+				FileHandler filehandler = new FileHandler();
+				if (filehandler.fileExists(_tmp.getFilepath())) {
+					View.currentTestFile = new TDFile(new File(_tmp.getFilepath()));
+					View.currentTestFile.setHeaderFilepath(View.currentTestFile.getAbsolutePath());
+				}
 
 				if (View.currentTestFile != null) {
 					Display.getDefault().syncExec(new Runnable() {

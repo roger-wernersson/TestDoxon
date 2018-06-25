@@ -24,6 +24,9 @@ public class TestMethodTableContentProvider implements IStructuredContentProvide
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		if (newInput instanceof TDFile) {
 			this.file = (TDFile) newInput;
+		} else if (newInput == null) {
+			this.file = null;
+			header.setText("No file found.");
 		}
 	}
 
@@ -47,8 +50,10 @@ public class TestMethodTableContentProvider implements IStructuredContentProvide
 				}
 			} catch (TDException e) {
 				header.setText(e.getMessage());
+				return new String[] {};
 			}
 		}
+		header.setText("No file found.");
 		return new String[] {};
 	}
 }
