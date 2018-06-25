@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
@@ -71,7 +72,7 @@ public class View extends ViewPart {
 	private Color widgetColor;
 	
 	private TableViewer viewer;
-	private Label header;
+	private Text header;
 	private ComboViewer testClassPaths;
 
 	private Action dblClickTableViewer;
@@ -159,7 +160,7 @@ public class View extends ViewPart {
 			}
 		});
 		
-		this.header = new Label(parent, SWT.CENTER);
+		this.header = new Text(parent, SWT.CENTER | SWT.MULTI | SWT.READ_ONLY);
 		this.header.setText("Go to a class or test class");
 		this.header.setBackground(widgetColor);
 
@@ -172,7 +173,7 @@ public class View extends ViewPart {
 		this.header.setFont(font);
 
 		this.viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
+		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler, parent);
 		this.viewer.setContentProvider(this.contentProvider);
 		this.viewer.setLabelProvider(new TestMethodLabelProvider());
 		this.viewer.setComparator(new SortByNameSorter());

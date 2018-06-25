@@ -2,7 +2,8 @@ package testdoxon.gui;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
@@ -11,13 +12,15 @@ import testdoxon.model.TDTableItem;
 
 public class TestMethodTableContentProvider implements IStructuredContentProvider {
 	private TDFile file;
-	private Label header;
+	private Text header;
+	Composite parentComposite;
 	private FileHandler fileHandler;
 
-	public TestMethodTableContentProvider (Label header, FileHandler fileHandler) {
+	public TestMethodTableContentProvider (Text header, FileHandler fileHandler, Composite parentComposite) {
 		this.file = null;;
 		this.header = header;
 		this.fileHandler = fileHandler;
+		this.parentComposite = parentComposite;
 	}
 	
 
@@ -44,6 +47,7 @@ public class TestMethodTableContentProvider implements IStructuredContentProvide
 		if (this.file != null) {
 			try {
 				header.setText(this.file.getHeaderName());
+				parentComposite.layout();
 				TDTableItem[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
 				if (retVal != null && retVal.length > 0) {
 					return retVal;
