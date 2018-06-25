@@ -42,12 +42,15 @@ public class FileRepository {
 	 * @throws TDException
 	 */
 	public TDTableItem[] fetchMethodNames(String filePath) throws TDException {
-		String[] fileContent = this.readFileContent(filePath);
-		TDTableItem[] methodNames = this.extractMethodNames(fileContent);
-
-		if (methodNames.length == 0) {
+		if (filePath == null || filePath.isEmpty()) {
 			return null;
 		} else {
+			String[] fileContent = this.readFileContent(filePath);
+			TDTableItem[] methodNames = this.extractMethodNames(fileContent);
+
+			if (methodNames.length == 0) {
+				return null;
+			}
 			return methodNames;
 		}
 	}
@@ -60,8 +63,12 @@ public class FileRepository {
 	 * @throws TDException
 	 */
 	public int findLineNumberOfMethod(String filePath, String methodName) throws TDException {
-		String[] fileContent = this.readFileContent(filePath);
-		return this.findLineNumberOfMethod(fileContent, methodName) + 1;
+		if (filePath == null || filePath.isEmpty()) {
+			return -1;
+		} else {
+			String[] fileContent = this.readFileContent(filePath);
+			return this.findLineNumberOfMethod(fileContent, methodName) + 1;
+		}
 	}
 
 	/**
@@ -122,7 +129,7 @@ public class FileRepository {
 					matcher = pattern.matcher(_strMatch);
 
 					if (matcher.find()) {
-						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9_$]*)", "$0 "),
+						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 "),
 								hasTest, hasIgnore));
 					}
 				}
@@ -136,22 +143,22 @@ public class FileRepository {
 	}
 
 	private boolean lookForAtTest(String[] fileContent, int lineNumber) {
-		if((lineNumber - 1) < 0) {
+		if ((lineNumber - 1) < 0) {
 			return false;
 		}
-		if((lineNumber - 2) < 0 ) {
+		if ((lineNumber - 2) < 0) {
 			return fileContent[lineNumber - 1].matches("[ \t\n]*@Test[ \t\n]*");
 		}
-		
+
 		return fileContent[lineNumber - 1].matches("[ \t\n]*@Test[ \t\n]*")
 				|| fileContent[lineNumber - 2].matches("[ \t\n]*@Test[ \t\n]*");
 	}
 
 	private boolean lookForAtIgnore(String[] fileContent, int lineNumber) {
-		if((lineNumber - 1) < 0) {
+		if ((lineNumber - 1) < 0) {
 			return false;
 		}
-		if((lineNumber - 2) < 0 ) {
+		if ((lineNumber - 2) < 0) {
 			return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*");
 		}
 		return fileContent[lineNumber - 1].matches("[ \t\n]*@Ignore[ \t\n]*")

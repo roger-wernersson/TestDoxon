@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: TestDoxon
 Bundle-SymbolicName: TestDoxon;singleton:=true
-Bundle-Version: 0.0.9.2
+Bundle-Version: 0.0.9.3
 Bundle-Activator: testdoxon.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -11,6 +11,20 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor;bundle-version="3.10.100",
  org.eclipse.jface.text;bundle-version="3.12.2",
  org.eclipse.ui.editors;bundle-version="3.11.0",
- org.eclipse.jdt.ui;bundle-version="3.13.100"
+ org.eclipse.jdt.ui;bundle-version="3.13.100",
+ org.junit,
+ org.junit.jupiter.api,
+ org.junit.jupiter.engine,
+ org.junit.jupiter.migrationsupport,
+ org.junit.jupiter.params,
+ org.junit.platform.commons,
+ org.junit.platform.engine,
+ org.junit.platform.launcher,
+ org.junit.platform.runner,
+ org.junit.platform.suite.api,
+ org.junit.vintage.engine,
+ org.hamcrest.core,
+ org.opentest4j,
+ org.apiguardian
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
