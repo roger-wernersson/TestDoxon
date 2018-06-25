@@ -35,6 +35,10 @@ public class DoxonUtils {
 	 * @return String
 	 */
 	public static String createTestPath(TDFile file) {
+
+		if(file == null) {
+			return null;
+		}
 		String[] parts;
 		if (System.getProperty("os.name").contains("Windows")) {
 			parts = file.getAbsolutePath().split("\\\\");
@@ -63,6 +67,9 @@ public class DoxonUtils {
 	 * @return String
 	 */
 	public static String findRootFolder(String filepath) {
+		if(filepath == null || filepath.isEmpty()) {
+			return null;
+		}
 		String[] parts;
 		if (System.getProperty("os.name").contains("Windows")) {
 			parts = filepath.split("\\\\");
