@@ -23,11 +23,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
 
+import testdoxon.handler.FileHandler;
 import testdoxon.model.TDFile;
 import testdoxon.views.View;
 
 public class DoxonUtils {
-	
+
 	/**
 	 * 
 	 * @param file
@@ -35,7 +36,7 @@ public class DoxonUtils {
 	 */
 	public static String createTestPath(TDFile file) {
 		String[] parts;
-		if(System.getProperty("os.name").contains("Windows")) {
+		if (System.getProperty("os.name").contains("Windows")) {
 			parts = file.getAbsolutePath().split("\\\\");
 		} else {
 			String filepath = file.getAbsolutePath();
@@ -57,12 +58,13 @@ public class DoxonUtils {
 
 	/**
 	 * Locates test folder
+	 * 
 	 * @param filepath
 	 * @return String
 	 */
-	public static String findTestFolder(String filepath) {
+	public static String findRootFolder(String filepath) {
 		String[] parts;
-		if(System.getProperty("os.name").contains("Windows")) {
+		if (System.getProperty("os.name").contains("Windows")) {
 			parts = filepath.split("\\\\");
 		} else {
 			filepath.replaceAll("( )", "\\$0");
@@ -71,8 +73,10 @@ public class DoxonUtils {
 
 		String newFilepath = "";
 		for (String part : parts) {
-			if (part.equals("main") || part.equals("test")) {
-				newFilepath += "test";
+			// if (part.equals("main") || part.equals("test") || part.equals("src")) {
+			if (part.equals("src")) {
+				// newFilepath += "test";
+				newFilepath += "src";
 				break;
 			}
 			newFilepath += part + "/";
@@ -106,6 +110,7 @@ public class DoxonUtils {
 
 	/**
 	 * Decides whether a test class is open or not and locates the path
+	 * 
 	 * @param viewer
 	 */
 	public static void findFileToOpen(TableViewer viewer) {
@@ -113,27 +118,34 @@ public class DoxonUtils {
 			// If a test class already is open
 			if (View.currentOpenFile.getName().matches("^Test.*")) {
 				View.currentTestFile = View.currentOpenFile;
-			// If a regular class is open
+				// If a regular class is open
 			} else {
 				String newTestFilepath = DoxonUtils.createTestPath(View.currentOpenFile) + "Test"
 						+ View.currentOpenFile.getName();
-				View.currentTestFile = new TDFile(new File(newTestFilepath));
+
+				FileHandler filehandler = new FileHandler();
+				if (filehandler.fileExists(newTestFilepath)) {
+					View.currentTestFile = new TDFile(new File(newTestFilepath));
+				} else {
+					View.currentTestFile = null;
+				}
 			}
-			View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
 
 			if (View.currentTestFile != null) {
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							viewer.setInput(View.currentTestFile);
-						} catch (AssertionFailedException e) {
-							// Do nothing
-						}
-
-					}
-				});
+				View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
 			}
+
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						viewer.setInput(View.currentTestFile);
+					} catch (AssertionFailedException e) {
+						// Do nothing
+					}
+
+				}
+			});
 		}
 	}
 

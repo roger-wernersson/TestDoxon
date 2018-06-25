@@ -35,7 +35,7 @@ class TestDoxonUtils {
 	{
 		String path = "\\TestDoxon\\src\\main\\testdoxon\\blah.exe";
 		
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
+		assertEquals("/TestDoxon/src/test", DoxonUtils.findRootFolder(path));
 	}
 	
 	@Test
@@ -43,7 +43,7 @@ class TestDoxonUtils {
 	{
 		String path = null;
 		
-		assertEquals(null,DoxonUtils.findTestFolder(path));
+		assertEquals(null,DoxonUtils.findRootFolder(path));
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ class TestDoxonUtils {
 	{
 		String path = "\\TestDoxon\\src\\badpathing\\testdoxon";
 		
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
+		assertEquals("/TestDoxon/src/test", DoxonUtils.findRootFolder(path));
 	}
 	
 	@Test
@@ -59,8 +59,8 @@ class TestDoxonUtils {
 	{
 		String path = "/TestDoxon/src/main/testdoxon";
 		
-		System.out.println(DoxonUtils.findTestFolder(path));
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
+		System.out.println(DoxonUtils.findRootFolder(path));
+		assertEquals("/TestDoxon/src/test", DoxonUtils.findRootFolder(path));
 	}
 	
 	
