@@ -122,7 +122,7 @@ public class FileRepository {
 					matcher = pattern.matcher(_strMatch);
 
 					if (matcher.find()) {
-						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9_$]*)", "$0 "),
+						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 "),
 								hasTest, hasIgnore));
 					}
 				}
