@@ -160,7 +160,7 @@ public class View extends ViewPart {
 			}
 		});
 		
-		this.header = new Text(parent, SWT.CENTER | SWT.READ_ONLY | SWT.MULTI);
+		this.header = new Text(parent, SWT.CENTER | SWT.MULTI | SWT.READ_ONLY);
 		this.header.setText("Go to a class or test class");
 		this.header.setBackground(widgetColor);
 
@@ -173,7 +173,7 @@ public class View extends ViewPart {
 		this.header.setFont(font);
 
 		this.viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
+		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler, parent);
 		this.viewer.setContentProvider(this.contentProvider);
 		this.viewer.setLabelProvider(new TestMethodLabelProvider());
 		this.viewer.setComparator(new SortByNameSorter());
