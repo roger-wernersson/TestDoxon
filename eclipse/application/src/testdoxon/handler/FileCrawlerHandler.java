@@ -112,5 +112,17 @@ public class FileCrawlerHandler {
 		ArrayList<TestFile> testClasses = fileCrawlerRepository.getAllTestFiles();
 		return testClasses.toArray(new TestFile[testClasses.size()]);
 	}
+	
+	public ArrayList<TestFile> contains(String filename) {
+		ArrayList<TestFile> matches = new ArrayList<>();
+		
+		for(TestFile testfile : fileCrawlerRepository.getAllTestFiles()) {
+			if(testfile.getFilename().equals(filename)) {
+				matches.add(testfile);
+			}
+		}
+		
+		return matches;
+	}
 
 }

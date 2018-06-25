@@ -18,17 +18,30 @@ package testdoxon.model;
 
 import java.io.File;
 
+import testdoxon.util.DoxonUtils;
+
 public class TDFile {
 	File file;
 	String headerFilepath;
+	String filepath;
 
 	public TDFile(File file) {
 		this.file = file;
 		this.headerFilepath = null;
+		
+		if(this.file.getName().matches("^Test.*")) {
+			this.filepath = this.file.getAbsolutePath().replaceAll("\\\\", "/");
+		} else {
+			this.filepath = DoxonUtils.createTestPath(file.getAbsolutePath()) + "Test" + file.getName();
+		}
 	}
 
 	public String getAbsolutePath() {
 		return this.file.getAbsolutePath();
+	}
+	
+	public String getPath() {
+		return this.filepath;
 	}
 
 	public String getName() {

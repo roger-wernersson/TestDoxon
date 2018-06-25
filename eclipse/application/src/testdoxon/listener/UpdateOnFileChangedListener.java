@@ -36,7 +36,10 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 	private TableViewer viewer;
 	private ComboViewer testClassPathsComboBox;
 
-	public UpdateOnFileChangedListener(FileCrawlerHandler fileCrawlerHandler, TableViewer viewer, ComboViewer testClassPathsComboBox) {
+	private String lastUpdatedPath;
+
+	public UpdateOnFileChangedListener(FileCrawlerHandler fileCrawlerHandler, TableViewer viewer,
+			ComboViewer testClassPathsComboBox) {
 		super();
 		this.fileCrawlerHandler = fileCrawlerHandler;
 		this.viewer = viewer;
@@ -53,11 +56,11 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 				View.currentOpenFile = new TDFile(file);
 
 				// Get all test classes
-				String testFolder = DoxonUtils.findRootFolder(View.currentOpenFile.getAbsolutePath());
-				if (testFolder != null) {
-					this.fileCrawlerHandler.getAllTestClasses(testFolder);
+				String rootFolder = DoxonUtils.findRootFolder(View.currentOpenFile.getAbsolutePath());
+				if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
+						this.fileCrawlerHandler.getAllTestClasses(rootFolder);
 				}
-				
+
 				// Update combo viewer to show all test classes
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
