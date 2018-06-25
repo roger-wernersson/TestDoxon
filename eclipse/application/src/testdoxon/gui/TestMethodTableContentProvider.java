@@ -2,7 +2,7 @@ package testdoxon.gui;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
@@ -11,10 +11,10 @@ import testdoxon.model.TDTableItem;
 
 public class TestMethodTableContentProvider implements IStructuredContentProvider {
 	private TDFile file;
-	private Label header;
+	private Text header;
 	private FileHandler fileHandler;
 
-	public TestMethodTableContentProvider (Label header, FileHandler fileHandler) {
+	public TestMethodTableContentProvider (Text header, FileHandler fileHandler) {
 		this.file = null;;
 		this.header = header;
 		this.fileHandler = fileHandler;
