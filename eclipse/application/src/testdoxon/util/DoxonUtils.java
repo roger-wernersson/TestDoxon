@@ -34,7 +34,6 @@ public class DoxonUtils {
 	 * @return String
 	 */
 	public static String createTestPath(TDFile file) {
-		//String[] parts = file.getAbsolutePath().split("\\\\");
 		String[] parts;
 		if(System.getProperty("os.name").contains("Windows")) {
 			parts = file.getAbsolutePath().split("\\\\");
@@ -43,15 +42,13 @@ public class DoxonUtils {
 			filepath.replaceAll("( )", "\\$0");
 			parts = filepath.split("/");
 		}
-		//String[] parts = file.getAbsolutePath().split("/");
+
 		String newFile = "";
 
 		for (int i = 0; i < parts.length - 1; i++) {
 			if (parts[i].equals("main")) {
-				//newFile += "test\\";
 				newFile += "test/";
 			} else {
-				//newFile += parts[i] + "\\";
 				newFile += parts[i] + "/";
 			}
 		}
@@ -71,10 +68,8 @@ public class DoxonUtils {
 			filepath.replaceAll("( )", "\\$0");
 			parts = filepath.split("/");
 		}
-		//String[] parts = filepath.split("\\\\");
-		//String[] parts = filepath.split("/");
-		String newFilepath = "";
 
+		String newFilepath = "";
 		for (String part : parts) {
 			if (part.equals("main") || part.equals("test")) {
 				newFilepath += "test";

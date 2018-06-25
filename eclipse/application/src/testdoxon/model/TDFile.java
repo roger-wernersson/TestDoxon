@@ -46,7 +46,6 @@ public class TDFile {
 	public String getHeaderName() {
 		String packageName = "Package name not found.";
 		if (this.headerFilepath != null) {
-			//String[] parts = this.headerFilepath.split("\\\\");
 			String[] parts;
 			if(System.getProperty("os.name").contains("Windows")) {
 				parts = this.headerFilepath.split("\\\\");
@@ -55,7 +54,7 @@ public class TDFile {
 				filepath.replaceAll("( )", "\\$0");
 				parts = filepath.split("/");
 			}
-			//String[] parts = this.headerFilepath.split("/");
+;
 			boolean startCopy = false;
 			for (int i = 0; i < parts.length; i++) {
 				if (parts[i].equals("src")) {
