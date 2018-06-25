@@ -52,7 +52,16 @@ public class TestFile {
 
 	public String getPackage() {
 		String packageName = "Package name not found.";
-		String[] parts = this.filepath.split("\\\\");
+		//System.out.println(System.getProperty("os.name"));
+		
+		String[] parts;
+		if(System.getProperty("os.name").contains("Windows")) {
+			parts = this.filepath.split("\\\\");
+		} else {
+			this.filepath.replaceAll("( )", "\\$0");
+			parts = this.filepath.split("/");
+		}
+		
 		boolean startCopy = false;
 		for (int i = 0; i < parts.length; i++) {
 			if (parts[i].equals("src")) {
