@@ -53,7 +53,7 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 				View.currentOpenFile = new TDFile(file);
 
 				// Get all test classes
-				String testFolder = DoxonUtils.findTestFolder(View.currentOpenFile.getAbsolutePath());
+				String testFolder = DoxonUtils.findRootFolder(View.currentOpenFile.getAbsolutePath());
 				if (testFolder != null) {
 					this.fileCrawlerHandler.getAllTestClasses(testFolder);
 				}

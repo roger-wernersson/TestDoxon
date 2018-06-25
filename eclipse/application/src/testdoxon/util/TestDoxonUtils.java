@@ -16,10 +16,10 @@ class TestDoxonUtils {
 	@Test
 	public void testCreateTestPathReturn()
 	{
-		File file = new File(System.getProperty("user.dir") + "\\TestDoxon\\src\\main\\testdoxon\\util");
+		File file = new File("\\TestDoxon\\src\\main\\testdoxon\\util");
 		TDFile tfile = new TDFile(file);
-		
-		assertEquals(System.getProperty("user.dir") + "\\TestDoxon\\src\\test\\testdoxon\\",DoxonUtils.createTestPath(tfile));
+
+		assertEquals("C:/TestDoxon/src/test/testdoxon/",DoxonUtils.createTestPath(tfile));
 	}
 	
 	@Test
@@ -34,24 +34,32 @@ class TestDoxonUtils {
 	public void testFindTestFolderReturn()
 	{
 		String path = "\\TestDoxon\\src\\main\\testdoxon\\blah.exe";
-		
-		assertEquals("/TestDoxon/src/test", DoxonUtils.findTestFolder(path));
+
+		assertEquals("/TestDoxon/src", DoxonUtils.findRootFolder(path));
 	}
 	
 	@Test
 	public void testFindTestFolderNull()
 	{
 		String path = null;
-		
-		assertNull(null,DoxonUtils.findTestFolder(path));
-	}
 
+		assertEquals(null,DoxonUtils.findRootFolder(path));
+	}
+	
+	@Test
+	public void testFindTestFolderBadPath()
+	{
+		String path = "\\TestDoxon\\src\\badpathing\\testdoxon";
+		
+		assertEquals("/TestDoxon/src", DoxonUtils.findRootFolder(path));
+	}
+	
 	@Test
 	public void testFindTestFolderEmptyPath()
 	{
 		String path = "";
 		
-		assertNull(DoxonUtils.findTestFolder(path));
+		assertNull(DoxonUtils.findRootFolder(path));
 	}
 
 }
