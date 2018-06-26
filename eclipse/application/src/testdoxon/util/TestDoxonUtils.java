@@ -1,11 +1,10 @@
 package testdoxon.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 
-import org.eclipse.jface.viewers.TableViewer;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import testdoxon.model.TDFile;

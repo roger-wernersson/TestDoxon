@@ -16,9 +16,21 @@ limitations under the License.
 
 package testdoxon.listener;
 
+import java.util.HashMap;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.part.ViewPart;
 
 import testdoxon.views.View;
 
@@ -26,14 +38,38 @@ public class HeaderToolTipListener implements Listener {
 
 	private Text header;
 	
-	public  HeaderToolTipListener(Text header) {
+	public  HeaderToolTipListener(Text header, ViewPart view) {
 		this.header = header;
+		this.header.addListener(SWT.MouseDoubleClick, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				if(View.currentTestFile != null) {					
+					IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
+					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
+					
+					IWorkbenchPage iWorkbenchPage = view.getSite().getPage();
+
+					@SuppressWarnings("rawtypes")
+					HashMap<String, Comparable> map = new HashMap<String, Comparable>();
+
+					try {
+						IMarker marker = iFile.createMarker(IMarker.TEXT);
+						marker.setAttributes(map);
+						marker.setAttribute(IDE.EDITOR_ID_ATTR, "org.eclipse.ui.MarkdownTextEditor");
+						IDE.openEditor(iWorkbenchPage, marker, true);
+						marker.delete();
+					} catch (CoreException e2) {
+						e2.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 	
 	@Override
 	public void handleEvent(Event arg0) {
-		// TODO Auto-generated method stub
-		header.setToolTipText(View.currentTestFile.getHeaderName());
+		header.setToolTipText(View.currentTestFile.getAbsolutePath());
 	}
 
 }

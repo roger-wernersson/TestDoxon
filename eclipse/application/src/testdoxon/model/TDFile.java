@@ -28,8 +28,8 @@ public class TDFile {
 	public TDFile(File file) {
 		this.file = file;
 		this.headerFilepath = null;
-		
-		if(this.file.getName().matches("^Test.*")) {
+
+		if (this.file.getName().matches("^Test.*")) {
 			this.filepath = this.file.getAbsolutePath().replaceAll("\\\\", "/");
 		} else {
 			this.filepath = DoxonUtils.createTestPath(file.getAbsolutePath()) + "Test" + file.getName();
@@ -39,7 +39,7 @@ public class TDFile {
 	public String getAbsolutePath() {
 		return this.file.getAbsolutePath();
 	}
-	
+
 	public String getPath() {
 		return this.filepath;
 	}
@@ -57,29 +57,29 @@ public class TDFile {
 	 * @return String
 	 */
 	public String getHeaderName() {
-		String packageName = "Package name not found.";
+		String packageName = null;
 		if (this.headerFilepath != null) {
 			String[] parts;
-			if(System.getProperty("os.name").contains("Windows")) {
+			if (System.getProperty("os.name").contains("Windows")) {
 				parts = this.headerFilepath.split("\\\\");
 			} else {
 				String filepath = this.headerFilepath;
 				filepath.replaceAll("( )", "\\$0");
 				parts = filepath.split("/");
 			}
-;
+			;
 			boolean startCopy = false;
 			for (int i = 0; i < parts.length; i++) {
 				if (parts[i].equals("src")) {
 					startCopy = true;
 					packageName = "";
-					//i += 3;
+					// i += 3;
 					continue;
 				} else if (parts[i].equals("main")) {
 					continue;
-				} else if(parts[i].equals("java")) {
+				} else if (parts[i].equals("java")) {
 					continue;
-				} else if(parts[i].equals("resources")) {
+				} else if (parts[i].equals("resources")) {
 					continue;
 				}
 
@@ -91,7 +91,10 @@ public class TDFile {
 				}
 			}
 		}
-		return packageName;
+		if (packageName != null) {
+			return packageName;
+		}
+		return this.file.getName();
 	}
 
 }

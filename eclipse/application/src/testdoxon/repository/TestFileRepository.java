@@ -1,12 +1,12 @@
 package testdoxon.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import testdoxon.exceptionHandler.TDException;
-import testdoxon.model.TDTableItem;
 
 class TestFileRepository {
 
