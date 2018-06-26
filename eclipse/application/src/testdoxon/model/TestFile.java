@@ -51,7 +51,7 @@ public class TestFile {
 	}
 
 	public String getPackage() {
-		String packageName = "Package name not found.";
+		String packageName = null;
 		String[] parts;
 		if(System.getProperty("os.name").contains("Windows")) {
 			parts = this.filepath.split("\\\\");
@@ -84,7 +84,10 @@ public class TestFile {
 			}
 		}
 
-		return packageName;
+		if(packageName != null) {
+			return packageName;
+		}
+		return this.filename;
 	}
 
 }

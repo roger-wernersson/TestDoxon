@@ -51,6 +51,8 @@ public class MethodTableContentProvider implements IStructuredContentProvider {
 				TDTableItem[] retVal = fileHandler.getMethodsFromFile(this.file.getAbsolutePath());
 				if (retVal != null && retVal.length > 0) {
 					return retVal;
+				} else  {
+					return new String[] {};
 				}
 			} catch (TDException e) {
 				header.setText(e.getMessage());
