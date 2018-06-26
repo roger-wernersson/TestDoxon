@@ -39,7 +39,7 @@ class TestDoxonUtils {
 		assertEquals("C:/TestDoxon/src/test/testdoxon/", DoxonUtils.createTestPath(tfile));
 	}
 	
-	@Test
+	@Ignore
 	public void testCreateTestPathReurnWithStringParamLinux()
 	{
 		String file = "C:/TestDoxon/src/main/testdoxon/util";
@@ -73,7 +73,7 @@ class TestDoxonUtils {
 	}
 	
 	@Test
-	public void testFindTestFolderReturn()
+	public void testFindRootFolderReturn()
 	{
 		String path = "\\TestDoxon\\src\\main\\testdoxon\\blah.exe";
 
@@ -81,7 +81,7 @@ class TestDoxonUtils {
 	}
 	
 	@Test
-	public void testFindTestFolderNull()
+	public void testFindRootFolderNull()
 	{
 		String path = null;
 
@@ -89,7 +89,7 @@ class TestDoxonUtils {
 	}
 	
 	@Test
-	public void testFindTestFolderBadPath()
+	public void testFindRootFolderBadPath()
 	{
 		String path = "\\TestDoxon\\src\\badpathing\\testdoxon";
 		
@@ -97,7 +97,7 @@ class TestDoxonUtils {
 	}
 	
 	@Test
-	public void testFindTestFolderEmptyPath()
+	public void testFindRootFolderEmptyPath()
 	{
 		String path = "";
 		
