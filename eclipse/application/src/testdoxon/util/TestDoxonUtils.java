@@ -14,7 +14,7 @@ class TestDoxonUtils {
 
 	
 	@Test
-	public void testCreateTestPathReturn()
+	public void testCreateTestPathReturnWithFileParam()
 	{
 		File file = new File("\\TestDoxon\\src\\main\\testdoxon\\util");
 		TDFile tfile = new TDFile(file);
@@ -23,11 +23,53 @@ class TestDoxonUtils {
 	}
 	
 	@Test
-	public void testCreateTestPathNull()
+	public void testCreateTestPathReturnWithStringParam()
+	{
+		String file = "C:\\TestDoxon\\src\\main\\testdoxon\\util";
+		
+		assertEquals("C:/TestDoxon/src/test/testdoxon/",DoxonUtils.createTestPath(file));
+	}
+	
+	@Test
+	public void testCreateTestPathReturnWithFileParamLinux() 
+	{
+		File file = new File("/TestDoxon/src/main/testdoxon/util");
+		TDFile tfile = new TDFile(file);
+		
+		assertEquals("C:/TestDoxon/src/test/testdoxon/", DoxonUtils.createTestPath(tfile));
+	}
+	
+	@Test
+	public void testCreateTestPathReurnWithStringParamLinux()
+	{
+		String file = "C:/TestDoxon/src/main/testdoxon/util";
+		
+		System.out.println(DoxonUtils.createTestPath(file));
+		assertEquals("C:/TestDoxon/src/test/testdoxon/util", DoxonUtils.createTestPath(file));
+	}
+	
+	@Test
+	public void testCreateTestPathNullFile()
 	{
 		TDFile file = null;
 		
-		assertEquals(null,DoxonUtils.createTestPath(file));
+		assertNull(DoxonUtils.createTestPath(file));
+	}
+	
+	@Test
+	public void testCreateTestPathNullString()
+	{
+		String file = null;
+		
+		assertNull(file);
+	}
+	
+	@Test
+	public void testCreateTestPathEmptyString()
+	{
+		String file = "";
+		
+		assertEquals("", DoxonUtils.createTestPath(file));
 	}
 	
 	@Test
