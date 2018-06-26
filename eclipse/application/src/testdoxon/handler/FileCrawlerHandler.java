@@ -43,6 +43,7 @@ public class FileCrawlerHandler {
 	}
 
 	/**
+	 * Returns null if nothing is found or something is wrong
 	 * 
 	 * @param filename
 	 * @param currentFilepath
@@ -50,6 +51,9 @@ public class FileCrawlerHandler {
 	 * @return String
 	 */
 	public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ComboViewer testClassPathsComboBox) {
+		if(currentFilepath == null) {
+			return null;
+		}
 		// Get the location of where the actual test class should be
 		currentFilepath = currentFilepath.replaceAll("\\\\main\\\\", "\\\\test\\\\");
 		currentFilepath = currentFilepath.replaceAll("\\\\" + currentFilename, "");

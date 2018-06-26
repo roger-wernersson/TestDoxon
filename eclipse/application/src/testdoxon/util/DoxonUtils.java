@@ -74,7 +74,7 @@ public class DoxonUtils {
 			filepath.replaceAll("( )", "\\$0");
 			parts = filepath.split("/");
 		}
-
+		
 		String newFile = "";
 
 		for (int i = 0; i < parts.length - 1; i++) {
