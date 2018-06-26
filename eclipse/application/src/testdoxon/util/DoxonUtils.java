@@ -17,6 +17,7 @@ limitations under the License.
 package testdoxon.util;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.viewers.TableViewer;
@@ -59,6 +60,32 @@ public class DoxonUtils {
 		}
 		return newFile;
 	}
+	
+	public static String createTestPath(String file) {
+
+		if(file == null) {
+			return null;
+		}
+		String[] parts;
+		if (System.getProperty("os.name").contains("Windows")) {
+			parts = file.split("\\\\");
+		} else {
+			String filepath = file;
+			filepath.replaceAll("( )", "\\$0");
+			parts = filepath.split("/");
+		}
+		
+		String newFile = "";
+
+		for (int i = 0; i < parts.length - 1; i++) {
+			if (parts[i].equals("main")) {
+				newFile += "test/";
+			} else {
+				newFile += parts[i] + "/";
+			}
+		}
+		return newFile;
+	}
 
 	/**
 	 * Locates test folder
@@ -70,6 +97,9 @@ public class DoxonUtils {
 		if(filepath == null || filepath.isEmpty()) {
 			return null;
 		}
+		
+		View.orgRootFolder = filepath;
+		
 		String[] parts;
 		if (System.getProperty("os.name").contains("Windows")) {
 			parts = filepath.split("\\\\");
@@ -78,17 +108,27 @@ public class DoxonUtils {
 			parts = filepath.split("/");
 		}
 
-		String newFilepath = "";
-		for (String part : parts) {
-			// if (part.equals("main") || part.equals("test") || part.equals("src")) {
-			if (part.equals("src")) {
-				// newFilepath += "test";
-				newFilepath += "src";
+		ArrayList<String> filepathBuilder = new ArrayList<>();
+		
+		boolean copy = true;
+		for(int i = 0; i < (parts.length - 1); i++) {
+			if (parts[i].equals("src")) {
+				filepathBuilder.add(parts[i]);
+				copy = false;
 				break;
 			}
-			newFilepath += part + "/";
+			
+			if(copy) {
+				filepathBuilder.add(parts[i]);
+			}
 		}
 
+		String newFilepath = "";
+		for(int i = 0; i < (filepathBuilder.size() - View.rootJumpbacks); i++) {
+			newFilepath += filepathBuilder.get(i) + "/";
+		}
+		
+		View.rootFolder = newFilepath;
 		return newFilepath;
 	}
 

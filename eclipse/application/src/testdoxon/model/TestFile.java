@@ -51,7 +51,7 @@ public class TestFile {
 	}
 
 	public String getPackage() {
-		String packageName = "Package name not found.";
+		String packageName = null;
 		String[] parts;
 		if(System.getProperty("os.name").contains("Windows")) {
 			parts = this.filepath.split("\\\\");
@@ -66,7 +66,14 @@ public class TestFile {
 			if (parts[i].equals("src")) {
 				startCopy = true;
 				packageName = "";
-				i += 3;
+				//i += 3;
+				continue;
+			} else if (parts[i].equals("main")) {
+				continue;
+			} else if(parts[i].equals("java")) {
+				continue;
+			} else if(parts[i].equals("resources")) {
+				continue;
 			}
 
 			if (startCopy) {
@@ -77,7 +84,10 @@ public class TestFile {
 			}
 		}
 
-		return packageName;
+		if(packageName != null) {
+			return packageName;
+		}
+		return this.filename;
 	}
 
 }
