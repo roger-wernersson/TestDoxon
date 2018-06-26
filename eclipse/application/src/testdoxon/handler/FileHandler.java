@@ -49,6 +49,7 @@ public class FileHandler {
 
 	/**
 	 * Checks if filePath is valid or not
+	 * Returns false when filePath is null or empty
 	 * 
 	 * @param filePath
 	 * @return boolean
@@ -62,6 +63,7 @@ public class FileHandler {
 	}
 
 	/**
+	 * Return 0 if filePath or methodName is null or empty
 	 * 
 	 * @param filePath
 	 * @param methodName
