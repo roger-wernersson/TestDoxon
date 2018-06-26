@@ -378,7 +378,7 @@ public class View extends ViewPart {
 		};
 		configureRootFolder.setText("Project Root Jumpbacks");
 		configureRootFolder.setImageDescriptor(
-				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_BACK));
+				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_HOME_NAV));
 	}
 
 	private void hookActions() {
