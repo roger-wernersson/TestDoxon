@@ -46,7 +46,12 @@ public class ConfJumpbackDialog extends Dialog {
 		
 		ConfJumpbackDialog.setDefaultImage(testDox_img);
 		
-		this.descText = "Current root folder:\n" + View.rootFolder + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe jumpbacks to that folder.";
+		String path = View.rootFolder;
+		if(path == null || path.isEmpty()) {
+			path = "Select a class to see root folder.";
+		}
+		
+		this.descText = "Current root folder:\n" + path + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe number of jumpbacks.";
 	}
 	
 	
@@ -81,11 +86,16 @@ public class ConfJumpbackDialog extends Dialog {
 				if(arg0.getSource() instanceof Spinner) {
 					Spinner _tmp = (Spinner) arg0.getSource();
 					View.rootJumpbacks = _tmp.getSelection();
-					this.saveProperty(_tmp.getSelection());
-					
 					String newPath = DoxonUtils.findRootFolder(View.orgRootFolder);
-					View.rootFolder = newPath;
-					descText = "Current root folder:\n" + newPath + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe jumpbacks to that folder.";
+					
+					if(newPath == null || newPath.isEmpty()) {
+						newPath = "Invalid number of jumpbacks.";
+						View.rootFolder = newPath;
+					} else {
+						this.saveProperty(_tmp.getSelection());
+					}
+					
+					descText = "Current root folder:\n" + newPath + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe number of jumpbacks.";
 					description.setText(descText);
 				}
 			}
