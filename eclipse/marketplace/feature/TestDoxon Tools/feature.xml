@@ -2,7 +2,7 @@
 <feature
       id="TestDoxon_Tools"
       label="TestDoxon Tools"
-      version="0.0.9.3"
+      version="0.0.9.4"
       provider-name="Delicate Sound Of Software AB">
 
    <description url="http://www.example.com/description">
@@ -47,7 +47,7 @@ limitations under the License.
          id="TestDoxon"
          download-size="0"
          install-size="0"
-         version="0.0.9.3"
+         version="0.0.9.4"
          unpack="false"/>
 
 </feature>
