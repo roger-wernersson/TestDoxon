@@ -124,5 +124,13 @@ public class FileCrawlerHandler {
 		
 		return matches;
 	}
+	
+	public boolean listContains(String path) {
+		return this.fileCrawlerRepository.listContains(path);
+	}
+	
+	public void addToList (TestFile testFile) {
+		this.fileCrawlerRepository.addToList(testFile);
+	}
 
 }

@@ -73,7 +73,14 @@ public class TDFile {
 				if (parts[i].equals("src")) {
 					startCopy = true;
 					packageName = "";
-					i += 3;
+					//i += 3;
+					continue;
+				} else if (parts[i].equals("main")) {
+					continue;
+				} else if(parts[i].equals("java")) {
+					continue;
+				} else if(parts[i].equals("resources")) {
+					continue;
 				}
 
 				if (startCopy) {

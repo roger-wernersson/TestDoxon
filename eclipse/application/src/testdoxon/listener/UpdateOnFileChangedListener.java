@@ -28,6 +28,7 @@ import org.eclipse.ui.IWorkbenchPart;
 
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.model.TDFile;
+import testdoxon.model.TestFile;
 import testdoxon.util.DoxonUtils;
 import testdoxon.views.View;
 
@@ -55,10 +56,21 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 			if (View.currentOpenFile == null || !file.getName().equals(View.currentOpenFile.getName())) {
 				View.currentOpenFile = new TDFile(file);
 
+				System.out.println("UpdateOnFileChanged " + file.getAbsolutePath());
 				// Get all test classes
 				String rootFolder = DoxonUtils.findRootFolder(View.currentOpenFile.getAbsolutePath());
+				// Only update if root folders differ
+				boolean updated = false;
 				if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
-						this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+					System.out.println("UpdateOnFileChanged - ladda in!");
+					this.lastUpdatedPath = rootFolder;
+					this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+					updated = true;
+				}
+				
+				// If list did not get updated and its a new test class - add it to the array
+				if(file.getName().matches("^Test.*") && !this.fileCrawlerHandler.listContains(file.getAbsolutePath()) && !updated) {
+					this.fileCrawlerHandler.addToList(new TestFile(file.getName(), file.getAbsolutePath()));
 				}
 
 				// Update combo viewer to show all test classes
