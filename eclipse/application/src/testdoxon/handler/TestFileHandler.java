@@ -75,10 +75,10 @@ class TestFileHandler {
 		
 		FileHandler FH = new FileHandler();
 		String path = System.getProperty("user.dir") + "\\src\\testdoxon\\util\\TestDoxonUtils.java";
-		String method = "CreateTestPathNull";
+		String method = "CreateTestPathNullFile";
 		
 		try {
-			assertEquals(26, FH.getLineNumberOfSpecificMethod(path, method));
+			assertEquals(52, FH.getLineNumberOfSpecificMethod(path, method));
 		} catch (TDException e) {
 			e.printStackTrace();
 		}
