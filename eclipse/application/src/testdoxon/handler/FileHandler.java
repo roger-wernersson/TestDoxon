@@ -54,6 +54,9 @@ public class FileHandler {
 	 * @return boolean
 	 */
 	public boolean fileExists(String filePath) {
+		if(filePath == null) {
+			return false;
+		}
 		File file = new File(filePath);
 		return file.isFile();
 	}
@@ -66,6 +69,10 @@ public class FileHandler {
 	 * @throws TDException
 	 */
 	public int getLineNumberOfSpecificMethod(String filePath, String methodName) throws TDException {
+		if(filePath == null || methodName == null || filePath.isEmpty() || methodName.isEmpty()) {
+			return 0;
+		}
+		
 		return fileRepository.findLineNumberOfMethod(filePath, methodName);
 	}
 
