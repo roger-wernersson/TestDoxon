@@ -376,7 +376,7 @@ public class View extends ViewPart {
 //				dialog.open();
 			}
 		};
-		configureRootFolder.setText("Project Root Jumpbacks");
+		configureRootFolder.setText("Configure software");
 		configureRootFolder.setImageDescriptor(
 				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_HOME_NAV));
 	}

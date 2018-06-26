@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -45,8 +46,17 @@ public class ConfJumpbackDialog extends Dialog {
 		
 		ConfJumpbackDialog.setDefaultImage(testDox_img);
 		
-		this.descText = "Current root folder:\n" + View.rootFolder + "\n\nThis option will change the root folder path.\nDefault root folder is set to the src folder in the current project.\nIf one would want to include test classes from other bundles chang\nthe jumpbacks to the root folder.";
+		this.descText = "Current root folder:\n" + View.rootFolder + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe jumpbacks to that folder.";
 	}
+	
+	
+
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, IDialogConstants.OK_ID, "OK", true);
+	}
+
+
 
 	@Override
 	protected Control createDialogArea(Composite parent) {
@@ -75,7 +85,7 @@ public class ConfJumpbackDialog extends Dialog {
 					
 					String newPath = DoxonUtils.findRootFolder(View.orgRootFolder);
 					View.rootFolder = newPath;
-					descText = "Current root folder:\n" + newPath + "\n\nThis option will change the root folder path.\nDefault root folder is set to the src folder in the current project.\nIf one would want to include test classes from other bundles chang\nthe jumpbacks to the root folder.";
+					descText = "Current root folder:\n" + newPath + "\n\nThis option will change the path from where TestDoxon finds test classes.\nDefault root folder is set to the src folder in the current project.\nIf you desire to include test classes from other bundles, change\nthe jumpbacks to that folder.";
 					description.setText(descText);
 				}
 			}
@@ -103,7 +113,7 @@ public class ConfJumpbackDialog extends Dialog {
 			}
 		});
 		
-		Label warning = new Label(container, SWT.NONE);
+		Label warning = new Label(container, SWT.CENTER);
 		warning.setText("!! WARNING - Software may become slow !!");
 
 		return container;
@@ -117,7 +127,7 @@ public class ConfJumpbackDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Set jumpbacks from src folder");
+		newShell.setText("Configure...");
 	}
 	
 	
