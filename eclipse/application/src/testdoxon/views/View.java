@@ -41,8 +41,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
@@ -52,9 +52,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import testdoxon.gui.SortByNameSorter;
-import testdoxon.gui.TestClassPathsComboContentProvider;
-import testdoxon.gui.TestMethodLabelProvider;
-import testdoxon.gui.TestMethodTableContentProvider;
+import testdoxon.gui.ClassPathsComboContentProvider;
+import testdoxon.gui.MethodLabelProvider;
+import testdoxon.gui.MethodTableContentProvider;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.HeaderToolTipListener;
@@ -71,13 +71,13 @@ public class View extends ViewPart {
 	private Color widgetColor;
 	
 	private TableViewer viewer;
-	private Label header;
+	private Text header;
 	private ComboViewer testClassPaths;
 
 	private Action dblClickTableViewer;
 	private Action selectionChangedComboViewer;
 
-	private TestMethodTableContentProvider contentProvider;
+	private MethodTableContentProvider contentProvider;
 
 	private FileHandler fileHandler;
 	private FileCrawlerHandler fileCrawlerHandler;
@@ -146,7 +146,7 @@ public class View extends ViewPart {
 		this.testClassPaths = new ComboViewer(parent, SWT.NONE);
 		GridData gridDataComboBox = new GridData(SWT.FILL, SWT.NONE, true, false);
 		this.testClassPaths.getControl().setLayoutData(gridDataComboBox);
-		this.testClassPaths.setContentProvider(new TestClassPathsComboContentProvider());
+		this.testClassPaths.setContentProvider(new ClassPathsComboContentProvider());
 		
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
@@ -159,7 +159,7 @@ public class View extends ViewPart {
 			}
 		});
 		
-		this.header = new Label(parent, SWT.CENTER);
+		this.header = new Text(parent, SWT.CENTER | SWT.MULTI | SWT.READ_ONLY);
 		this.header.setText("Go to a class or test class");
 		this.header.setBackground(widgetColor);
 
@@ -172,9 +172,9 @@ public class View extends ViewPart {
 		this.header.setFont(font);
 
 		this.viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		this.contentProvider = new TestMethodTableContentProvider(this.header, this.fileHandler);
+		this.contentProvider = new MethodTableContentProvider(this.header, this.fileHandler, parent);
 		this.viewer.setContentProvider(this.contentProvider);
-		this.viewer.setLabelProvider(new TestMethodLabelProvider());
+		this.viewer.setLabelProvider(new MethodLabelProvider());
 		this.viewer.setComparator(new SortByNameSorter());
 		
 		Display.getDefault().syncExec(new Runnable() {

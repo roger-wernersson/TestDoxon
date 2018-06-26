@@ -17,16 +17,16 @@ limitations under the License.
 package testdoxon.listener;
 
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Text;
 
 import testdoxon.views.View;
 
 public class HeaderToolTipListener implements Listener {
 
-	private Label header;
+	private Text header;
 	
-	public  HeaderToolTipListener(Label header) {
+	public  HeaderToolTipListener(Text header) {
 		this.header = header;
 	}
 	
