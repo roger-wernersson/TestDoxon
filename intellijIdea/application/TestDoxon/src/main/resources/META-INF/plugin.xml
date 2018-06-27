@@ -16,7 +16,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="TestDoxon" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
+        <toolWindow id="TestDoxon" icon="/icons/testDox16px.png" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
     </extensions>
 
     <actions>

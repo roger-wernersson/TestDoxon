@@ -11,7 +11,7 @@
     An open-source test tool project for Eclipse, IntelliJ and maven site.
     </description>
   <extensions defaultExtensionNs="com.intellij">
-    <toolWindow id="TestDoxon" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
+    <toolWindow id="TestDoxon" icon="/icons/testDox16px.png" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
   </extensions>
   <actions>
     <group id="testdoxon.SampleMenu" text="Greeting" description="Greeting menu">
