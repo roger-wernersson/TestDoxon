@@ -80,7 +80,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 				}
 			}
 		} else {
-			if (!View.currentTestFile.getPath().equals(View.currentOpenFile.getPath())) {
+			if (View.currentTestFile != null && View.currentOpenFile != null && !View.currentTestFile.getPath().equals(View.currentOpenFile.getPath())) {
 
 				// Show current class test class.
 				this.findFileToOpen();
