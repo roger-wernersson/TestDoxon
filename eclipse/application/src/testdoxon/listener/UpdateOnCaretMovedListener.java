@@ -166,6 +166,10 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 				}
 			}
 		}
+		else if (this.firstTestFilepath == null && this.secondTestFilepath == null)
+		{
+			//Do nothing
+		}
 		else if(this.firstTestFilepath == null) {
 			File second = new File(this.secondTestFilepath);
 			if(!second.exists()) {

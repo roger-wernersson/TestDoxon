@@ -177,7 +177,7 @@ public class DoxonUtils {
 				if (filehandler.fileExists(newTestFilepathPre)) {
 					View.currentTestFile = new TDFile(new File(newTestFilepathPre));
 				} else if (filehandler.fileExists(newTestFilepathPost)) {
-					
+					View.currentTestFile = new TDFile(new File(newTestFilepathPost));
 				}else {
 					View.currentTestFile = null;
 				}
