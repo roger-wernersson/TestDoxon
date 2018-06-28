@@ -47,6 +47,7 @@ public class FileSavedListener implements ApplicationComponent, BulkFileListener
 
                 // The same file as the opened file and its a test class
                 TDStatics.currentTestFile = new TDFile(new File(event.getFile().getPath()));
+                //TDStatics.currentTestFile.setHeaderFilepath();
                 DoxonUtils.setListItems(this.testMethodList, this.header);
             }
         }

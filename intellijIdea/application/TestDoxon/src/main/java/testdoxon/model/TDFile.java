@@ -13,7 +13,7 @@ public class TDFile {
         this.file = file;
         this.headerFilepath = null;
 
-        if (this.file.getName().matches("^Test.*")) {
+        if (this.file.getName().matches("^Test.*") || this.file.getName().matches(".*Test\\.java")) {
             this.filepath = this.file.getAbsolutePath().replaceAll("\\\\", "/");
         } else {
             this.filepath = DoxonUtils.createTestPath(file.getAbsolutePath()) + "Test" + file.getName();
@@ -44,6 +44,9 @@ public class TDFile {
      */
     public String getHeaderName() {
         String packageName = null;
+        if(this.headerFilepath == null) {
+            this.headerFilepath = file.getAbsolutePath();
+        }
         if (this.headerFilepath != null) {
             String[] parts;
             if (System.getProperty("os.name").contains("Windows")) {

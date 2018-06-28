@@ -14,6 +14,7 @@ import testdoxon.handler.FileHandler;
 import testdoxon.listener.*;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 
@@ -57,7 +58,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         this.header = new JBLabel("Selected a class");
         this.header.setHorizontalAlignment(SwingConstants.CENTER);
-        this.header.setBounds(0, 0, 100, 20);
+        this.header.setForeground(new Color(0, 0, 0));
         this.header.setFont(new Font("Dialog", Font.BOLD, 12));
         top.add(this.header);
 
@@ -68,7 +69,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         JBScrollPane scrollPane = new JBScrollPane();
         scrollPane.createVerticalScrollBar();
         scrollPane.createVerticalScrollBar();
-        scrollPane.setBorder(null);
+        scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         scrollPane.setViewportView(this.testMethodList);
 
         content.add(top, BorderLayout.PAGE_START);

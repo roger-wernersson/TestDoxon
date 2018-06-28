@@ -141,7 +141,7 @@ public class DoxonUtils {
     public static void findFileToOpen(JList methodList, JLabel header) {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
-            if (TDStatics.currentOpenFile.getName().matches("^Test.*")) {
+            if (TDStatics.currentOpenFile.getName().matches("^Test.*") || TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
                 TDStatics.currentTestFile = TDStatics.currentOpenFile;
                 // If a regular class is open
             } else {
@@ -160,7 +160,6 @@ public class DoxonUtils {
                 TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentOpenFile.getAbsolutePath());
             }
 
-
             DoxonUtils.setListItems(methodList, header);
         }
     }
@@ -171,13 +170,19 @@ public class DoxonUtils {
             try {
                 header.setText(TDStatics.currentTestFile.getHeaderName());
                 TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
-                methodList.setListData(items);
+                if(items != null) {
+                    methodList.setListData(items);
+                } else {
+                    methodList.setListData(new String[]{});
+                }
+                return;
             } catch (TDException e) {
                 e.printStackTrace();
             }
         } else {
             header.setText("Test class not found");
             methodList.setListData(new String[]{});
+            return;
         }
     }
 
