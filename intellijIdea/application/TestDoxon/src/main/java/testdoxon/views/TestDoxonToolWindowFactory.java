@@ -28,6 +28,7 @@ import testdoxon.model.TestFile;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 
 public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
@@ -57,6 +58,9 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         contentManager.addContent(content);
     }
 
+    public void addToComboBox(File file) {
+        this.testClassesComboBox.addItem(file);
+    }
     private void addDummyData() {
 
         TestFile testFile = new TestFile("FileHandler.java", "C:/hej");
@@ -109,7 +113,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         FileSavedListener fileSavedListener = new FileSavedListener();
         fileSavedListener.startToListen();
 
-        EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener();
+        EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener(this.fileCrawlerHandler, this.testClassesComboBox);
         editorFileChangedListener.startToListen();
     }
 
