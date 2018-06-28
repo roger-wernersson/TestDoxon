@@ -1,5 +1,14 @@
 package testdoxon.utils;
 
+import testdoxon.exceptionHandler.TDException;
+import testdoxon.handler.FileHandler;
+import testdoxon.model.TDFile;
+import testdoxon.model.TDTableItem;
+
+import javax.swing.*;
+import java.io.File;
+import java.util.ArrayList;
+
 public class DoxonUtils {
     /**
      *
@@ -69,7 +78,7 @@ public class DoxonUtils {
             return null;
         }
 
-        View.orgRootFolder = filepath;
+        TDStatics.orgRootFolder = filepath;
 
         String[] parts;
         if (System.getProperty("os.name").contains("Windows")) {
@@ -95,11 +104,11 @@ public class DoxonUtils {
         }
 
         String newFilepath = "";
-        for(int i = 0; i < (filepathBuilder.size() - View.rootJumpbacks); i++) {
+        for(int i = 0; i < (filepathBuilder.size() - TDStatics.rootJumpbacks); i++) {
             newFilepath += filepathBuilder.get(i) + "/";
         }
 
-        View.rootFolder = newFilepath;
+        TDStatics.rootFolder = newFilepath;
         return newFilepath;
     }
 
@@ -109,7 +118,7 @@ public class DoxonUtils {
      * @param text
      * @return String
      */
-    public static String getWordUnderCaret(int pos, StyledText text) {
+    /*public static String getWordUnderCaret(int pos, StyledText text) {
         int lineOffset = pos - text.getOffsetAtLine(text.getLineAtOffset(pos));
         String line = text.getLine(text.getLineAtOffset(pos));
         String[] words = line.split("[ \t\\\\(\\\\);\\\\.{}]");
@@ -124,36 +133,38 @@ public class DoxonUtils {
         }
 
         return desiredWord;
-    }
+    }*/
 
     /**
      * Decides whether a test class is open or not and locates the path
      *
-     * @param viewer
      */
-    public static void findFileToOpen(TableViewer viewer) {
-        if (View.currentOpenFile != null) {
+    public static void findFileToOpen(JList methodList) {
+        if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
-            if (View.currentOpenFile.getName().matches("^Test.*")) {
-                View.currentTestFile = View.currentOpenFile;
+            if (TDStatics.currentOpenFile.getName().matches("^Test.*")) {
+                TDStatics.currentTestFile = TDStatics.currentOpenFile;
                 // If a regular class is open
             } else {
-                String newTestFilepath = DoxonUtils.createTestPath(View.currentOpenFile) + "Test"
-                        + View.currentOpenFile.getName();
+                String newTestFilepath = DoxonUtils.createTestPath(TDStatics.currentOpenFile) + "Test"
+                        + TDStatics.currentOpenFile.getName();
 
                 FileHandler filehandler = new FileHandler();
                 if (filehandler.fileExists(newTestFilepath)) {
-                    View.currentTestFile = new TDFile(new File(newTestFilepath));
+                    TDStatics.currentTestFile = new TDFile(new File(newTestFilepath));
                 } else {
-                    View.currentTestFile = null;
+                    TDStatics.currentTestFile = null;
                 }
             }
 
-            if (View.currentTestFile != null) {
-                View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
+            if (TDStatics.currentTestFile != null) {
+                TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentOpenFile.getAbsolutePath());
             }
 
-            Display.getDefault().syncExec(new Runnable() {
+
+           DoxonUtils.setListItems(methodList);
+
+            /*Display.getDefault().syncExec(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -163,7 +174,17 @@ public class DoxonUtils {
                     }
 
                 }
-            });
+            });*/
+        }
+    }
+
+    public static void setListItems(JList methodList) {
+        FileHandler fileHandler = new FileHandler();
+        try {
+            TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
+            methodList.setListData(items);
+        } catch (TDException e) {
+            e.printStackTrace();
         }
     }
 }

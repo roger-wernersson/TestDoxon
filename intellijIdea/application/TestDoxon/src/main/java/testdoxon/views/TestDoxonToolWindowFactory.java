@@ -8,7 +8,9 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
+import testdoxon.gui.ClassComboBox;
 import testdoxon.gui.MethodListItem;
+import testdoxon.model.TDFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +44,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.testClassesComboBox.addItem("three");
 
         this.testMethodList.setCellRenderer(new MethodListItem());
-        this.testMethodList.setListData(new String[] {"one", "two", "three"});
+        //this.testMethodList.setListData(new String[] {"one", "two", "three"});
     }
 
     private void initializeWidgets() {
@@ -54,7 +56,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         top.setLayout(new GridLayout(2,1));
         top.setBackground(this.widgetColor);
 
-        this.testClassesComboBox = new ComboBox();
+        this.testClassesComboBox = new ClassComboBox();
         top.add(this.testClassesComboBox);
 
         this.header = new JBLabel("Open a class.");

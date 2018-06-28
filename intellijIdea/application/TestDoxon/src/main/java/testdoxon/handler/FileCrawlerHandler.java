@@ -1,8 +1,10 @@
 package testdoxon.handler;
 
+import testdoxon.gui.ClassComboBox;
 import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class FileCrawlerHandler {
@@ -29,7 +31,7 @@ public class FileCrawlerHandler {
      * @param currentFilename
      * @return String
      */
-    public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ComboViewer testClassPathsComboBox) {
+    public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ClassComboBox testClassPathsComboBox) {
         if(currentFilepath == null) {
             return null;
         }
@@ -66,16 +68,18 @@ public class FileCrawlerHandler {
             }
 
             // Update combo viewer with all current finds
-            Display.getDefault().syncExec(new Runnable() {
+            testClassPathsComboBox.addItems(foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
+
+            /*Display.getDefault().syncExec(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        testClassPathsComboBox.setInput(foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
+                        testClassPathsComboBox.setInput();
                     } catch (AssertionFailedException e) {
                         // Do nothing
                     }
                 }
-            });
+            });*/
         }
 
 

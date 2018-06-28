@@ -1,6 +1,7 @@
 package testdoxon.utils;
 
 import com.intellij.openapi.util.IconLoader;
+import testdoxon.model.TDFile;
 
 import javax.swing.*;
 

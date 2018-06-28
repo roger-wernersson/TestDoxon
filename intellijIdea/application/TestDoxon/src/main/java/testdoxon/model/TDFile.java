@@ -1,5 +1,7 @@
 package testdoxon.model;
 
+import testdoxon.utils.DoxonUtils;
+
 import java.io.File;
 
 public class TDFile {
