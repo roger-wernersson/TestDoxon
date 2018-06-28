@@ -28,6 +28,8 @@ public class TDFile {
         return this.filepath;
     }
 
+    public File getFile() { return this.file; }
+
     public String getName() {
         return this.file.getName();
     }
