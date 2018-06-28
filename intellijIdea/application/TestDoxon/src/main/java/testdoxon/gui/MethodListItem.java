@@ -41,8 +41,7 @@ public class MethodListItem extends DefaultListCellRenderer {
             label.setFont(font);
             return label;
         }
-        return null;
+        return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
     }
-
 
 }

@@ -12,13 +12,12 @@ import java.util.ArrayList;
 
 public class DoxonUtils {
     /**
-     *
      * @param file
      * @return String
      */
     public static String createTestPath(TDFile file) {
 
-        if(file == null) {
+        if (file == null) {
             return null;
         }
         String[] parts;
@@ -44,7 +43,7 @@ public class DoxonUtils {
 
     public static String createTestPath(String file) {
 
-        if(file == null) {
+        if (file == null) {
             return null;
         }
         String[] parts;
@@ -75,7 +74,7 @@ public class DoxonUtils {
      * @return String
      */
     public static String findRootFolder(String filepath) {
-        if(filepath == null || filepath.isEmpty()) {
+        if (filepath == null || filepath.isEmpty()) {
             return null;
         }
 
@@ -92,20 +91,20 @@ public class DoxonUtils {
         ArrayList<String> filepathBuilder = new ArrayList<>();
 
         boolean copy = true;
-        for(int i = 0; i < (parts.length - 1); i++) {
+        for (int i = 0; i < (parts.length - 1); i++) {
             if (parts[i].equals("src")) {
                 filepathBuilder.add(parts[i]);
                 copy = false;
                 break;
             }
 
-            if(copy) {
+            if (copy) {
                 filepathBuilder.add(parts[i]);
             }
         }
 
         String newFilepath = "";
-        for(int i = 0; i < (filepathBuilder.size() - TDStatics.rootJumpbacks); i++) {
+        for (int i = 0; i < (filepathBuilder.size() - TDStatics.rootJumpbacks); i++) {
             newFilepath += filepathBuilder.get(i) + "/";
         }
 
@@ -138,7 +137,6 @@ public class DoxonUtils {
 
     /**
      * Decides whether a test class is open or not and locates the path
-     *
      */
     public static void findFileToOpen(JList methodList, JLabel header) {
         if (TDStatics.currentOpenFile != null) {
@@ -163,25 +161,30 @@ public class DoxonUtils {
             }
 
 
-           DoxonUtils.setListItems(methodList, header);
+            DoxonUtils.setListItems(methodList, header);
         }
     }
 
-    public static void setListItems(JList methodList, JLabel header) {
-        FileHandler fileHandler = new FileHandler();
-        try {
-            header.setText(TDStatics.currentTestFile.getHeaderName());
-            TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
-            methodList.setListData(items);
-        } catch (TDException e) {
-            e.printStackTrace();
+    synchronized public static void setListItems(JList methodList, JLabel header) {
+        if (TDStatics.currentTestFile != null) {
+            FileHandler fileHandler = new FileHandler();
+            try {
+                header.setText(TDStatics.currentTestFile.getHeaderName());
+                TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
+                methodList.setListData(items);
+            } catch (TDException e) {
+                e.printStackTrace();
+            }
+        } else {
+            header.setText("Test class not found");
+            methodList.setListData(new String[]{});
         }
     }
 
-    public static void setComboBoxItems (JComboBox testClassesComboBox, TestFile[] classes) {
+    synchronized public static void setComboBoxItems(JComboBox testClassesComboBox, TestFile[] classes) {
         testClassesComboBox.removeAllItems();
 
-        for(TestFile testFile : classes) {
+        for (TestFile testFile : classes) {
             testClassesComboBox.addItem(testFile);
         }
     }
