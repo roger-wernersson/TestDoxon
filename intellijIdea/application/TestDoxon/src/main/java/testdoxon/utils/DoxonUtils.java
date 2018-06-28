@@ -141,7 +141,7 @@ public class DoxonUtils {
     public static void findFileToOpen(JList methodList, JLabel header) {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
-            if (TDStatics.currentOpenFile.getName().matches("^Test.*")) {
+            if (TDStatics.currentOpenFile.getName().matches("^Test.*") || TDStatics.currentOpenFile.getName().matches(".*Test")) {
                 TDStatics.currentTestFile = TDStatics.currentOpenFile;
                 // If a regular class is open
             } else {

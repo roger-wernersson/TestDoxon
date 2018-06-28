@@ -59,7 +59,7 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
                     updated = true;
                 }
 
-                if (file.getName().matches("^Test.*") && !this.fileCrawlerHandler.listContains(file.getAbsolutePath()) && !updated) {
+                if ((file.getName().matches("^Test.*") || file.getName().matches(".*Test.java")) && !this.fileCrawlerHandler.listContains(file.getAbsolutePath()) && !updated) {
                     this.fileCrawlerHandler.addToList(new TestFile(file.getName(), file.getAbsolutePath()));
                 }
                 DoxonUtils.setComboBoxItems(this.testClassesComboBox, this.fileCrawlerHandler.getAllTestClassesAsTestFileArray());
