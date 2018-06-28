@@ -1,6 +1,16 @@
 package testdoxon.views;
 
+import com.intellij.openapi.application.ApplicationActivationListener;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.editor.actionSystem.EditorActionManager;
+import com.intellij.openapi.editor.event.EditorMouseEvent;
+import com.intellij.openapi.editor.event.EditorMouseListener;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
+import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.vfs.*;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
@@ -9,11 +19,12 @@ import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.gui.MethodListItem;
-import testdoxon.listener.ComboBoxItemChanged;
-import testdoxon.listener.DoubleClickMethodName;
-import testdoxon.listener.HeaderDoubleClick;
+import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.handler.FileHandler;
+import testdoxon.listener.*;
 import testdoxon.model.TDTableItem;
 import testdoxon.model.TestFile;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,9 +36,15 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
     private JPanel content;
     private JBList testMethodList;
 
+    private FileHandler fileHandler;
+    private FileCrawlerHandler fileCrawlerHandler;
+
     private Color widgetColor;
 
     public TestDoxonToolWindowFactory() {
+        this.fileHandler = new FileHandler();
+        this.fileCrawlerHandler = new FileCrawlerHandler();
+
         this.widgetColor = new Color(255, 255, 230);
         this.initializeWidgets();
         this.addDummyData();
@@ -49,7 +66,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
 
         TDTableItem item = new TDTableItem("Test", true, true);
-        this.testMethodList.setListData(new TDTableItem[] {item});
+        this.testMethodList.setListData(new TDTableItem[]{item});
     }
 
     private void initializeWidgets() {
@@ -58,7 +75,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.content.setBackground(this.widgetColor);
 
         JPanel top = new JPanel();
-        top.setLayout(new GridLayout(2,1));
+        top.setLayout(new GridLayout(2, 1));
         top.setBackground(this.widgetColor);
 
         this.testClassesComboBox = new ClassComboBox();
@@ -66,10 +83,9 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         this.header = new JBLabel("Open a class.");
         this.header.setHorizontalAlignment(SwingConstants.CENTER);
-        this.header.setBounds(0,0, 100, 20);
+        this.header.setBounds(0, 0, 100, 20);
         this.header.setFont(new Font("Dialog", Font.BOLD, 12));
         top.add(this.header);
-
 
         this.testMethodList = new JBList();
         this.testMethodList.setBackground(this.widgetColor);
@@ -89,6 +105,12 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.testMethodList.addMouseListener(new DoubleClickMethodName());
         this.testClassesComboBox.addItemListener(new ComboBoxItemChanged());
         this.header.addMouseListener(new HeaderDoubleClick());
+
+        FileSavedListener fileSavedListener = new FileSavedListener();
+        fileSavedListener.startToListen();
+
+        EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener();
+        editorFileChangedListener.startToListen();
     }
 
 }
