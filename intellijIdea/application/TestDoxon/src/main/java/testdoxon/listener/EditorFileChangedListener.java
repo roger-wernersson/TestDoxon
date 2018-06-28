@@ -27,4 +27,6 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
         VirtualFile file = event.getNewFile();
         System.out.println(file.getName() + " - " + file.getCanonicalPath());
     }
+
+
 }
