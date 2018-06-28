@@ -5,7 +5,6 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileEditor.FileEditorManagerEvent;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +13,6 @@ import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
-import testdoxon.views.TestDoxonToolWindowFactory;
 
 import javax.swing.*;
 import java.io.File;
@@ -24,12 +22,11 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
     private FileCrawlerHandler fileCrawlerHandler;
     private JBList testMethodList;
     private JLabel header;
+    private JComboBox testClassesComboBox;
 
     private String lastUpdatedPath;
 
-    private JComboBox testClassesComboBox;
-    public EditorFileChangedListener (FileCrawlerHandler fileCrawlerHandler, JComboBox testClassesComboBox, JBList testMethodList, JLabel header) {
-
+    public EditorFileChangedListener(FileCrawlerHandler fileCrawlerHandler, JComboBox testClassesComboBox, JBList testMethodList, JLabel header) {
         this.testMethodList = testMethodList;
         this.header = header;
         this.testClassesComboBox = testClassesComboBox;
@@ -48,9 +45,9 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
             File file = new File(vFile.getPath());
 
             if (TDStatics.currentOpenFile == null || !file.getName().equals(TDStatics.currentOpenFile.getName())) {
-
                 TDStatics.currentOpenFile = new TDFile(file);
 
+                // Update class combobox
                 String rootFolder = DoxonUtils.findRootFolder(file.getAbsolutePath());
                 boolean updated = false;
                 if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
@@ -64,6 +61,7 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
                 }
                 DoxonUtils.setComboBoxItems(this.testClassesComboBox, this.fileCrawlerHandler.getAllTestClassesAsTestFileArray());
 
+                // Update method JBList
                 DoxonUtils.findFileToOpen(this.testMethodList, this.header);
             }
         }

@@ -106,7 +106,11 @@
   </component>
   <component name="UsageTrigger">
     <counts>
+<<<<<<< HEAD
       <entry feature="ideaapp.started" count="14" />
+=======
+      <entry feature="ideaapp.started" count="16" />
+>>>>>>> e8f0d34e3fbc6e9da6f601cf9a243311cf3ee4d7
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
       <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="4" />
     </counts>
