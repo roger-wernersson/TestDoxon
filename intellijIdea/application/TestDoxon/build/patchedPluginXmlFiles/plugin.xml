@@ -13,11 +13,5 @@
   <extensions defaultExtensionNs="com.intellij">
     <toolWindow id="TestDoxon" icon="/icons/testDox16px.png" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
   </extensions>
-  <actions>
-    <group id="testdoxon.SampleMenu" text="Greeting" description="Greeting menu">
-      <add-to-group group-id="MainMenu" anchor="last"/>
-      <action class="testdoxon.testclasses.HelloActionFactory" id="testdoxon.Textboxes" text="Hello" description="Says Hello"/>
-      <action class="testdoxon.testclasses.HelloActionFactory" id="testdoxon.Textbox" text="Hello2" description="Says Hello"/>
-    </group>
-  </actions>
+  <actions/>
 </idea-plugin>

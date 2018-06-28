@@ -21,12 +21,6 @@
 
     <actions>
         <!-- Add your actions here -->
-
-        <group id="testdoxon.SampleMenu" text="Greeting" description="Greeting menu">
-            <add-to-group group-id="MainMenu" anchor="last"/>
-            <action class="testdoxon.testclasses.HelloActionFactory" id="testdoxon.Textboxes" text="Hello" description="Says Hello"/>
-            <action class="testdoxon.testclasses.HelloActionFactory" id="testdoxon.Textbox" text="Hello2" description="Says Hello"/>
-        </group>
-
     </actions>
+
 </idea-plugin>

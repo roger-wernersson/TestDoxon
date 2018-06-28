@@ -1,7 +1,6 @@
 package testdoxon.views;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
@@ -10,7 +9,11 @@ import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.gui.MethodListItem;
-import testdoxon.model.TDFile;
+import testdoxon.listener.ComboBoxItemChanged;
+import testdoxon.listener.DoubleClickMethodName;
+import testdoxon.listener.HeaderDoubleClick;
+import testdoxon.model.TDTableItem;
+import testdoxon.model.TestFile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +31,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.widgetColor = new Color(255, 255, 230);
         this.initializeWidgets();
         this.addDummyData();
-
+        this.createListeners();
     }
 
     public void createToolWindowContent(@NotNull Project project, @NotNull com.intellij.openapi.wm.ToolWindow toolWindow) {
@@ -39,12 +42,14 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
     private void addDummyData() {
 
-        this.testClassesComboBox.addItem("one");
-        this.testClassesComboBox.addItem("two");
-        this.testClassesComboBox.addItem("three");
+        TestFile testFile = new TestFile("FileHandler.java", "C:/hej");
+        TestFile testFile1 = new TestFile("FileRepository.java", "C:/hej");
+        this.testClassesComboBox.addItem(testFile);
+        this.testClassesComboBox.addItem(testFile1);
 
-        this.testMethodList.setCellRenderer(new MethodListItem());
-        //this.testMethodList.setListData(new String[] {"one", "two", "three"});
+
+        TDTableItem item = new TDTableItem("Test", true, true);
+        this.testMethodList.setListData(new TDTableItem[] {item});
     }
 
     private void initializeWidgets() {
@@ -68,6 +73,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         this.testMethodList = new JBList();
         this.testMethodList.setBackground(this.widgetColor);
+        this.testMethodList.setCellRenderer(new MethodListItem());
 
         JBScrollPane scrollPane = new JBScrollPane();
         scrollPane.createVerticalScrollBar();
@@ -77,6 +83,12 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         content.add(top, BorderLayout.PAGE_START);
         content.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void createListeners() {
+        this.testMethodList.addMouseListener(new DoubleClickMethodName());
+        this.testClassesComboBox.addItemListener(new ComboBoxItemChanged());
+        this.header.addMouseListener(new HeaderDoubleClick());
     }
 
 }
