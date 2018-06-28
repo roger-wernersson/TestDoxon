@@ -4,6 +4,7 @@ import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
 import testdoxon.model.TDFile;
 import testdoxon.model.TDTableItem;
+import testdoxon.model.TestFile;
 
 import javax.swing.*;
 import java.io.File;
@@ -139,7 +140,7 @@ public class DoxonUtils {
      * Decides whether a test class is open or not and locates the path
      *
      */
-    public static void findFileToOpen(JList methodList) {
+    public static void findFileToOpen(JList methodList, JLabel header) {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
             if (TDStatics.currentOpenFile.getName().matches("^Test.*")) {
@@ -162,29 +163,26 @@ public class DoxonUtils {
             }
 
 
-           DoxonUtils.setListItems(methodList);
-
-            /*Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        viewer.setInput(View.currentTestFile);
-                    } catch (AssertionFailedException e) {
-                        // Do nothing
-                    }
-
-                }
-            });*/
+           DoxonUtils.setListItems(methodList, header);
         }
     }
 
-    public static void setListItems(JList methodList) {
+    public static void setListItems(JList methodList, JLabel header) {
         FileHandler fileHandler = new FileHandler();
         try {
+            header.setText(TDStatics.currentTestFile.getHeaderName());
             TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
             methodList.setListData(items);
         } catch (TDException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void setComboBoxItems (JComboBox testClassesComboBox, TestFile[] classes) {
+        testClassesComboBox.removeAllItems();
+
+        for(TestFile testFile : classes) {
+            testClassesComboBox.addItem(testFile);
         }
     }
 }

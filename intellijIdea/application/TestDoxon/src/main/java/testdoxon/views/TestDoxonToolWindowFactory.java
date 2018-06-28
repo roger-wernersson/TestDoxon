@@ -110,11 +110,12 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.testClassesComboBox.addItemListener(new ComboBoxItemChanged());
         this.header.addMouseListener(new HeaderDoubleClick());
 
-        FileSavedListener fileSavedListener = new FileSavedListener();
+        FileSavedListener fileSavedListener = new FileSavedListener(this.testMethodList, this.header);
         fileSavedListener.startToListen();
 
-        EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener(this.fileCrawlerHandler, this.testClassesComboBox);
+        EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener(this.fileCrawlerHandler, this.testClassesComboBox, this.testMethodList, this.header);
         editorFileChangedListener.startToListen();
+
     }
 
 }

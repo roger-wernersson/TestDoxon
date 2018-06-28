@@ -1,8 +1,10 @@
 <application>
   <component name="PropertiesComponent">
     <property name="android-component-compatibility-check" value="1530182079630" />
+    <property name="file.chooser.recent.files" value="$USER_HOME$/IdeaProjects/untitled2" />
+    <property name="file.gist.reindex.count" value="2" />
     <property name="installed.kotlin.plugin.version" value="1.2.31-release-IJ2018.1-1" />
-    <property name="lastTip" value="7" />
+    <property name="lastTip" value="12" />
     <property name="project.wizard.group" value="JAVA_MODULE" />
     <property name="project.wizard.template" value="Java" />
   </component>
