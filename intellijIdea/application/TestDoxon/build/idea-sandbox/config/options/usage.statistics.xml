@@ -96,9 +96,14 @@
       <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="1" />
     </counts>
   </component>
+  <component name="ToolbarClicksCollector">
+    <counts>
+      <entry action="Show Options@ToolWindowHeader" count="1" />
+    </counts>
+  </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="16" />
+      <entry feature="ideaapp.started" count="19" />
       <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
     </counts>
   </component>
