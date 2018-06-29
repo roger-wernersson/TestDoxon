@@ -41,28 +41,30 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
         VirtualFile vFile = event.getNewFile();
-        if (vFile.getName().matches(".*\\.java")) {
-            File file = new File(vFile.getPath());
+        if(vFile != null) {
+            if (vFile.getName().matches(".*\\.java")) {
+                File file = new File(vFile.getPath());
 
-            if (TDStatics.currentOpenFile == null || !file.getName().equals(TDStatics.currentOpenFile.getName())) {
-                TDStatics.currentOpenFile = new TDFile(file);
+                if (TDStatics.currentOpenFile == null || !file.getName().equals(TDStatics.currentOpenFile.getName())) {
+                    TDStatics.currentOpenFile = new TDFile(file);
 
-                // Update class combobox
-                String rootFolder = DoxonUtils.findRootFolder(file.getAbsolutePath());
-                boolean updated = false;
-                if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
-                    this.lastUpdatedPath = rootFolder;
-                    this.fileCrawlerHandler.getAllTestClasses(rootFolder);
-                    updated = true;
+                    // Update class combobox
+                    String rootFolder = DoxonUtils.findRootFolder(file.getAbsolutePath());
+                    boolean updated = false;
+                    if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
+                        this.lastUpdatedPath = rootFolder;
+                        this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+                        updated = true;
+                    }
+
+                    if ((file.getName().matches("^Test.*") || file.getName().matches(".*Test\\.java")) && !this.fileCrawlerHandler.listContains(file.getAbsolutePath()) && !updated) {
+                        this.fileCrawlerHandler.addToList(new TestFile(file.getName(), file.getAbsolutePath()));
+                    }
+                    DoxonUtils.setComboBoxItems(this.testClassesComboBox, this.fileCrawlerHandler.getAllTestClassesAsTestFileArray());
+
+                    // Update method JBList
+                    DoxonUtils.findFileToOpen(this.testMethodList, this.header);
                 }
-
-                if ((file.getName().matches("^Test.*") || file.getName().matches(".*Test\\.java")) && !this.fileCrawlerHandler.listContains(file.getAbsolutePath()) && !updated) {
-                    this.fileCrawlerHandler.addToList(new TestFile(file.getName(), file.getAbsolutePath()));
-                }
-                DoxonUtils.setComboBoxItems(this.testClassesComboBox, this.fileCrawlerHandler.getAllTestClassesAsTestFileArray());
-
-                // Update method JBList
-                DoxonUtils.findFileToOpen(this.testMethodList, this.header);
             }
         }
     }

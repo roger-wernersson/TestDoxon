@@ -1,11 +1,5 @@
 <application>
   <component name="DimensionService">
-    <location key="new project wizard.0.0.1920.1200" x="606" y="93" />
-    <location key="WELCOME_SCREEN.0.0.1920.1200" x="962" y="517" />
-    <location key="com.intellij.ide.util.TipDialog.0.0.1920.1200" x="660" y="406" />
-    <location key="FileChooserDialogImpl.0.0.1920.1200" x="743" y="234" />
-    <location key="com.intellij.ide.util.TipDialog.-1920.0.1920.1200" x="-1629" y="264" />
-    <location key="SettingsEditor.-1920.0.1920.1200" x="-1482" y="247" />
-    <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1170" y="287" />
+    <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1382" y="392" />
   </component>
 </application>
