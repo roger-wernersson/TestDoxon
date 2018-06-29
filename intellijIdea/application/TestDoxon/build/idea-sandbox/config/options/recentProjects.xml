@@ -2,16 +2,17 @@
   <component name="RecentProjectsManager">
     <option name="recentPaths">
       <list>
+        <option value="$USER_HOME$/IdeaProjects/ikjuikju" />
         <option value="$USER_HOME$/IdeaProjects/untitled" />
         <option value="$USER_HOME$/IdeaProjects/untitled1" />
       </list>
     </option>
     <option name="openPaths">
       <list>
-        <option value="$USER_HOME$/IdeaProjects/untitled" />
+        <option value="$USER_HOME$/IdeaProjects/ikjuikju" />
       </list>
     </option>
-    <option name="lastPath" value="$USER_HOME$/IdeaProjects/untitled" />
+    <option name="lastPath" value="$USER_HOME$/IdeaProjects/ikjuikju" />
     <option name="pid" value="" />
     <option name="additionalInfo">
       <map>
@@ -21,8 +22,8 @@
               <option name="build" value="IC-181.5087.20" />
               <option name="productionCode" value="IC" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1530258371861" />
-              <option name="buildTimestamp" value="1526508283447" />
+              <option name="projectOpenTimestamp" value="1530262226567" />
+              <option name="buildTimestamp" value="1526508256554" />
             </RecentProjectMetaInfo>
           </value>
         </entry>
@@ -32,8 +33,8 @@
               <option name="build" value="IC-181.5087.20" />
               <option name="productionCode" value="IC" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1530259066048" />
-              <option name="buildTimestamp" value="1526508287280" />
+              <option name="projectOpenTimestamp" value="1530259355601" />
+              <option name="buildTimestamp" value="1526508271114" />
             </RecentProjectMetaInfo>
           </value>
         </entry>
