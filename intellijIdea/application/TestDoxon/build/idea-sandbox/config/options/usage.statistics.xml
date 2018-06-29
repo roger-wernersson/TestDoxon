@@ -3,14 +3,15 @@
     <counts>
       <entry action="ActivateFavoritesToolWindow" count="1" />
       <entry action="ActivateTestDoxonToolWindow" count="1" />
-      <entry action="DialogOkAction Enter" count="1" />
-      <entry action="EditorBackSpace" count="16" />
+      <entry action="ConfigureButton" count="2" />
+      <entry action="DialogOkAction Enter" count="2" />
+      <entry action="EditorBackSpace" count="19" />
       <entry action="EditorDown" count="2" />
-      <entry action="EditorEnter" count="12" />
-      <entry action="EditorTab" count="2" />
+      <entry action="EditorEnter" count="13" />
+      <entry action="EditorTab" count="3" />
       <entry action="EditorUp" count="4" />
-      <entry action="NewClass" count="1" />
-      <entry action="SaveAll" count="13" />
+      <entry action="NewClass" count="2" />
+      <entry action="SaveAll" count="16" />
       <entry action="ShowSettings" count="2" />
     </counts>
   </component>
@@ -110,18 +111,23 @@
   <component name="ShortcutsCollector">
     <counts>
       <entry shortcut="Alt+2" count="1" />
-      <entry shortcut="Backspace" count="16" />
-      <entry shortcut="Ctrl+S" count="13" />
+      <entry shortcut="Backspace" count="19" />
+      <entry shortcut="Ctrl+S" count="16" />
       <entry shortcut="Down" count="2" />
-      <entry shortcut="Enter" count="12" />
-      <entry shortcut="Tab" count="2" />
+      <entry shortcut="Enter" count="13" />
+      <entry shortcut="Tab" count="3" />
       <entry shortcut="Up" count="4" />
+    </counts>
+  </component>
+  <component name="ToolbarClicksCollector">
+    <counts>
+      <entry action="Show Options@ToolWindowHeader" count="5" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
       <entry feature="ide.settings.Appearance" count="2" />
-      <entry feature="ideaapp.started" count="17" />
+      <entry feature="ideaapp.started" count="52" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
