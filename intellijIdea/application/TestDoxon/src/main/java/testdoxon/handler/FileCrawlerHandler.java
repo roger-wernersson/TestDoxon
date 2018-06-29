@@ -32,7 +32,6 @@ public class FileCrawlerHandler {
      * @return String
      */
     public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ClassComboBox testClassPathsComboBox) {
-        System.out.println(currentFilepath);
 
         if(currentFilepath == null) {
             return null;
@@ -41,8 +40,6 @@ public class FileCrawlerHandler {
         currentFilepath = currentFilepath.replaceAll("\\\\main\\\\", "\\\\test\\\\");
         currentFilepath = currentFilepath.replaceAll("\\\\" + currentFilename, "");
         currentFilepath += "\\" + filename;
-
-        System.out.println("FileCrawlerhandler - getTestFilepath: " + currentFilepath);
 
         String testFilepath = null;
         ArrayList<TestFile> foundedFilepaths = new ArrayList<>();

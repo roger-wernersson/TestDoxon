@@ -3,5 +3,7 @@
     <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1382" y="392" />
     <location key="FileChooserDialogImpl.-1920.0.1920.1200" x="-1180" y="357" />
     <location key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog.-1920.0.1920.1200" x="-1109" y="492" />
+    <location key="FileChooserDialogImpl.0.0.1920.1200" x="742" y="234" />
+    <location key="WELCOME_SCREEN.0.0.1920.1200" x="962" y="477" />
   </component>
 </application>
