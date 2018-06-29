@@ -1,16 +1,19 @@
 <application>
   <component name="ActionsCollector">
     <counts>
+      <entry action="$Delete" count="3" />
       <entry action="ActivateFavoritesToolWindow" count="1" />
-      <entry action="ActivateTestDoxonToolWindow" count="1" />
-      <entry action="DialogOkAction Enter" count="1" />
-      <entry action="EditorBackSpace" count="16" />
+      <entry action="ActivateProjectToolWindow" count="1" />
+      <entry action="ActivateTestDoxonToolWindow" count="2" />
+      <entry action="DialogOkAction Enter" count="4" />
+      <entry action="EditorBackSpace" count="22" />
       <entry action="EditorDown" count="2" />
-      <entry action="EditorEnter" count="12" />
+      <entry action="EditorEnter" count="17" />
       <entry action="EditorTab" count="2" />
       <entry action="EditorUp" count="4" />
-      <entry action="NewClass" count="1" />
-      <entry action="SaveAll" count="13" />
+      <entry action="ImportProject" count="1" />
+      <entry action="NewClass" count="4" />
+      <entry action="SaveAll" count="16" />
       <entry action="ShowSettings" count="2" />
     </counts>
   </component>
@@ -25,11 +28,11 @@
     <feature id="editing.completion.finishBySmartEnter" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.popup.symbol" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="find.recent.search" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.completion.replace" count="0" last-shown="1530192114265" last-used="0" shown-count="60" />
+    <feature id="editing.completion.replace" count="0" last-shown="1530254035201" last-used="0" shown-count="94" />
     <feature id="switcher" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.complete.statement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.goto.inspection" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.completion.variable.name" count="26" last-shown="0" last-used="1530192100162" shown-count="0" />
+    <feature id="editing.completion.variable.name" count="45" last-shown="0" last-used="1530254035207" shown-count="0" />
     <feature id="navigation.popup.file" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.overrideimplement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.smarttype.casting" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -103,25 +106,36 @@
   </component>
   <component name="MainMenuCollector">
     <counts>
+      <entry path="File -&gt; New -&gt; Project from Existing Sources..." count="1" />
       <entry path="File -&gt; Settings..." count="2" />
-      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="1" />
+      <entry path="View -&gt; Tool Windows -&gt; Project" count="1" />
+      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="2" />
     </counts>
   </component>
   <component name="ShortcutsCollector">
     <counts>
       <entry shortcut="Alt+2" count="1" />
-      <entry shortcut="Backspace" count="16" />
-      <entry shortcut="Ctrl+S" count="13" />
+      <entry shortcut="Backspace" count="22" />
+      <entry shortcut="Ctrl+S" count="16" />
+      <entry shortcut="Delete" count="3" />
       <entry shortcut="Down" count="2" />
-      <entry shortcut="Enter" count="12" />
+      <entry shortcut="Enter" count="17" />
       <entry shortcut="Tab" count="2" />
       <entry shortcut="Up" count="4" />
+    </counts>
+  </component>
+  <component name="ToolbarClicksCollector">
+    <counts>
+      <entry action="com.intellij.diagnostic.IdeErrorsDialog$ForwardAction@IdeErrorsForward" count="3" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
       <entry feature="ide.settings.Appearance" count="2" />
-      <entry feature="ideaapp.started" count="17" />
+      <entry feature="ideaapp.started" count="26" />
+      <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
+      <entry feature="welcome.screen.WelcomeScreen.ImportProject" count="1" />
+      <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />

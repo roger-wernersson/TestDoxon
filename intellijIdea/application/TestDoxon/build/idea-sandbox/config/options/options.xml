@@ -3,9 +3,12 @@
     <property name="Darcula.savedEditorTheme" value="_@user_Darcula" />
     <property name="Default.savedEditorTheme" value="_@user_Default" />
     <property name="android-component-compatibility-check" value="1530182079630" />
-    <property name="file.chooser.recent.files" value="$USER_HOME$/IdeaProjects/untitled2&#10;C:/Users/etenphi/IdeaProjects/ikjuikju&#10;C:/Users/eschras/IdeaProjects/untitled2" />
-    <property name="file.gist.reindex.count" value="15" />
+    <property name="com.intellij.diagnostic.IdeErrorsDialogactiveTab" value="0" />
+    <property name="create.project.preferred.importer" value="Existing Sources" />
+    <property name="file.chooser.recent.files" value="$USER_HOME$/IdeaProjects/untitled&#10;C:/Users/etenphi/IdeaProjects/untitled2&#10;C:/Users/etenphi/IdeaProjects/ikjuikju&#10;C:/Users/eschras/IdeaProjects/untitled2" />
+    <property name="file.gist.reindex.count" value="19" />
     <property name="installed.kotlin.plugin.version" value="1.2.31-release-IJ2018.1-1" />
+    <property name="last.imported.location" value="$USER_HOME$/IdeaProjects/untitled" />
     <property name="lastTip" value="15" />
     <property name="project.wizard.group" value="JAVA_MODULE" />
     <property name="project.wizard.template" value="Java" />

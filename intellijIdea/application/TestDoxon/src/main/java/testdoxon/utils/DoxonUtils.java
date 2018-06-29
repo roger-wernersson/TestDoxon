@@ -141,17 +141,21 @@ public class DoxonUtils {
     public static void findFileToOpen(JList methodList, JLabel header) {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
-            if (TDStatics.currentOpenFile.getName().matches("^Test.*") || TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
+            if (TDStatics.currentOpenFile.getName().matches("^Test.*")|| TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
                 TDStatics.currentTestFile = TDStatics.currentOpenFile;
                 // If a regular class is open
             } else {
-                String newTestFilepath = DoxonUtils.createTestPath(TDStatics.currentOpenFile) + "Test"
-                        + TDStatics.currentOpenFile.getName();
+                String testFilepath = DoxonUtils.createTestPath(TDStatics.currentOpenFile);
+                String newTestFilepathpre = testFilepath + "Test" + TDStatics.currentOpenFile.getName();
+                String newTestFilepathpost = testFilepath + TDStatics.currentOpenFile.getName().replaceAll("\\.java","") + "Test.java";
 
                 FileHandler filehandler = new FileHandler();
-                if (filehandler.fileExists(newTestFilepath)) {
-                    TDStatics.currentTestFile = new TDFile(new File(newTestFilepath));
-                } else {
+                if (filehandler.fileExists(newTestFilepathpre)) {
+                    TDStatics.currentTestFile = new TDFile(new File(newTestFilepathpre));
+                }else if (filehandler.fileExists(newTestFilepathpost)) {
+                    TDStatics.currentTestFile = new TDFile(new File(newTestFilepathpost));
+                }
+                else {
                     TDStatics.currentTestFile = null;
                 }
             }
