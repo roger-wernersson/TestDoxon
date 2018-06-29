@@ -64,7 +64,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="57" last-shown="0" last-used="1530272858694" shown-count="0" />
+    <feature id="editing.select.word" count="58" last-shown="0" last-used="1530277159440" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -110,7 +110,7 @@
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="5" />
+      <entry feature="ideaapp.started" count="6" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
