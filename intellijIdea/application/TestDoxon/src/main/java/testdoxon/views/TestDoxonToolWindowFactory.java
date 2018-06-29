@@ -1,9 +1,10 @@
 package testdoxon.views;
 
 import com.intellij.openapi.editor.EditorFactory;
-import com.intellij.openapi.editor.event.CaretEvent;
-import com.intellij.openapi.editor.event.CaretListener;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
@@ -15,12 +16,16 @@ import testdoxon.gui.MethodListItem;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.*;
+import testdoxon.model.TDFile;
+import testdoxon.model.TestFile;
+import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
 import testdoxon.utils.TestDoxonPluginIcons;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +50,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.initializeWidgets();
         this.createListeners();
         this.loadProperties();
+        this.setupPlugin();
     }
 
     public void createToolWindowContent(@NotNull Project project, @NotNull com.intellij.openapi.wm.ToolWindow toolWindow) {
@@ -125,4 +131,28 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         EditorFactory.getInstance().getEventMulticaster().addCaretListener(new CaretMovedListener(this.fileCrawlerHandler, this.header, this.testMethodList, this.testClassesComboBox));
     }
 
+    private void setupPlugin() {
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+        if (projects != null) {
+            VirtualFile[] files = FileEditorManager.getInstance(projects[0]).getSelectedFiles();
+
+            if (files != null && files.length > 0) {
+                File currentFile = new File(files[0].getPath());
+                TDStatics.currentOpenFile = new TDFile(new File(currentFile.getPath()));
+
+                // Read in all test classes
+                String rootFolder = DoxonUtils.findRootFolder(currentFile.getPath());
+                if (rootFolder != null) {
+                    this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+
+                    // Update combobox
+                    TestFile[] classes = fileCrawlerHandler.getAllTestClassesAsTestFileArray();
+                    DoxonUtils.setComboBoxItems(this.testClassesComboBox, classes);
+                }
+
+                // Update method list
+                DoxonUtils.findFileToOpen(this.testMethodList, this.header);
+            }
+        }
+    }
 }

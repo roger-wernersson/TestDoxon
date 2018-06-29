@@ -39,7 +39,6 @@ public class FileRepository {
     }
 
     /**
-     *
      * @param filePath
      * @param methodName
      * @return int
@@ -55,7 +54,6 @@ public class FileRepository {
     }
 
     /**
-     *
      * @param filePath
      * @return String[]
      * @throws TDException
@@ -149,7 +147,6 @@ public class FileRepository {
     }
 
     /**
-     *
      * @param fileContent
      * @param methodName
      * @return int

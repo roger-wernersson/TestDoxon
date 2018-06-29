@@ -1,7 +1,8 @@
 <application>
   <component name="DimensionService">
-    <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1382" y="392" />
+    <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1481" y="79" />
     <location key="FileChooserDialogImpl.-1920.0.1920.1200" x="-1180" y="357" />
     <location key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog.-1920.0.1920.1200" x="-1109" y="492" />
+    <size key="IdeErrosDialog.-1920.0.1920.1200" width="1289" height="727" />
   </component>
 </application>

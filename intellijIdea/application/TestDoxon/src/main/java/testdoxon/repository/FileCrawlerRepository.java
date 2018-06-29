@@ -19,6 +19,7 @@ public class FileCrawlerRepository {
 
     /**
      * Recursively walk through folders
+     *
      * @param path
      */
     public void checkFolderHierarchy(String path) {
@@ -37,6 +38,7 @@ public class FileCrawlerRepository {
 
     /**
      * Checks content of folders, saves all TestXx...x.java classes
+     *
      * @param path
      */
     private void listFolder(String path) {
@@ -57,20 +59,19 @@ public class FileCrawlerRepository {
     }
 
     public boolean listContains(String path) {
-        for(TestFile testfile : testFiles) {
-            if(testfile.getFilepath().equals(path)) {
+        for (TestFile testfile : testFiles) {
+            if (testfile.getFilepath().equals(path)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addToList (TestFile testFile) {
+    public void addToList(TestFile testFile) {
         this.testFiles.add(testFile);
     }
 
     /**
-     *
      * @return ArrayList<TestFile>
      */
     public ArrayList<TestFile> getAllTestFiles() {

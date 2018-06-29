@@ -42,7 +42,7 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
     @Override
     public void selectionChanged(@NotNull FileEditorManagerEvent event) {
         VirtualFile vFile = event.getNewFile();
-        if(vFile != null) {
+        if (vFile != null) {
             if (vFile.getName().matches(".*\\.java")) {
                 File file = new File(vFile.getPath());
 

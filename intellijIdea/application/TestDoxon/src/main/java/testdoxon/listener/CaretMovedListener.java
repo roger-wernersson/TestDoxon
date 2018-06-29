@@ -21,7 +21,7 @@ public class CaretMovedListener implements CaretListener {
     private JBList testMethodList;
     private ClassComboBox testClassesComboBox;
 
-    public CaretMovedListener (FileCrawlerHandler fileCrawlerHandler, JLabel header, JBList testMethodList, ClassComboBox testClassesComboBox) {
+    public CaretMovedListener(FileCrawlerHandler fileCrawlerHandler, JLabel header, JBList testMethodList, ClassComboBox testClassesComboBox) {
         this.fileCrawlerHandler = fileCrawlerHandler;
         this.header = header;
         this.testMethodList = testMethodList;
@@ -37,9 +37,6 @@ public class CaretMovedListener implements CaretListener {
             String fileToLookFor = "Test" + word + ".java";
 
             if (TDStatics.currentOpenFile != null) {
-                // Check current open file
-                // HERE -->
-
                 String newTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookFor,
                         TDStatics.currentOpenFile.getAbsolutePath(), TDStatics.currentOpenFile.getName(),
                         this.testClassesComboBox);
@@ -54,7 +51,7 @@ public class CaretMovedListener implements CaretListener {
                 }
             }
         } else {
-            if(TDStatics.currentTestFile != null && TDStatics.currentOpenFile != null) {
+            if (TDStatics.currentTestFile != null && TDStatics.currentOpenFile != null) {
                 if (!TDStatics.currentTestFile.getPath().equals(TDStatics.currentOpenFile.getPath())) {
 
                     // Show current class test class.

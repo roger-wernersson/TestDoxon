@@ -5,7 +5,6 @@ import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
 import testdoxon.utils.DoxonUtils;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class FileCrawlerHandler {
@@ -17,7 +16,6 @@ public class FileCrawlerHandler {
     }
 
     /**
-     *
      * @param path
      */
     public void getAllTestClasses(String path) {
@@ -33,7 +31,7 @@ public class FileCrawlerHandler {
      * @return String
      */
     public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ClassComboBox testClassPathsComboBox) {
-        if(currentFilepath == null) {
+        if (currentFilepath == null) {
             return null;
         }
         // Get the location of where the actual test class should be
@@ -72,9 +70,6 @@ public class FileCrawlerHandler {
             DoxonUtils.setComboBoxItems(testClassPathsComboBox, foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
         }
 
-
-
-
         return testFilepath;
     }
 
@@ -85,7 +80,7 @@ public class FileCrawlerHandler {
         }
     }
 
-    public TestFile[] getAllTestClassesAsTestFileArray () {
+    public TestFile[] getAllTestClassesAsTestFileArray() {
         ArrayList<TestFile> testClasses = fileCrawlerRepository.getAllTestFiles();
         return testClasses.toArray(new TestFile[testClasses.size()]);
     }
@@ -93,8 +88,8 @@ public class FileCrawlerHandler {
     public ArrayList<TestFile> contains(String filename) {
         ArrayList<TestFile> matches = new ArrayList<>();
 
-        for(TestFile testfile : fileCrawlerRepository.getAllTestFiles()) {
-            if(testfile.getFilename().equals(filename)) {
+        for (TestFile testfile : fileCrawlerRepository.getAllTestFiles()) {
+            if (testfile.getFilename().equals(filename)) {
                 matches.add(testfile);
             }
         }
@@ -106,7 +101,7 @@ public class FileCrawlerHandler {
         return this.fileCrawlerRepository.listContains(path);
     }
 
-    public void addToList (TestFile testFile) {
+    public void addToList(TestFile testFile) {
         this.fileCrawlerRepository.addToList(testFile);
     }
 }

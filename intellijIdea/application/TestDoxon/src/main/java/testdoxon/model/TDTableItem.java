@@ -10,7 +10,7 @@ public class TDTableItem {
     private boolean gotTest;
     private boolean gotIgnore;
 
-    public TDTableItem () {
+    public TDTableItem() {
         this.methodName = null;
         this.gotTest = false;
         this.gotIgnore = false;
@@ -34,23 +34,23 @@ public class TDTableItem {
         return gotIgnore;
     }
 
-    public int getPictureIndex () {
-        if(this.gotTest && this.gotIgnore) {
+    public int getPictureIndex() {
+        if (this.gotTest && this.gotIgnore) {
             return TDTableItem.BOTH_TEST_IGNORE;
         } else if (this.gotTest) {
             return TDTableItem.TEST;
-        } else if(this.gotIgnore) {
+        } else if (this.gotIgnore) {
             return TDTableItem.IGNORE;
         }
         return TDTableItem.NONE;
     }
 
     public String compareTo(TDTableItem other) {
-        if(this.gotTest && this.gotIgnore) {
+        if (this.gotTest && this.gotIgnore) {
             return "@test, @Ignore";
         } else if (this.gotTest) {
             return "@test";
-        } else if(this.gotIgnore) {
+        } else if (this.gotIgnore) {
             return "@Ignore";
         }
         return "Missing: @test, @Ignore";
