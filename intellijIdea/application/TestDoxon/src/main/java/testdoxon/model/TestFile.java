@@ -36,7 +36,7 @@ public class TestFile {
     public String getPackage() {
         String packageName = null;
         String[] parts;
-        if(System.getProperty("os.name").contains("Windows")) {
+        if (System.getProperty("os.name").contains("Windows")) {
             parts = this.filepath.split("\\\\");
         } else {
             String _tmp = this.filepath;
@@ -53,9 +53,9 @@ public class TestFile {
                 continue;
             } else if (parts[i].equals("main")) {
                 continue;
-            } else if(parts[i].equals("java")) {
+            } else if (parts[i].equals("java")) {
                 continue;
-            } else if(parts[i].equals("resources")) {
+            } else if (parts[i].equals("resources")) {
                 continue;
             }
 
@@ -67,7 +67,7 @@ public class TestFile {
             }
         }
 
-        if(packageName != null) {
+        if (packageName != null) {
             return packageName;
         }
         return this.filename;

@@ -1,6 +1,7 @@
 package testdoxon.utils;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.gui.ClassComboBox;
 import testdoxon.handler.FileHandler;
 import testdoxon.model.TDFile;
 import testdoxon.model.TDTableItem;
@@ -75,6 +76,7 @@ public class DoxonUtils {
      */
     public static String findRootFolder(String filepath) {
         if (filepath == null || filepath.isEmpty()) {
+            System.out.print("Return null");
             return null;
         }
 
@@ -89,7 +91,6 @@ public class DoxonUtils {
         }
 
         ArrayList<String> filepathBuilder = new ArrayList<>();
-
         boolean copy = true;
         for (int i = 0; i < (parts.length - 1); i++) {
             if (parts[i].equals("src")) {
@@ -113,49 +114,25 @@ public class DoxonUtils {
     }
 
     /**
-     *
-     * @param pos
-     * @param text
-     * @return String
-     */
-    /*public static String getWordUnderCaret(int pos, StyledText text) {
-        int lineOffset = pos - text.getOffsetAtLine(text.getLineAtOffset(pos));
-        String line = text.getLine(text.getLineAtOffset(pos));
-        String[] words = line.split("[ \t\\\\(\\\\);\\\\.{}]");
-        String desiredWord = "";
-
-        for (String word : words) {
-            if (lineOffset <= word.length()) {
-                desiredWord = word;
-                break;
-            }
-            lineOffset -= word.length() + 1;
-        }
-
-        return desiredWord;
-    }*/
-
-    /**
      * Decides whether a test class is open or not and locates the path
      */
-    public static void findFileToOpen(JList methodList, JLabel header) {
+    private void findFileToOpen() {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
-            if (TDStatics.currentOpenFile.getName().matches("^Test.*")|| TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
+            if (TDStatics.currentOpenFile.getName().matches("^Test.*") || TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
                 TDStatics.currentTestFile = TDStatics.currentOpenFile;
                 // If a regular class is open
             } else {
                 String testFilepath = DoxonUtils.createTestPath(TDStatics.currentOpenFile);
                 String newTestFilepathpre = testFilepath + "Test" + TDStatics.currentOpenFile.getName();
-                String newTestFilepathpost = testFilepath + TDStatics.currentOpenFile.getName().replaceAll("\\.java","") + "Test.java";
+                String newTestFilepathpost = testFilepath + TDStatics.currentOpenFile.getName().replaceAll("\\.java", "") + "Test.java";
 
                 FileHandler filehandler = new FileHandler();
                 if (filehandler.fileExists(newTestFilepathpre)) {
                     TDStatics.currentTestFile = new TDFile(new File(newTestFilepathpre));
-                }else if (filehandler.fileExists(newTestFilepathpost)) {
+                } else if (filehandler.fileExists(newTestFilepathpost)) {
                     TDStatics.currentTestFile = new TDFile(new File(newTestFilepathpost));
-                }
-                else {
+                } else {
                     TDStatics.currentTestFile = null;
                 }
             }
@@ -163,9 +140,14 @@ public class DoxonUtils {
             if (TDStatics.currentTestFile != null) {
                 TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentOpenFile.getAbsolutePath());
             }
-
-            DoxonUtils.setListItems(methodList, header);
         }
+    }
+
+    public static void findFileToOpen(JList methodList, JLabel header) {
+        DoxonUtils du = new DoxonUtils();
+        du.findFileToOpen();
+
+        DoxonUtils.setListItems(methodList, header);
     }
 
     synchronized public static void setListItems(JList methodList, JLabel header) {
@@ -174,7 +156,7 @@ public class DoxonUtils {
             try {
                 header.setText(TDStatics.currentTestFile.getHeaderName());
                 TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
-                if(items != null) {
+                if (items != null) {
                     methodList.setListData(items);
                 } else {
                     methodList.setListData(new String[]{});
@@ -190,7 +172,7 @@ public class DoxonUtils {
         }
     }
 
-    synchronized public static void setComboBoxItems(JComboBox testClassesComboBox, TestFile[] classes) {
+    synchronized public static void setComboBoxItems(ClassComboBox testClassesComboBox, TestFile[] classes) {
         testClassesComboBox.removeAllItems();
 
         for (TestFile testFile : classes) {

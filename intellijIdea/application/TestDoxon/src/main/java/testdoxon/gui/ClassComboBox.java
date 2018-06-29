@@ -7,7 +7,7 @@ import javax.swing.*;
 public class ClassComboBox extends JComboBox {
 
     public void addItems(TestFile[] items) {
-        for(TestFile testFile : items) {
+        for (TestFile testFile : items) {
             super.addItem(testFile.getPackage());
         }
     }

@@ -28,7 +28,9 @@ public class TDFile {
         return this.filepath;
     }
 
-    public File getFile() { return this.file; }
+    public File getFile() {
+        return this.file;
+    }
 
     public String getName() {
         return this.file.getName();
@@ -39,12 +41,11 @@ public class TDFile {
     }
 
     /**
-     *
      * @return String
      */
     public String getHeaderName() {
         String packageName = null;
-        if(this.headerFilepath == null) {
+        if (this.headerFilepath == null) {
             this.headerFilepath = file.getAbsolutePath();
         }
         if (this.headerFilepath != null) {

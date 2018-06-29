@@ -15,7 +15,7 @@ public class ComboBoxItemChanged implements ItemListener {
     private JLabel header;
     private JBList testMethodList;
 
-    public ComboBoxItemChanged (JBList testMethodList, JLabel header) {
+    public ComboBoxItemChanged(JBList testMethodList, JLabel header) {
         this.testMethodList = testMethodList;
         this.header = header;
     }
@@ -23,8 +23,8 @@ public class ComboBoxItemChanged implements ItemListener {
     @Override
     public void itemStateChanged(ItemEvent e) {
         Object item = e.getItem();
-        if(e.getStateChange() == 1) {
-            if(item instanceof TestFile) {
+        if (e.getStateChange() == 1) {
+            if (item instanceof TestFile) {
                 TestFile selected = (TestFile) item;
 
                 // Update JList with method from this test class

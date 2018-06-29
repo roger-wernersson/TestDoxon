@@ -3,7 +3,6 @@ package testdoxon.gui;
 import com.intellij.ui.components.JBScrollPane;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
-import testdoxon.utils.TestDoxonPluginIcons;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
