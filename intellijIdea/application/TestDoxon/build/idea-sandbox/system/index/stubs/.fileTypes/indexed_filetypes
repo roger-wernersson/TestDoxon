@@ -1,7 +1,7 @@
-1530272249522
-XML￿binary stub builder:com.intellij.util.xml.stubs.builder.DomStubBuilder,1804543718￿1530272249521
-JAVA￿stub:com.intellij.psi.impl.source.JavaFileElementType,41￿1530272249520
-Properties￿stub:com.intellij.lang.properties.parsing.PropertiesElementTypes$1,0￿1530272249519
-HTML￿stub:com.intellij.psi.tree.IStubFileElementType,0￿1530272249518
-CLASS￿binary stub builder:com.intellij.psi.impl.compiled.ClassFileStubBuilder,22￿1530272249517
-Groovy￿stub:org.jetbrains.plugins.groovy.lang.psi.stubs.elements.GrStubFileElementType,38￿1530272249516
+1530272844399
+HTML￿stub:com.intellij.psi.tree.IStubFileElementType,0￿1530272844398
+JAVA￿stub:com.intellij.psi.impl.source.JavaFileElementType,41￿1530272844397
+XML￿binary stub builder:com.intellij.util.xml.stubs.builder.DomStubBuilder,1804543718￿1530272844396
+Groovy￿stub:org.jetbrains.plugins.groovy.lang.psi.stubs.elements.GrStubFileElementType,38￿1530272844395
+CLASS￿binary stub builder:com.intellij.psi.impl.compiled.ClassFileStubBuilder,22￿1530272844394
+Properties￿stub:com.intellij.lang.properties.parsing.PropertiesElementTypes$1,0￿1530272844393
