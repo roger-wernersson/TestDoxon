@@ -1,6 +1,7 @@
 package testdoxon.utils;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.gui.ClassComboBox;
 import testdoxon.handler.FileHandler;
 import testdoxon.model.TDFile;
 import testdoxon.model.TDTableItem;
@@ -138,7 +139,7 @@ public class DoxonUtils {
     /**
      * Decides whether a test class is open or not and locates the path
      */
-    public static void findFileToOpen(JList methodList, JLabel header) {
+    private void findFileToOpen() {
         if (TDStatics.currentOpenFile != null) {
             // If a test class already is open
             if (TDStatics.currentOpenFile.getName().matches("^Test.*")|| TDStatics.currentOpenFile.getName().matches(".*Test\\.java")) {
@@ -163,9 +164,14 @@ public class DoxonUtils {
             if (TDStatics.currentTestFile != null) {
                 TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentOpenFile.getAbsolutePath());
             }
-
-            DoxonUtils.setListItems(methodList, header);
         }
+    }
+
+    public static void findFileToOpen(JList methodList, JLabel header) {
+        DoxonUtils du = new DoxonUtils();
+        du.findFileToOpen();
+
+        DoxonUtils.setListItems(methodList, header);
     }
 
     synchronized public static void setListItems(JList methodList, JLabel header) {

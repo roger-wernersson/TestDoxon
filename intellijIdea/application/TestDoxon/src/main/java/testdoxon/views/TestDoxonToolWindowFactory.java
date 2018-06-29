@@ -1,20 +1,15 @@
 package testdoxon.views;
 
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.event.CaretEvent;
+import com.intellij.openapi.editor.event.CaretListener;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.openapi.wm.ex.ToolWindowEx;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import testdoxon.action.ConfigButtonAction;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.gui.MethodListItem;
 import testdoxon.handler.FileCrawlerHandler;
@@ -25,8 +20,6 @@ import testdoxon.utils.TestDoxonPluginIcons;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,7 +28,7 @@ import java.io.InputStream;
 
 public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
     private JLabel header;
-    private JComboBox testClassesComboBox;
+    private ClassComboBox testClassesComboBox;
     private JPanel content;
     private JBList testMethodList;
 
@@ -129,6 +122,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         EditorFileChangedListener editorFileChangedListener = new EditorFileChangedListener(this.fileCrawlerHandler, this.testClassesComboBox, this.testMethodList, this.header);
         editorFileChangedListener.startToListen();
 
+        EditorFactory.getInstance().getEventMulticaster().addCaretListener(new CaretMovedListener(this.fileCrawlerHandler, this.header, this.testMethodList, this.testClassesComboBox));
     }
 
 }
