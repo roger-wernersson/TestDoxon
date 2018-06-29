@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.messages.MessageBusConnection;
 import org.jetbrains.annotations.NotNull;
+import testdoxon.gui.ClassComboBox;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
@@ -22,11 +23,11 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
     private FileCrawlerHandler fileCrawlerHandler;
     private JBList testMethodList;
     private JLabel header;
-    private JComboBox testClassesComboBox;
+    private ClassComboBox testClassesComboBox;
 
     private String lastUpdatedPath;
 
-    public EditorFileChangedListener(FileCrawlerHandler fileCrawlerHandler, JComboBox testClassesComboBox, JBList testMethodList, JLabel header) {
+    public EditorFileChangedListener(FileCrawlerHandler fileCrawlerHandler, ClassComboBox testClassesComboBox, JBList testMethodList, JLabel header) {
         this.testMethodList = testMethodList;
         this.header = header;
         this.testClassesComboBox = testClassesComboBox;

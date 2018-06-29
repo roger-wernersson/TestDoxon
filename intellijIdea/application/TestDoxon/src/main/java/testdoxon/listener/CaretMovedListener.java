@@ -33,8 +33,6 @@ public class CaretMovedListener implements CaretListener {
     @Override
     public void caretPositionChanged(CaretEvent e) {
         e.getCaret().selectWordAtCaret(true);
-        System.out.println(e.getCaret().getSelectedText());
-
         String word = e.getCaret().getSelectedText();
 
         if (word.length() > 0 && Character.isUpperCase(word.charAt(0))) {
@@ -49,7 +47,6 @@ public class CaretMovedListener implements CaretListener {
                 this.secondTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookForPost,
                         TDStatics.currentOpenFile.getAbsolutePath(), TDStatics.currentOpenFile.getName(),
                         this.testClassesComboBox);
-
 
                 if ((this.firstTestFilepath != null && !this.firstTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) ||
                         (this.secondTestFilepath != null && !this.secondTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath()))) {
