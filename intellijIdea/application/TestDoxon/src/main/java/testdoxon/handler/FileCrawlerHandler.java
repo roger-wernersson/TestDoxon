@@ -31,7 +31,7 @@ public class FileCrawlerHandler {
      * @return String
      */
     public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ClassComboBox testClassPathsComboBox) {
-        if (currentFilepath == null) {
+        if(currentFilepath == null) {
             return null;
         }
         // Get the location of where the actual test class should be

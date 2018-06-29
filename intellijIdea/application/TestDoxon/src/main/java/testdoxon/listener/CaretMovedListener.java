@@ -20,8 +20,10 @@ public class CaretMovedListener implements CaretListener {
     private JLabel header;
     private JBList testMethodList;
     private ClassComboBox testClassesComboBox;
+    private String firstTestFilepath, secondTestFilepath;
 
-    public CaretMovedListener(FileCrawlerHandler fileCrawlerHandler, JLabel header, JBList testMethodList, ClassComboBox testClassesComboBox) {
+    public CaretMovedListener (FileCrawlerHandler fileCrawlerHandler, JLabel header, JBList testMethodList, ClassComboBox testClassesComboBox) {
+
         this.fileCrawlerHandler = fileCrawlerHandler;
         this.header = header;
         this.testMethodList = testMethodList;
@@ -34,16 +36,28 @@ public class CaretMovedListener implements CaretListener {
         String word = e.getCaret().getSelectedText();
 
         if (word.length() > 0 && Character.isUpperCase(word.charAt(0))) {
-            String fileToLookFor = "Test" + word + ".java";
+            String fileToLookForPre = "Test" + word + ".java";
+            String fileToLookForPost = word + "Test.java";
 
             if (TDStatics.currentOpenFile != null) {
-                String newTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookFor,
+                this.firstTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookForPre,
                         TDStatics.currentOpenFile.getAbsolutePath(), TDStatics.currentOpenFile.getName(),
                         this.testClassesComboBox);
 
-                if (newTestFilepath != null && !newTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) {
-                    TDStatics.currentTestFile = new TDFile(new File(newTestFilepath));
-                    TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentTestFile.getAbsolutePath());
+                this.secondTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookForPost,
+                        TDStatics.currentOpenFile.getAbsolutePath(), TDStatics.currentOpenFile.getName(),
+                        this.testClassesComboBox);
+
+                if ((this.firstTestFilepath != null && !this.firstTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) ||
+                        (this.secondTestFilepath != null && !this.secondTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath()))) {
+
+                    if(this.firstTestFilepath != null && !this.firstTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) {
+                        TDStatics.currentTestFile = new TDFile(new File(this.firstTestFilepath));
+                        TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentTestFile.getAbsolutePath());
+                    } else if(this.secondTestFilepath != null && !this.secondTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) {
+                        TDStatics.currentTestFile = new TDFile(new File(this.secondTestFilepath));
+                        TDStatics.currentTestFile.setHeaderFilepath(TDStatics.currentTestFile.getAbsolutePath());
+                    }
 
                     if (TDStatics.currentTestFile != null) {
                         DoxonUtils.setListItems(this.testMethodList, this.header);
