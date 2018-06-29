@@ -1,0 +1,17 @@
+<idea-plugin>
+  <change-notes>
+      Add change notes here.&lt;br&gt;
+      &lt;em&gt;most HTML tags may be used&lt;/em&gt;</change-notes>
+  <idea-version since-build="181.5087" until-build="181.*"/>
+  <id>testdoxon.TestDoxon</id>
+  <name>TestDoxon</name>
+  <vendor email="testdoxon@gmail.com" url="https://testdoxon.tumblr.com/">TestDoxon</vendor>
+  <version>1.0-SNAPSHOT</version>
+  <description>
+    An open-source test tool project for Eclipse, IntelliJ and maven site.
+    </description>
+  <extensions defaultExtensionNs="com.intellij">
+    <toolWindow id="TestDoxon" icon="/icons/testDox16px.png" anchor="right" factoryClass="testdoxon.views.TestDoxonToolWindowFactory"/>
+  </extensions>
+  <actions/>
+</idea-plugin>
