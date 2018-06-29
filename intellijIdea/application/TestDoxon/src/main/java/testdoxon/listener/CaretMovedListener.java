@@ -31,26 +31,18 @@ public class CaretMovedListener implements CaretListener {
     @Override
     public void caretPositionChanged(CaretEvent e) {
         e.getCaret().selectWordAtCaret(true);
-        System.out.println(e.getCaret().getSelectedText());
-
         String word = e.getCaret().getSelectedText();
 
         if (word.length() > 0 && Character.isUpperCase(word.charAt(0))) {
-            System.out.println("CaretmovedListener: Söker!");
             String fileToLookFor = "Test" + word + ".java";
-            System.out.println(fileToLookFor);
 
             if (TDStatics.currentOpenFile != null) {
-                System.out.println("CurrentOpenFile Inte NULL");
-
                 // Check current open file
                 // HERE -->
 
                 String newTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(fileToLookFor,
                         TDStatics.currentOpenFile.getAbsolutePath(), TDStatics.currentOpenFile.getName(),
                         this.testClassesComboBox);
-
-                System.out.println(newTestFilepath);
 
                 if (newTestFilepath != null && !newTestFilepath.equals(TDStatics.currentTestFile.getAbsolutePath())) {
                     TDStatics.currentTestFile = new TDFile(new File(newTestFilepath));

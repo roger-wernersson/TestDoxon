@@ -196,7 +196,7 @@ public class DoxonUtils {
         }
     }
 
-    synchronized public static void setComboBoxItems(JComboBox testClassesComboBox, TestFile[] classes) {
+    synchronized public static void setComboBoxItems(ClassComboBox testClassesComboBox, TestFile[] classes) {
         testClassesComboBox.removeAllItems();
 
         for (TestFile testFile : classes) {

@@ -3,6 +3,7 @@ package testdoxon.handler;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
+import testdoxon.utils.DoxonUtils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -32,8 +33,6 @@ public class FileCrawlerHandler {
      * @return String
      */
     public String getTestFilepathFromFilename(String filename, String currentFilepath, String currentFilename, ClassComboBox testClassPathsComboBox) {
-        System.out.println(currentFilepath);
-
         if(currentFilepath == null) {
             return null;
         }
@@ -41,8 +40,6 @@ public class FileCrawlerHandler {
         currentFilepath = currentFilepath.replaceAll("\\\\main\\\\", "\\\\test\\\\");
         currentFilepath = currentFilepath.replaceAll("\\\\" + currentFilename, "");
         currentFilepath += "\\" + filename;
-
-        System.out.println("FileCrawlerhandler - getTestFilepath: " + currentFilepath);
 
         String testFilepath = null;
         ArrayList<TestFile> foundedFilepaths = new ArrayList<>();
@@ -72,18 +69,7 @@ public class FileCrawlerHandler {
             }
 
             // Update combo viewer with all current finds
-            testClassPathsComboBox.addItems(foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
-
-            /*Display.getDefault().syncExec(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        testClassPathsComboBox.setInput();
-                    } catch (AssertionFailedException e) {
-                        // Do nothing
-                    }
-                }
-            });*/
+            DoxonUtils.setComboBoxItems(testClassPathsComboBox, foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
         }
 
 
