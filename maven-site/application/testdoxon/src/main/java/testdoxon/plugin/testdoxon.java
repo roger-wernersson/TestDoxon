@@ -9,7 +9,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class testdoxon extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		getLog().info("Hello testdoxon World");		
+		getLog().info("Hello testdox World");		
 	}
 
 }
