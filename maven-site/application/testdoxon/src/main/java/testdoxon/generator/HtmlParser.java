@@ -42,7 +42,10 @@ public class HtmlParser {
 		boolean retVal = true;
 		
 		for (TDClass _class : classes) {
-			if (!fileHandler.saveToFile(_class.getName(), parseHTML(_class))) {
+			String filename = _class.getName().replaceAll(".java", "");
+			filename += ".html";
+			
+			if (!fileHandler.saveToFile(filename, parseHTML(_class))) {
 				retVal = false;
 				break;
 			}
