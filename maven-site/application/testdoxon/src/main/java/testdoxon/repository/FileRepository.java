@@ -14,7 +14,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import testdoxon.exception.TDException;
 import testdoxon.model.TDClass;
 import testdoxon.model.TDMethod;
-import testdoxon.util.TDConstants;
+import testdoxon.util.TDGlobals;
 
 public class FileRepository {
 
@@ -107,13 +107,13 @@ public class FileRepository {
 				
 				short picIndex = -1;
 				if (hasTest && hasIgnore) {
-					picIndex = TDConstants.TEST_IGNORE;
+					picIndex = TDGlobals.TEST_IGNORE;
 				} else if (hasTest && !hasIgnore) {
-					picIndex = TDConstants.TEST;
+					picIndex = TDGlobals.TEST;
 				} else if (!hasTest && hasIgnore) {
-					picIndex = TDConstants.IGNORE;
+					picIndex = TDGlobals.IGNORE;
 				} else if (!hasTest && !hasIgnore) {
-					picIndex = TDConstants.NONE;
+					picIndex = TDGlobals.NONE;
 				}
 
 				// 2. Check if method name have arguments If not - do not continue
@@ -163,8 +163,8 @@ public class FileRepository {
 	public boolean saveToFile(String filename, String[] fileContent) {
 		PrintWriter out = null;
 		try {
-			testdoxonMojo.getLog().info("Saved to: " + System.getProperty("user.dir") + "/" + filename);
-			out = new PrintWriter(TDConstants.JAVA_DOC_FILEPATH + "/" + filename);
+			testdoxonMojo.getLog().info("Saved to: " + TDGlobals.prop.getProperty("destination") + "/" + filename);
+			out = new PrintWriter(TDGlobals.prop.getProperty("destination") + "/" + filename);
 			
 			for (String line : fileContent) {
 				out.println(line);
@@ -174,7 +174,9 @@ public class FileRepository {
 		} catch (FileNotFoundException e) {
 			return false;
 		} finally {
-			out.close();
+			if (out != null) {
+				out.close();
+			}
 		}
 	}
 	

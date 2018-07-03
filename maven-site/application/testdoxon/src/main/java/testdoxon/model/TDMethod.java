@@ -1,6 +1,6 @@
 package testdoxon.model;
 
-import testdoxon.util.TDConstants;
+import testdoxon.util.TDGlobals;
 
 public class TDMethod {
 	private int picIndex;
@@ -21,13 +21,13 @@ public class TDMethod {
 	
 	public String getPictureHTML () {
 		switch (this.picIndex) {
-			case TDConstants.TEST:
+			case TDGlobals.TEST:
 				return "<img src='pics/green.png' />";
-			case TDConstants.IGNORE:
+			case TDGlobals.IGNORE:
 				return "<img src='pics/gray.png' />";
-			case TDConstants.TEST_IGNORE:
+			case TDGlobals.TEST_IGNORE:
 				return "<img src='pics/yellow.png' />";
-			case TDConstants.NONE:
+			case TDGlobals.NONE:
 				return "<img src='pics/red.png' />";
 			default:
 				return "";
