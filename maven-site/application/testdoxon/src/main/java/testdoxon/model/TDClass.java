@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class TDClass {
 	private ArrayList<TDMethod> methods;
 	private String name;
+	private String filepath;
 	
-	public TDClass (String name) {
+	public TDClass (String name, String filepath) {
 		this.name = name;
+		this.filepath = filepath;
 		this.methods = new ArrayList<TDMethod>();
 	}
 	
@@ -21,6 +23,10 @@ public class TDClass {
 	
 	public String getName () {
 		return this.name;
+	}
+	
+	public String getFilepath () {
+		return this.filepath;
 	}
 	
 }
