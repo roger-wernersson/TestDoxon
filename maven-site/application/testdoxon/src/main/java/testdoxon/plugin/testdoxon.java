@@ -9,7 +9,20 @@ import org.apache.maven.plugins.annotations.Mojo;
 public class testdoxon extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		getLog().info("Hello testdox World");		
+		getLog().info("Hello testdox World");
+		
+		// Check javadoc config file
+		
+		// Read in all methodnames from test classes
+		
+		// Generate HTML
+		
+		// Find all non test classes
+		
+		// Modify javadoc menu
+		
+		// Modify javadoc class html
+		
 	}
 
 }
