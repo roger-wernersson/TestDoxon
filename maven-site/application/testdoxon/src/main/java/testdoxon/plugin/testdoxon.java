@@ -28,25 +28,28 @@ public class testdoxon extends AbstractMojo {
 
 		if (!TDGlobals.prop.getProperty("source").equals(".")) {
 			// Read in all methodnames from test classes
-			getLog().info("Reads in all test classes");
+			getLog().info("TestDoxon->Reads in all test classes");
 			TDClass[] classes = fileHandler.getAllClassesFromRootFolder(TDGlobals.prop.getProperty("source"));
 
 			// Generate HTML
-			getLog().info("Parsing html and saves it to " + TDGlobals.prop.getProperty("destination"));
+			getLog().info("TestDoxon->Parsing html and saves it to " + TDGlobals.prop.getProperty("destination"));
 			HtmlParser parser = new HtmlParser(classes, this);
-			parser.saveClassesToHTML();
+			String[] htmlFilepaths = parser.saveClassesToHTML();
 
 			// Save pictures
 
 			// Find all non test classes
 
 			// Modify javadoc menu
-
+			getLog().info("TestDoxon->Modifying JavaDoc menu");
+			fileHandler.addToJavaDocMenu(htmlFilepaths);
+			
 			// Modify javadoc class html
+			
 		} else {
 			getLog().info("Error: Set source folder in source.cgf");
 		}
-		getLog().info("TestDoxon: Done");
+		getLog().info("TestDoxon->Done");
 	}
 
 	private void checkProperties() {

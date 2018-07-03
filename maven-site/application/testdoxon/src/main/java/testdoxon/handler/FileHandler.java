@@ -1,5 +1,7 @@
 package testdoxon.handler;
 
+import java.util.ArrayList;
+
 import org.apache.maven.plugin.AbstractMojo;
 
 import testdoxon.model.TDClass;
@@ -13,13 +15,17 @@ public class FileHandler {
 		this.fileRepository = new FileRepository(testdoxonMojo);
 	}
 
-	public boolean saveToFile(String filename, String[] fileContent) {
-		return fileRepository.saveToFile(filename, fileContent);
+	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath, String[] fileContent) {
+		return fileRepository.saveHTMLToFile(htmlFilepaths, filename, filepath, fileContent);
 	}
 
 	public TDClass[] getAllClassesFromRootFolder(String rootFolderPath) {
 		TDClass[] classes = this.fileRepository.readFilesFromRootFolder(rootFolderPath);
 		return classes;
+	}
+	
+	public void addToJavaDocMenu (String[] htmlFilepaths) {
+		fileRepository.addFilepathsToJavaDocMenu(htmlFilepaths);
 	}
 
 }

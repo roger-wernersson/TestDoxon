@@ -45,20 +45,15 @@ public class HtmlParser {
 		return html.toArray(new String[html.size()]);
 	}
 	
-	public boolean saveClassesToHTML () {
-		boolean retVal = true;
-		
+	public String[] saveClassesToHTML () {
+		ArrayList<String> htmlFilepaths = new ArrayList<String>();
 		for (TDClass _class : classes) {
 			String filename = _class.getName().replaceAll(".java", "");
 			filename += ".html";
-			
-			if (!fileHandler.saveToFile(filename, parseHTML(_class))) {
-				retVal = false;
-				break;
-			}
+			htmlFilepaths = fileHandler.saveHTMLToFile(htmlFilepaths, filename, _class.getFilepath(), parseHTML(_class));
 		}
 		
-		return retVal;
+		return htmlFilepaths.toArray(new String[htmlFilepaths.size()]);
 	}
 	
 }
