@@ -22,11 +22,11 @@ public class TDMethod {
 	public String getPictureHTML () {
 		switch (this.picIndex) {
 			case TDConstants.TEST:
-				return "<img src='pics/gray.png' />";
-			case TDConstants.IGNORE:
-				return "<img src='pics/blue.png' />";
-			case TDConstants.TEST_IGNORE:
 				return "<img src='pics/green.png' />";
+			case TDConstants.IGNORE:
+				return "<img src='pics/gray.png' />";
+			case TDConstants.TEST_IGNORE:
+				return "<img src='pics/yellow.png' />";
 			case TDConstants.NONE:
 				return "<img src='pics/red.png' />";
 			default:
