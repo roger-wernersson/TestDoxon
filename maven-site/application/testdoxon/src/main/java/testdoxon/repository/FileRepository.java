@@ -1,6 +1,7 @@
 package testdoxon.repository;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.maven.plugin.AbstractMojo;
 
 import testdoxon.exception.TDException;
 import testdoxon.model.TDClass;
@@ -16,24 +18,52 @@ import testdoxon.util.TDConstants;
 
 public class FileRepository {
 
-	public FileRepository () {
-		
+	private ArrayList<String> foldersToCheck;
+	private AbstractMojo testdoxonMojo;
+	
+	public FileRepository (AbstractMojo testdoxonMojo) {
+		this.testdoxonMojo = testdoxonMojo;
+		this.foldersToCheck = new ArrayList<String>();
 	}
 
-	public TDClass[] readFiles (String rootFolder) {
+	public TDClass[] readFilesFromRootFolder (String rootFolder) {
 		ArrayList<TDClass> classes = new ArrayList<TDClass>();
+		this.foldersToCheck.clear();
+		this.listFolder(rootFolder, classes);
 		
-		// loop thru all folders
-		String filename = "";
-		String filepath = "";
-		
-		try {
-			classes.add(extractMethods(filename, readFile(filepath)));
-		} catch (TDException e) {
-			// Do nothing
+		while (this.foldersToCheck.size() != 0) {
+			for (String f : new ArrayList<String>(this.foldersToCheck)) {
+				this.listFolder(f, classes);
+				this.foldersToCheck.remove(f);
+			}
+		}
+
+		return classes.toArray(new TDClass[classes.size()]);
+	}
+	
+	private ArrayList<TDClass> listFolder (String path, ArrayList<TDClass> classes) {
+		File file = new File(path);
+		if(file != null && file.isDirectory()) {
+			File[] files = file.listFiles();
+			
+			for (File f : files) {
+				if (f.isFile()) {
+					if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
+						try {
+							testdoxonMojo.getLog().info("Adding file: " + f.getAbsolutePath());
+							classes.add(extractMethods(f.getName(), readFile(f.getAbsolutePath())));
+						} catch (TDException e) {
+							// Do nothing
+						}						
+					}
+				} else if (f.isDirectory()) {
+					testdoxonMojo.getLog().info("Directory: " + f.getAbsolutePath());
+					this.foldersToCheck.add(f.getAbsolutePath());
+				}
+			}
 		}
 		
-		return classes.toArray(new TDClass[classes.size()]);
+		return classes;
 	}
 	
 	private String[] readFile (String filepath) throws TDException {
@@ -133,7 +163,8 @@ public class FileRepository {
 	public boolean saveToFile(String filename, String[] fileContent) {
 		PrintWriter out = null;
 		try {
-			out = new PrintWriter(filename);
+			testdoxonMojo.getLog().info("Saved to: " + System.getProperty("user.dir") + "/" + filename);
+			out = new PrintWriter(TDConstants.JAVA_DOC_FILEPATH + "/" + filename);
 			
 			for (String line : fileContent) {
 				out.println(line);

@@ -6,4 +6,6 @@ public interface TDConstants {
 	public final short TEST_IGNORE = 3;
 	public final short NONE = 4;
 	public final short BLUE_DOT = 5;
+	
+	public final String JAVA_DOC_FILEPATH = ".";
 }
