@@ -50,13 +50,13 @@ public class TDMethod {
 	public String getToolTip () {
 		switch (this.picIndex) {
 		case TDGlobals.TEST:
-			return "Present: @Test";
+			return "Present: @Test, Missing: @Ignore";
 		case TDGlobals.IGNORE:
-			return "Present: @Ignore";
+			return "Present: @Ignore, Missing: @Test";
 		case TDGlobals.TEST_IGNORE:
-			return "Present: @Test, @Ignore";
+			return "Present: @Test, @Ignore, Missing:";
 		case TDGlobals.NONE:
-			return "Missing: @Test, @Ignore";
+			return "Present: , Missing: @Test, @Ignore";
 		default:
 			return "";
 	}

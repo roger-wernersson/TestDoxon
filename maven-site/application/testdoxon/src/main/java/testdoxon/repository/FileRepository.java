@@ -20,6 +20,8 @@ import testdoxon.util.TDGlobals;
 public class FileRepository {
 
 	private ArrayList<String> foldersToCheck;
+	
+	@SuppressWarnings("unused")
 	private AbstractMojo testdoxonMojo;
 
 	public FileRepository(AbstractMojo testdoxonMojo) {
@@ -213,45 +215,43 @@ public class FileRepository {
 	}
 
 	private String[] modifyMenu(String[] htmlFilepaths, String[] fileContent, boolean frame) {
-		String[] newContent = new String[fileContent.length + htmlFilepaths.length];
-
-		int newContentCounter = 0;
+		ArrayList<String> newContent = new ArrayList<String>();
+		boolean insertLinks = false;
 		for (int i = 0; i < fileContent.length; i++) {
-			newContent[newContentCounter] = fileContent[i];
-			if (fileContent[i].equals("<div class=\"indexContainer\">") && fileContent[i + 1].equals("<ul>")) {
-				newContent[newContentCounter + 1] = fileContent[i + 1];
-				newContentCounter += 2;
-				i += 2;
-				while (fileContent[i].contains("<li>")) {
-					newContent[newContentCounter] = fileContent[i];
-					i++;
-					newContentCounter++;
+			
+			
+			if (fileContent[i].equals("<ul>") && fileContent[i - 1].equals("<div class=\"indexContainer\">")) {
+				newContent.add("<b>Regular classes:</b>");
+				insertLinks = true;
+			}
+			
+			newContent.add(fileContent[i]);
+			
+			if (fileContent[i].equals("</ul>") && insertLinks) {
+				newContent.add("<br><b>Test classes:</b>");
+				newContent.add("<ul>");
+				
+				for (String htmlFilepath : htmlFilepaths) {
+					String addContent = "<li><a href=\"testdoxon/" + htmlFilepath + "\" title=\"class in com.company\"";
+					
+					String[] parts = htmlFilepath.split("/");
+					addContent += ((frame) ? "target=\"classFrame\">" : ">");
+					addContent += parts[parts.length - 1].replaceAll(".html", "") + "</a></li>";
+					newContent.add(addContent);
 				}
-
-				for (int n = 0; n < htmlFilepaths.length; n++) {
-					String[] parts = htmlFilepaths[n].split("/");
-					newContent[newContentCounter] = "<li><a href=\"testdoxon/" + htmlFilepaths[n]
-							+ "\" title=\"class in com.company\"";
-					newContent[newContentCounter] += ((frame) ? "target=\"classFrame\">" : ">");
-					newContent[newContentCounter] += parts[parts.length - 1] + "</a></li>";
-					newContentCounter++;
-				}
-
-				i--;
-			} else {
-				newContentCounter++;
+				
+				newContent.add("</ul>");
 			}
 		}
 
-		return newContent;
+		return newContent.toArray(new String[newContent.size()]);
 	}
 
 	public void modifyBaseClass(String filename, String filepath) {
-		// Find org class
+		// Find original class
 		String filenameToLooFor = filename.replaceAll("^Test", "");
 		String _package = TDGlobals.getPackage(filepath); 
 		String baseClass = TDGlobals.DESTINATION + "/" + _package + filenameToLooFor;
-		testdoxonMojo.getLog().info(baseClass);
 		
 		// Read content
 		String[] content = null;
@@ -274,13 +274,13 @@ public class FileRepository {
 	private String[] modifyBaseClass(String filename, String filepath, String _package, String[] fileContent) {
 		ArrayList<String> newContent = new ArrayList<String>();
 		
+		filename = filename.replaceAll(".html", "");
 		String aLink = "";
 		String[] parts = _package.split("/");
 		for (int i = 0; i < parts.length; i++) {
 			aLink += "../";
 		}
-		aLink += "testdoxon/" + _package + filename;
-		testdoxonMojo.getLog().info("LINK::::::: " + aLink);
+		aLink += "testdoxon/" + _package + filename + ".html";
 		
 		for (int i = 0; i < fileContent.length; i++) {
 			
