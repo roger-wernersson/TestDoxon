@@ -161,16 +161,13 @@ public class FileRepository {
 	}
 
 	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath, String[] fileContent) {
-		String _package = this.createPackage(filepath);
-		String path = TDGlobals.prop.getProperty("destination") + "/testdoxon/" + _package;
+		String _package = this.getPackage(filepath);
+		String path = TDGlobals.DESTINATION + "/testdoxon/" + _package;
 		
 		File file = new File(path);
 		file.mkdirs();
 		
 		path += filename;
-		
-		this.testdoxonMojo.getLog().info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Save to: " + path);
-		
 		if (this.saveToFile(path, fileContent)) {
 			htmlFilepaths.add(_package + filename);
 		}
@@ -195,25 +192,6 @@ public class FileRepository {
 				out.close();
 			}
 		}
-	}
-
-	private String createPackage(String filepath) {		
-		// Extract package name
-		String packageName = this.getPackage(filepath);
-		String destination = TDGlobals.prop.getProperty("destination") + "/" + packageName;
-		String[] parts = destination.split("/");
-		
-		String _filepath = "";
-		for (int i = 0; i < parts.length; i++) {
-			_filepath += parts[i] + "/";
-			
-			File file = new File(_filepath);
-			if (!file.exists()) {
-				file.mkdirs();
-			}
-		}
-		
-		return packageName;
 	}
 
 	private String getPackage (String filepath) {
@@ -244,14 +222,14 @@ public class FileRepository {
 	public void addFilepathsToJavaDocMenu(String[] htmlFilepaths) {
 		try {
 			// allclasses-frame.html
-			String[] content = this.readFile(TDGlobals.prop.getProperty("destination") + "/allclasses-frame.html");
+			String[] content = this.readFile(TDGlobals.DESTINATION + "/allclasses-frame.html");
 			String[] newContent = this.modifyMenu(htmlFilepaths, content, true);
-			this.saveToFile(TDGlobals.prop.getProperty("destination") + "/allclasses-frame.html", newContent);
+			this.saveToFile(TDGlobals.DESTINATION + "/allclasses-frame.html", newContent);
 			
 			// allclasses-noframe.html
-			content = this.readFile(TDGlobals.prop.getProperty("destination") + "/allclasses-noframe.html");
+			content = this.readFile(TDGlobals.DESTINATION + "/allclasses-noframe.html");
 			newContent = this.modifyMenu(htmlFilepaths, content, false);
-			this.saveToFile(TDGlobals.prop.getProperty("destination") + "/allclasses-noframe.html", newContent);
+			this.saveToFile(TDGlobals.DESTINATION + "/allclasses-noframe.html", newContent);
 		} catch (TDException e) {
 
 		}		

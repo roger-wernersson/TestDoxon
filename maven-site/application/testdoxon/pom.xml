@@ -33,6 +33,11 @@
   			<groupId>testdoxon.plugin</groupId>
   			<artifactId>testdoxon-maven-plugin</artifactId>
   			<version>0.0.9</version>
+  			<configuration>
+  				<javaDocOutputDirectory>C:/</javaDocOutputDirectory>
+  				<sourceRootFolder>C:\\Users\\eschras\\eclipse-workspace\\uhjuhj\\src\\test</sourceRootFolder>
+  				<javaDocDestDir>myapidocs</javaDocDestDir>
+  			</configuration>
   		</plugin>
   	</plugins>
   </build>
