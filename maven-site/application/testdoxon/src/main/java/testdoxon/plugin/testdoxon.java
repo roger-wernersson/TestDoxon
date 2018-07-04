@@ -11,6 +11,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 
 import testdoxon.generator.HtmlParser;
 import testdoxon.handler.FileHandler;
@@ -19,10 +20,21 @@ import testdoxon.util.TDGlobals;
 
 @Mojo(name = "testdoxon")
 public class testdoxon extends AbstractMojo {
+	
+	@Parameter(property = "javaDocReportOutputDirectory")
+	private String javaDocReportOutputDirectory = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	
+	@Parameter(property = "javaDocDestDir")
+	private String javaDocDestDir = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	
+	@Parameter(property = "sourceFolderPath")
+	private String sourceFolderPath = System.getProperty("user.dir") + "\\src\\test";
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		FileHandler fileHandler = new FileHandler(this);
-
+		getLog().info("JAVADOC REPORT OUTPUT DIR: " + this.javaDocReportOutputDirectory);
+		getLog().info("JAVADOC DESTINATION DIR: " + this.javaDocDestDir);
+		getLog().info("SOURCE FOLDER PATH: " + this.sourceFolderPath);
 		// Read in properties
 		this.checkProperties();
 
