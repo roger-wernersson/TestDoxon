@@ -22,13 +22,13 @@ import testdoxon.util.TDGlobals;
 public class testdoxon extends AbstractMojo {
 	
 	@Parameter(property = "javaDocReportOutputDirectory")
-	private String javaDocReportOutputDirectory = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	private String javaDocReportOutputDirectory = TDGlobals.JAVA_DOC_REPORT_OUTPUT_DIR;
 	
 	@Parameter(property = "javaDocDestDir")
-	private String javaDocDestDir = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	private String javaDocDestDir = TDGlobals.JAVA_DOC_DESTINATION_DIR;
 	
 	@Parameter(property = "sourceFolderPath")
-	private String sourceFolderPath = System.getProperty("user.dir") + "\\src\\test";
+	private String sourceFolderPath = TDGlobals.ROOT_FOLDER;
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		FileHandler fileHandler = new FileHandler(this);
