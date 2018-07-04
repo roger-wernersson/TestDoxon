@@ -12,4 +12,7 @@ public interface TDGlobals {
 	
 	public static Properties prop = new Properties();
 	public static String JAVA_DOC_FILEPATH = ".";
+	public static String JAVA_DOC_REPORT_OUTPUT_DIR = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	public static String JAVA_DOC_DESTINATION_DIR = System.getProperty("user.dir") + "\\target\\site\\apidocs\\testdoxonTestFiles";
+	public static String ROOT_FOLDER = System.getProperty("user.dir");
 }
