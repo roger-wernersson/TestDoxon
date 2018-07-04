@@ -46,4 +46,19 @@ public class TDMethod {
 				return "";
 		}
 	}
+	
+	public String getToolTip () {
+		switch (this.picIndex) {
+		case TDGlobals.TEST:
+			return "Present: @Test";
+		case TDGlobals.IGNORE:
+			return "Present: @Ignore";
+		case TDGlobals.TEST_IGNORE:
+			return "Present: @Test, @Ignore";
+		case TDGlobals.NONE:
+			return "Missing: @Test, @Ignore";
+		default:
+			return "";
+	}
+	}
 }

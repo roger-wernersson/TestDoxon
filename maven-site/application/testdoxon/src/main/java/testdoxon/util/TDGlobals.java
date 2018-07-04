@@ -13,4 +13,29 @@ public class TDGlobals {
 
 	public static String DESTINATION = "";
 	public static String SOURCE = System.getProperty("user.dir");
+	
+	public static String getPackage (String filepath) {
+		String[] parts;
+		if (System.getProperty("os.name").contains("Windows")) {
+			parts = filepath.split("\\\\");
+		} else {
+			filepath.replaceAll("( )", "\\$0");
+			parts = filepath.split("/");
+		}
+		
+		String packageName = "";
+		boolean startCopy = false;
+		for (int i = 0; i < parts.length - 1; i++) {
+			if (parts[i].equals("java")) {
+				startCopy = true;
+				continue;
+			}
+			
+			if (startCopy) {
+				packageName += parts[i] + "/";
+			}
+		}
+		
+		return packageName;
+	}
 }

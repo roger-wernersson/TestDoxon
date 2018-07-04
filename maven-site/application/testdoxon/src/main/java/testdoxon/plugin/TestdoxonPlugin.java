@@ -2,11 +2,7 @@ package testdoxon.plugin;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -24,8 +20,8 @@ import testdoxon.util.TDGlobals;
 @Mojo(name = "testdoxon")
 public class TestdoxonPlugin extends AbstractMojo {
 
-	@Parameter(property = "javaDocOutputDirectory")
-	private String javaDocOutputDirectory = TDGlobals.JAVA_DOC_REPORT_OUTPUT_DIR;
+	@Parameter(property = "javaDocReportOutputDirectory")
+	private String javaDocReportOutputDirectory = TDGlobals.JAVA_DOC_REPORT_OUTPUT_DIR;
 
 	@Parameter(property = "javaDocDestDir")
 	private String javaDocDestDir = TDGlobals.JAVA_DOC_DESTINATION_DIR;
@@ -34,9 +30,9 @@ public class TestdoxonPlugin extends AbstractMojo {
 	private String sourceRootFolder = TDGlobals.SOURCE;
 
 	public void execute() throws MojoExecutionException, MojoFailureException {	
-		TDGlobals.SOURCE = sourceRootFolder;
-		TDGlobals.DESTINATION = javaDocOutputDirectory + "\\" + javaDocDestDir;
-		TDGlobals.DESTINATION = TDGlobals.DESTINATION.replaceAll("\\\\", "/");
+		
+		// Read in configuration
+		this.setDestinationFolder();
 		
 		FileHandler fileHandler = new FileHandler(this);
 
@@ -52,15 +48,24 @@ public class TestdoxonPlugin extends AbstractMojo {
 		// Save pictures
 		this.saveImages();
 
-		// Find all non test classes
-
 		// Modify javadoc menu
 		getLog().info("TestDoxon->Modifying JavaDoc menu");
 		fileHandler.addToJavaDocMenu(htmlFilepaths);
 
-		// Modify javadoc class html
-
 		getLog().info("TestDoxon->Done");
+	}
+
+	private void setDestinationFolder() {
+		TDGlobals.SOURCE = sourceRootFolder;
+		
+		if ((javaDocReportOutputDirectory.charAt(javaDocReportOutputDirectory.length() - 1) != '/') || 
+				javaDocReportOutputDirectory.charAt(javaDocReportOutputDirectory.length() - 1) != '\\') {
+			
+			javaDocReportOutputDirectory += "/";
+		}
+		
+		TDGlobals.DESTINATION = javaDocReportOutputDirectory + javaDocDestDir;
+		TDGlobals.DESTINATION = TDGlobals.DESTINATION.replaceAll("\\\\", "/");
 	}
 
 	private void saveImages() {

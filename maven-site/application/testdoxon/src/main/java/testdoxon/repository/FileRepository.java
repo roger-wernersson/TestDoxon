@@ -51,7 +51,8 @@ public class FileRepository {
 				if (f.isFile()) {
 					if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
 						try {
-							classes.add(extractMethods(f.getName(), f.getAbsolutePath(), readFile(f.getAbsolutePath())));
+							classes.add(
+									extractMethods(f.getName(), f.getAbsolutePath(), readFile(f.getAbsolutePath())));
 						} catch (TDException e) {
 							// Do nothing
 						}
@@ -118,7 +119,7 @@ public class FileRepository {
 
 				// 2. Check if method name have arguments If not - do not continue
 				if (!_strMatch.matches(".*\\(\\)")) {
-					TDMethod method = new TDMethod(_strMatch, picIndex, this.getPackage(filepath));
+					TDMethod method = new TDMethod(_strMatch, picIndex, TDGlobals.getPackage(filepath));
 					tdClass.addMethodname(method);
 				} else {
 					// 3. Extract method name and separate every word with a space and return
@@ -127,7 +128,7 @@ public class FileRepository {
 
 					if (matcher.find()) {
 						String matchedWord = matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
-						TDMethod method = new TDMethod(matchedWord, picIndex, this.getPackage(filepath));
+						TDMethod method = new TDMethod(matchedWord, picIndex, TDGlobals.getPackage(filepath));
 						tdClass.addMethodname(method);
 					}
 				}
@@ -160,22 +161,23 @@ public class FileRepository {
 				|| fileContent[lineNumber - 2].matches("[ \t\n]*@Ignore.*");
 	}
 
-	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath, String[] fileContent) {
-		String _package = this.getPackage(filepath);
+	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath,
+			String[] fileContent) {
+		String _package = TDGlobals.getPackage(filepath);
 		String path = TDGlobals.DESTINATION + "/testdoxon/" + _package;
-		
+
 		File file = new File(path);
 		file.mkdirs();
-		
+
 		path += filename;
 		if (this.saveToFile(path, fileContent)) {
 			htmlFilepaths.add(_package + filename);
 		}
-		
+
 		return htmlFilepaths;
 	}
-	
-	private boolean saveToFile (String filepath, String[] fileContent) {
+
+	private boolean saveToFile(String filepath, String[] fileContent) {
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(filepath);
@@ -183,7 +185,7 @@ public class FileRepository {
 			for (String line : fileContent) {
 				out.println(line);
 			}
-			
+
 			return true;
 		} catch (FileNotFoundException e) {
 			return false;
@@ -194,105 +196,102 @@ public class FileRepository {
 		}
 	}
 
-	private String getPackage (String filepath) {
-		String[] parts;
-		if (System.getProperty("os.name").contains("Windows")) {
-			parts = filepath.split("\\\\");
-		} else {
-			filepath.replaceAll("( )", "\\$0");
-			parts = filepath.split("/");
-		}
-		
-		String packageName = "";
-		boolean startCopy = false;
-		for (int i = 0; i < parts.length - 1; i++) {
-			if (parts[i].equals("java")) {
-				startCopy = true;
-				continue;
-			}
-			
-			if (startCopy) {
-				packageName += parts[i] + "/";
-			}
-		}
-		
-		return packageName;
-	}
-
 	public void addFilepathsToJavaDocMenu(String[] htmlFilepaths) {
 		try {
 			// allclasses-frame.html
 			String[] content = this.readFile(TDGlobals.DESTINATION + "/allclasses-frame.html");
 			String[] newContent = this.modifyMenu(htmlFilepaths, content, true);
 			this.saveToFile(TDGlobals.DESTINATION + "/allclasses-frame.html", newContent);
-			
+
 			// allclasses-noframe.html
 			content = this.readFile(TDGlobals.DESTINATION + "/allclasses-noframe.html");
 			newContent = this.modifyMenu(htmlFilepaths, content, false);
 			this.saveToFile(TDGlobals.DESTINATION + "/allclasses-noframe.html", newContent);
 		} catch (TDException e) {
 
-		}		
+		}
 	}
 
-	
-	private String[] modifyMenu (String[] htmlFilepaths, String[] fileContent, boolean frame) {
+	private String[] modifyMenu(String[] htmlFilepaths, String[] fileContent, boolean frame) {
 		String[] newContent = new String[fileContent.length + htmlFilepaths.length];
-		
+
 		int newContentCounter = 0;
 		for (int i = 0; i < fileContent.length; i++) {
 			newContent[newContentCounter] = fileContent[i];
-			if (fileContent[i].equals("<div class=\"indexContainer\">") && fileContent[i+1].equals("<ul>")) {
+			if (fileContent[i].equals("<div class=\"indexContainer\">") && fileContent[i + 1].equals("<ul>")) {
 				newContent[newContentCounter + 1] = fileContent[i + 1];
 				newContentCounter += 2;
 				i += 2;
-				while(fileContent[i].contains("<li>")) {
+				while (fileContent[i].contains("<li>")) {
 					newContent[newContentCounter] = fileContent[i];
 					i++;
 					newContentCounter++;
 				}
-				
+
 				for (int n = 0; n < htmlFilepaths.length; n++) {
 					String[] parts = htmlFilepaths[n].split("/");
-					newContent[newContentCounter] = "<li><a href=\"testdoxon/" + htmlFilepaths[n] + "\" title=\"class in com.company\"";
+					newContent[newContentCounter] = "<li><a href=\"testdoxon/" + htmlFilepaths[n]
+							+ "\" title=\"class in com.company\"";
 					newContent[newContentCounter] += ((frame) ? "target=\"classFrame\">" : ">");
 					newContent[newContentCounter] += parts[parts.length - 1] + "</a></li>";
 					newContentCounter++;
 				}
-				
+
 				i--;
 			} else {
 				newContentCounter++;
 			}
 		}
-		
+
 		return newContent;
 	}
+
+	public void modifyBaseClass(String filename, String filepath) {
+		// Find org class
+		String filenameToLooFor = filename.replaceAll("^Test", "");
+		String _package = TDGlobals.getPackage(filepath); 
+		String baseClass = TDGlobals.DESTINATION + "/" + _package + filenameToLooFor;
+		testdoxonMojo.getLog().info(baseClass);
+		
+		// Read content
+		String[] content = null;
+		try {
+			content = this.readFile(baseClass);
+		} catch (TDException e) {
+			// Do nothing
+		}
+		
+		// Modify content
+		if (content != null) {
+			String[] newContent = this.modifyBaseClass(filename, filepath, _package, content);
+			if (newContent != null && newContent.length > 0) {
+				this.saveToFile(baseClass, newContent);
+			}
+		}
+		
+	}
 	
+	private String[] modifyBaseClass(String filename, String filepath, String _package, String[] fileContent) {
+		ArrayList<String> newContent = new ArrayList<String>();
+		
+		String aLink = "";
+		String[] parts = _package.split("/");
+		for (int i = 0; i < parts.length; i++) {
+			aLink += "../";
+		}
+		aLink += "testdoxon/" + _package + filename;
+		testdoxonMojo.getLog().info("LINK::::::: " + aLink);
+		
+		for (int i = 0; i < fileContent.length; i++) {
+			
+			if (fileContent[i].equals("<hr>")) {
+				newContent.add("<br><br>Test class <a href=\"" + aLink + "\">" + filename + "</a>");
+			}
+			
+			newContent.add(fileContent[i]);
+		}
+		
+		return newContent.toArray(new String[newContent.size()]);
+	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

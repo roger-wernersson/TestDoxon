@@ -2,6 +2,8 @@ package testdoxon.model;
 
 import java.util.ArrayList;
 
+import testdoxon.util.TDGlobals;
+
 public class TDClass {
 	private ArrayList<TDMethod> methods;
 	private String name;
@@ -27,6 +29,13 @@ public class TDClass {
 	
 	public String getFilepath () {
 		return this.filepath;
+	}
+	
+	public String getPackage () {
+		String _package = TDGlobals.getPackage(this.filepath);
+		_package = _package.replaceAll("/", ".");
+		_package = _package.substring(0, _package.length() - 1);
+		return _package;
 	}
 	
 }

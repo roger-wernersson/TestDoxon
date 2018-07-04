@@ -16,6 +16,7 @@ public class FileHandler {
 	}
 
 	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath, String[] fileContent) {
+		fileRepository.modifyBaseClass(filename, filepath);
 		return fileRepository.saveHTMLToFile(htmlFilepaths, filename, filepath, fileContent);
 	}
 
