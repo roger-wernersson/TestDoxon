@@ -41,7 +41,7 @@ public class TestdoxonPlugin extends AbstractMojo {
 		TDClass[] classes = fileHandler.getAllClassesFromRootFolder(TDGlobals.SOURCE);
 
 		// Generate HTML
-		getLog().info("TestDoxon->Parsing html and saves it to " + TDGlobals.DESTINATION);
+		getLog().info("TestDoxon->Parsing html and saves it to " + TDGlobals.DESTINATION + "/testdoxon");
 		HtmlParser parser = new HtmlParser(classes, this);
 		String[] htmlFilepaths = parser.saveClassesToHTML();
 
@@ -49,7 +49,7 @@ public class TestdoxonPlugin extends AbstractMojo {
 		this.saveImages();
 
 		// Modify javadoc menu
-		getLog().info("TestDoxon->Modifying JavaDoc menu");
+		getLog().info("TestDoxon->Modifying JavaDoc");
 		fileHandler.addToJavaDocMenu(htmlFilepaths);
 
 		getLog().info("TestDoxon->Done");
@@ -66,6 +66,7 @@ public class TestdoxonPlugin extends AbstractMojo {
 		
 		TDGlobals.DESTINATION = javaDocReportOutputDirectory + javaDocDestDir;
 		TDGlobals.DESTINATION = TDGlobals.DESTINATION.replaceAll("\\\\", "/");
+		TDGlobals.DESTINATION = TDGlobals.DESTINATION.replaceAll("//", "/");
 	}
 
 	private void saveImages() {
