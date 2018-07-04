@@ -5,10 +5,12 @@ import testdoxon.util.TDGlobals;
 public class TDMethod {
 	private int picIndex;
 	private String methodname;
+	private String _package;
 	
-	public TDMethod (String methodname, int picIndex) {
+	public TDMethod (String methodname, int picIndex, String _package) {
 		this.methodname = methodname;
 		this.picIndex = picIndex;
+		this._package = _package;
 	}
 	
 	public int getPictureIndex () {
@@ -19,16 +21,27 @@ public class TDMethod {
 		return this.methodname;
 	}
 	
+	public String getPackage () {
+		return this._package;
+	}
+	
 	public String getPictureHTML () {
+		String[] parts = this.getPackage().split("/");
+		String imageFolder = "";
+		for (int i = 0; i < parts.length; i++) {
+			imageFolder += "../";
+		}
+		imageFolder += "td_pics/";
+		
 		switch (this.picIndex) {
 			case TDGlobals.TEST:
-				return "<img src='pics/green.png' />";
+				return "<img src='" + imageFolder + "green.png' />";
 			case TDGlobals.IGNORE:
-				return "<img src='pics/gray.png' />";
+				return "<img src='" + imageFolder + "gray.png' />";
 			case TDGlobals.TEST_IGNORE:
-				return "<img src='pics/yellow.png' />";
+				return "<img src='" + imageFolder + "yellow.png' />";
 			case TDGlobals.NONE:
-				return "<img src='pics/red.png' />";
+				return "<img src='" + imageFolder + "red.png' />";
 			default:
 				return "";
 		}

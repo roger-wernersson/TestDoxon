@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.maven.plugin.AbstractMojo;
 
 import testdoxon.exception.TDException;
@@ -117,7 +118,7 @@ public class FileRepository {
 
 				// 2. Check if method name have arguments If not - do not continue
 				if (!_strMatch.matches(".*\\(\\)")) {
-					TDMethod method = new TDMethod(_strMatch, picIndex);
+					TDMethod method = new TDMethod(_strMatch, picIndex, this.getPackage(filepath));
 					tdClass.addMethodname(method);
 				} else {
 					// 3. Extract method name and separate every word with a space and return
@@ -126,7 +127,7 @@ public class FileRepository {
 
 					if (matcher.find()) {
 						String matchedWord = matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
-						TDMethod method = new TDMethod(matchedWord, picIndex);
+						TDMethod method = new TDMethod(matchedWord, picIndex, this.getPackage(filepath));
 						tdClass.addMethodname(method);
 					}
 				}
@@ -161,7 +162,16 @@ public class FileRepository {
 
 	public ArrayList<String> saveHTMLToFile(ArrayList<String> htmlFilepaths, String filename, String filepath, String[] fileContent) {
 		String _package = this.createPackage(filepath);
-		if (this.saveToFile(TDGlobals.prop.getProperty("destination") + "/" + _package + filename, fileContent)) {
+		String path = TDGlobals.prop.getProperty("destination") + "/testdoxon/" + _package;
+		
+		File file = new File(path);
+		file.mkdirs();
+		
+		path += filename;
+		
+		this.testdoxonMojo.getLog().info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Save to: " + path);
+		
+		if (this.saveToFile(path, fileContent)) {
 			htmlFilepaths.add(_package + filename);
 		}
 		
@@ -266,7 +276,7 @@ public class FileRepository {
 				
 				for (int n = 0; n < htmlFilepaths.length; n++) {
 					String[] parts = htmlFilepaths[n].split("/");
-					newContent[newContentCounter] = "<li><a href=\"" + htmlFilepaths[n] + "\" title=\"class in com.company\"";
+					newContent[newContentCounter] = "<li><a href=\"testdoxon/" + htmlFilepaths[n] + "\" title=\"class in com.company\"";
 					newContent[newContentCounter] += ((frame) ? "target=\"classFrame\">" : ">");
 					newContent[newContentCounter] += parts[parts.length - 1] + "</a></li>";
 					newContentCounter++;

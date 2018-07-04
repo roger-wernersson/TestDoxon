@@ -1,11 +1,18 @@
 package testdoxon.plugin;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.renderable.RenderableImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -18,7 +25,7 @@ import testdoxon.model.TDClass;
 import testdoxon.util.TDGlobals;
 
 @Mojo(name = "testdoxon")
-public class testdoxon extends AbstractMojo {
+public class TestdoxonPlugin extends AbstractMojo {
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		FileHandler fileHandler = new FileHandler(this);
@@ -37,19 +44,64 @@ public class testdoxon extends AbstractMojo {
 			String[] htmlFilepaths = parser.saveClassesToHTML();
 
 			// Save pictures
+			getLog().info("TestDoxon->Calling images");
+			this.saveImages();
 
 			// Find all non test classes
 
 			// Modify javadoc menu
 			getLog().info("TestDoxon->Modifying JavaDoc menu");
 			fileHandler.addToJavaDocMenu(htmlFilepaths);
-			
+
 			// Modify javadoc class html
-			
+
 		} else {
 			getLog().info("Error: Set source folder in source.cgf");
 		}
 		getLog().info("TestDoxon->Done");
+	}
+
+	private void saveImages() {
+
+		// Create path
+		String path = TDGlobals.prop.getProperty("destination") + "/testdoxon/td_pics";
+		File file = new File(path);
+		file.mkdirs();
+		
+		BufferedImage bufferedImageRed = null;
+		BufferedImage bufferedImageBlue = null;
+		BufferedImage bufferedImageGray = null;
+		BufferedImage bufferedImageGreen = null;
+		BufferedImage bufferedImageYellow = null;
+
+		try {
+			bufferedImageRed = ImageIO.read(TestdoxonPlugin.class.getClassLoader().getResource("images/red.png"));
+			bufferedImageBlue = ImageIO.read(TestdoxonPlugin.class.getClassLoader().getResource("images/blue.png"));
+			bufferedImageGray = ImageIO.read(TestdoxonPlugin.class.getClassLoader().getResource("images/gray.png"));
+			bufferedImageGreen = ImageIO.read(TestdoxonPlugin.class.getClassLoader().getResource("images/green.png"));
+			bufferedImageYellow = ImageIO.read(TestdoxonPlugin.class.getClassLoader().getResource("images/yellow.png"));
+
+			File outImage = null;
+			
+			outImage = new File(path + "/red.png");
+			ImageIO.write(bufferedImageRed, "png", outImage);
+			
+			outImage = new File(path + "/blue.png");
+			ImageIO.write(bufferedImageBlue, "png", outImage);
+			
+			outImage = new File(path + "/gray.png");
+			ImageIO.write(bufferedImageGray, "png", outImage);
+			
+			outImage = new File(path + "/green.png");
+			ImageIO.write(bufferedImageGreen, "png", outImage);
+			
+			outImage = new File(path + "/yellow.png");
+			ImageIO.write(bufferedImageYellow, "png", outImage);
+
+		} catch (IOException e) {
+			getLog().info("Could not read Image");
+		}
+
 	}
 
 	private void checkProperties() {

@@ -34,9 +34,9 @@ public class HtmlParser {
 		html.add("</head>");
 		html.add("<body>");
 		
-		html.add("<h1>" + _class.getName() + "</h1>");
+		html.add("<h1>" + _class.getName() + "</h1>");		
 		
-		for(TDMethod method : _class.getMethods()) {
+		for(TDMethod method : _class.getMethods()) {			
 			html.add("<p class=\"method\">" + method.getPictureHTML() + " " + method.getMethodname() + "</p>");
 		}
 		html.add("</body>");
