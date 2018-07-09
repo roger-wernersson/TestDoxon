@@ -59,14 +59,18 @@ public class FileCrawlerRepository {
         if (file != null && file.isDirectory()) {
             File[] files = file.listFiles();
 
-            for (File f : files) {
-                if (f.isFile()) {
-                    if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
-                        this.testFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
+            if (files != null) {
+                for (File f : files) {
+                    if (f.isFile()) {
+                        if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
+                            this.testFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
+                        }
+                    } else if (f.isDirectory()) {
+                        this.foldersToCheck.add(f.getAbsolutePath());
                     }
-                } else if (f.isDirectory()) {
-                    this.foldersToCheck.add(f.getAbsolutePath());
                 }
+            } else {
+                TDLog.info("Too mant jumpbacks, will not load classes", TDLog.ERROR);
             }
         }
     }
