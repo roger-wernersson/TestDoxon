@@ -14,6 +14,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import testdoxon.generator.HtmlParser;
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDClass;
 import testdoxon.util.TDGlobals;
 
@@ -30,6 +31,8 @@ public class TestdoxonPlugin extends AbstractMojo {
 	private String sourceRootFolder = TDGlobals.SOURCE;
 
 	public void execute() throws MojoExecutionException, MojoFailureException {	
+		
+		getLog().info("Log file: " + System.getProperty("user.dir"));
 		
 		// Read in configuration
 		this.setDestinationFolder();
@@ -107,6 +110,7 @@ public class TestdoxonPlugin extends AbstractMojo {
 			ImageIO.write(bufferedImageYellow, "png", outImage);
 
 		} catch (IOException e) {
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 			getLog().info("Could not read Image");
 		}
 
