@@ -25,16 +25,7 @@ public class TDLog {
 		try {
 			String printText = "[" + TDLog.getTime() + "] ";
 			
-			switch (type) {
-			case TDLog.ERROR:
-				printText += "ERROR: ";
-				break;
-			case TDLog.INFORMATION:
-				printText += "INFO: ";
-				break;
-			case TDLog.WARNING:
-				printText += "WARNING: ";
-			}
+			printText += TDLog.getType(type);
 			printText += message;
 			System.out.println(printText);
 			
@@ -49,6 +40,19 @@ public class TDLog {
 			}
 		}
 		
+	}
+	
+	private static String getType (int type) {
+		switch (type) {
+			case TDLog.ERROR:
+				return "ERROR: ";
+			case TDLog.INFORMATION:
+				return "INFO: ";
+			case TDLog.WARNING:
+				return "WARNING: ";
+			default:
+				return "";
+		}
 	}
 	
 	private static String getTime () {
