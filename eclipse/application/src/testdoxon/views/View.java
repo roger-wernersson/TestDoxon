@@ -80,6 +80,7 @@ import testdoxon.listener.OpenMethodAction;
 import testdoxon.listener.TDPartListener;
 import testdoxon.listener.UpdateOnFileChangedListener;
 import testdoxon.listener.UpdateOnSaveListener;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.util.DoxonUtils;
 
@@ -127,6 +128,8 @@ public class View extends ViewPart {
 		View.currentTestFile = null;
 		View.prop = new Properties();
 		this.loadProperties();
+		
+		TDLog.info("Log file: " + System.getProperty("user.dir"), TDLog.INFORMATION);
 
 		this.widgetColor = new Color(null, 255, 255, 230);
 	}
@@ -138,13 +141,13 @@ public class View extends ViewPart {
 			View.prop.load(input);
 			View.rootJumpbacks = Integer.parseInt(View.prop.getProperty("jumpback"));
 		} catch (IOException e) {
-			// Do nothing
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
 				} catch (IOException e) {
-					// Do nothing
+					TDLog.info(e.getMessage(), TDLog.ERROR);
 				}
 			}
 		}
@@ -200,7 +203,7 @@ public class View extends ViewPart {
 				try {
 					testClassPaths.setInput(getViewSite());
 				} catch (AssertionFailedException e) {
-					// Do nothing
+					TDLog.info(e.getMessage(), TDLog.WARNING);
 				}
 			}
 		});
@@ -230,7 +233,7 @@ public class View extends ViewPart {
 				try {
 					viewer.setInput(getViewSite());
 				} catch (AssertionFailedException e) {
-					// Do nothing
+					TDLog.info(e.getMessage(), TDLog.WARNING);
 				}
 			}
 		});
@@ -279,93 +282,6 @@ public class View extends ViewPart {
 				 ConfJumpbackDialog dialog = new
 				 ConfJumpbackDialog(Display.getCurrent().getActiveShell());
 				 dialog.open();
-
-//				Dialog dialog = new Dialog(Display.getCurrent().getActiveShell()) {
-//					private Text description;
-//					private String descText;
-//					
-//					
-//					
-// 					@Override
-//					protected Control createDialogArea(Composite parent) { 						
-//						this.descText = "Current root folder:\n" + View.rootFolder
-//								+ "\n\nThis option will change the root folder path.\nDefault root folder is set to the src folder in the current project.\nIf one would want to include test classes from other bundles chang\nthe jumpbacks to the root folder.";
-//
-//						Composite container = (Composite) super.createDialogArea(parent);
-//
-//						Label name = new Label(container, SWT.NONE);
-//						name.setText("Number of jumpbacks from src folder:");
-//
-//						Spinner spinner = new Spinner(container, SWT.BORDER);
-//						spinner.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
-//						spinner.setMaximum(10);
-//						spinner.setIncrement(1);
-//						spinner.setMinimum(0);
-//						spinner.setSelection(View.rootJumpbacks);
-//
-//						this.description = new Text(container, SWT.MULTI | SWT.READ_ONLY);
-//						this.description.setText(this.descText);
-//
-//						spinner.addModifyListener(new ModifyListener() {
-//
-//							@Override
-//							public void modifyText(ModifyEvent arg0) {
-//								if (arg0.getSource() instanceof Spinner) {
-//									Spinner _tmp = (Spinner) arg0.getSource();
-//									View.rootJumpbacks = _tmp.getSelection();
-//									this.saveProperty(_tmp.getSelection());
-//
-//									String newPath = DoxonUtils.findRootFolder(View.orgRootFolder);
-//									View.rootFolder = newPath;
-//									descText = "Current root folder:\n" + newPath
-//											+ "\n\nThis option will change the root folder path.\nDefault root folder is set to the src folder in the current project.\nIf one would want to include test classes from other bundles chang\nthe jumpbacks to the root folder.";
-//									description.setText(descText);
-//								}
-//							}
-//
-//							private void saveProperty(int jumpbacks) {
-//								OutputStream out = null;
-//
-//								try {
-//									out = new FileOutputStream(View.CONFIG_FILE);
-//
-//									View.prop.setProperty("jumpback", Integer.toString(jumpbacks));
-//									View.prop.store(out, null);
-//
-//								} catch (IOException e) {
-//									// Do nothing
-//								} finally {
-//									if (out != null) {
-//										try {
-//											out.close();
-//										} catch (IOException e1) {
-//											// Do nothing
-//										}
-//									}
-//								}
-//							}
-//
-//						});
-//
-//						Label warning = new Label(container, SWT.NONE);
-//						warning.setText("!!WARNING - Software may become slow!!");
-//
-//						return container;
-//					}
-//
-//					@Override
-//					protected Point getInitialSize() {
-//						return new Point(450, 300);
-//					}
-//
-//					@Override
-//					protected void configureShell(Shell newShell) {
-//						super.configureShell(newShell);
-//						newShell.setText("Set jumpbacks from src folder");
-//					}
-//				};
-//				
-//				dialog.open();
 			}
 		};
 		configureRootFolder.setText("Configure software");

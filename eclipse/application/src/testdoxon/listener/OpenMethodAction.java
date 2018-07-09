@@ -40,6 +40,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDTableItem;
 import testdoxon.views.View;
 
@@ -89,7 +90,7 @@ public class OpenMethodAction extends Action {
 						}
 						lineInfo = document.getLineInformation(lineNumber - 1);
 					} catch (BadLocationException e) {
-
+						TDLog.info(e.getMessage(), TDLog.ERROR);
 					}
 
 					if (lineInfo != null) {
@@ -118,7 +119,7 @@ public class OpenMethodAction extends Action {
 						}
 
 					} catch (TDException e) {
-						e.printStackTrace();
+						TDLog.info(e.getMessage(), TDLog.ERROR);
 					}
 
 					try {
@@ -128,7 +129,7 @@ public class OpenMethodAction extends Action {
 						IDE.openEditor(iWorkbenchPage, marker, true);
 						marker.delete();
 					} catch (CoreException e2) {
-						e2.printStackTrace();
+						TDLog.info(e2.getMessage(), TDLog.ERROR);
 					}
 				}
 			}

@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.osgi.framework.Bundle;
 
+import testdoxon.log.TDLog;
 import testdoxon.util.DoxonUtils;
 import testdoxon.views.View;
 
@@ -110,13 +111,13 @@ public class ConfJumpbackDialog extends Dialog {
 					View.prop.store(out, null);
 					
 				} catch (IOException e) {
-					// Do nothing
+					TDLog.info(e.getMessage(), TDLog.ERROR);
 				} finally {
 					if(out != null) {
 						try {
 							out.close();
 						} catch (IOException e1) {
-							// Do nothing
+							TDLog.info(e1.getMessage(), TDLog.ERROR);
 						}
 					}
 				}

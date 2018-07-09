@@ -19,6 +19,7 @@ package testdoxon.repository;
 import java.io.File;
 import java.util.ArrayList;
 
+import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
 
 public class FileCrawlerRepository {
@@ -50,6 +51,7 @@ public class FileCrawlerRepository {
 				this.foldersToCheck.remove(f);
 			}
 		}
+		TDLog.info("TestClasses in memory: " + this.testFiles.size(), TDLog.INFORMATION);
 	}
 
 	/**

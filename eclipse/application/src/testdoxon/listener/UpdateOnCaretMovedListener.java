@@ -27,6 +27,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
 
 import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.util.DoxonUtils;
 import testdoxon.views.View;
@@ -87,7 +88,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 								try {
 									viewer.setInput(View.currentTestFile);
 								} catch (AssertionFailedException e) {
-									// Do nothing
+									TDLog.info(e.getMessage(), TDLog.WARNING);
 								}
 							}
 						});
@@ -109,7 +110,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 						try {
 							testClassPathsComboBox.setInput(fileCrawlerHandler.getAllTestClassesAsTestFileArray());
 						} catch (AssertionFailedException e) {
-							// Do nothing
+							TDLog.info(e.getMessage(), TDLog.WARNING);
 						}
 					}
 				});
@@ -137,7 +138,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 						try {
 							viewer.setInput(View.currentTestFile);
 						} catch (AssertionFailedException e) {
-							// Do nothing
+							TDLog.info(e.getMessage(), TDLog.WARNING);
 						}
 
 					}
