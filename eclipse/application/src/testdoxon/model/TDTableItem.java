@@ -16,6 +16,7 @@ public class TDTableItem {
 		this.methodName = null;
 		this.gotTest = false;
 		this.gotIgnore = false;
+		this.hasTestInName = false;
 	}
 	
 	public TDTableItem(String methodName, boolean gotTest, boolean gotIgnore, boolean hasTestInName) {
@@ -60,7 +61,7 @@ public class TDTableItem {
 		} else if(this.gotIgnore) {
 			return "@Ignore";
 		}
-		return "Missing: @test, @Ignore";
+		return "Missing: @test, @Ignore, test in method name";
 	}
 	
 }

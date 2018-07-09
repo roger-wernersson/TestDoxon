@@ -94,28 +94,23 @@ public class FileRepository {
         ArrayList<TDTableItem> methodNames = new ArrayList<>();
 
         for (int i = 0; i < fileContent.length; i++) {
-            // 1. Filter out all method names
-            Pattern pattern = Pattern.compile("^[ \t\n]*public[ \t\n]+void[ \t\n]+(test|should)([A-Z0-9]+.*\\(.*\\))");
-            Matcher matcher = pattern.matcher(fileContent[i]);
+            if (fileContent[i].matches("^[ \t\n]*(public)?[ \t\n]*void[ \t\n]+.*\\(.*\\).*")) {
+                // Match on method name, now strip unwanted stuf!
+                fileContent[i] = fileContent[i].replaceAll("(public|void|\\{|\\})", "");
+                fileContent[i] = fileContent[i].replaceAll("^[ \t\n]*", "");
 
-            if (matcher.find()) {
-                String _strMatch = matcher.group(2);
                 boolean hasTest = lookForAtTest(fileContent, i);
                 boolean hasIgnore = lookForAtIgnore(fileContent, i);
+                boolean hasTestInName = fileContent[i].matches("^test.*");
 
-                // 2. Check if method name have arguments If not - do not continue
-                if (!_strMatch.matches(".*\\(\\)")) {
-                    methodNames.add(new TDTableItem(_strMatch, hasTest, hasIgnore));
-                } else {
-                    // 3. Extract method name and separate every word with a space and return
-                    pattern = Pattern.compile("(.*[^ ]).*\\(");
-                    matcher = pattern.matcher(_strMatch);
+                fileContent[i] = fileContent[i].replaceAll("test", "");
 
-                    if (matcher.find()) {
-                        methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 "),
-                                hasTest, hasIgnore));
-                    }
+                if (fileContent[i].matches(".*\\(\\).*")) {
+                    fileContent[i] = fileContent[i].replaceAll("\\(.*\\).*", "");
+                    fileContent[i] = fileContent[i].replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
                 }
+
+                methodNames.add(new TDTableItem(fileContent[i], hasTest, hasIgnore, hasTestInName));
             }
         }
 
