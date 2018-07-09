@@ -249,7 +249,7 @@ public class FileRepository {
 
 	public void modifyBaseClass(String filename, String filepath) {
 		// Find original class
-		String filenameToLooFor = filename.replaceAll("^Test", "");
+		String filenameToLooFor = filename.replaceAll("Test", "");
 		String _package = TDGlobals.getPackage(filepath); 
 		String baseClass = TDGlobals.DESTINATION + "/" + _package + filenameToLooFor;
 		
