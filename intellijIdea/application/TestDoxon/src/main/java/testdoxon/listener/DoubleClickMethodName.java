@@ -9,6 +9,7 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDTableItem;
 import testdoxon.utils.TDStatics;
 
@@ -41,7 +42,7 @@ public class DoubleClickMethodName extends MouseAdapter {
                         editorManager.openEditor(openFileDescriptor, true);
 
                     } catch (TDException e1) {
-
+                        TDLog.info(e1.getMessage(), TDLog.ERROR);
                     }
 
                 }
