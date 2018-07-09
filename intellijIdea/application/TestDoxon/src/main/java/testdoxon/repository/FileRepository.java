@@ -105,12 +105,19 @@ public class FileRepository {
 
                 fileContent[i] = fileContent[i].replaceAll("test", "");
 
+                boolean hasFirstCharUppercase = true;
+                char firstChar = fileContent[i].charAt(0);
+                String _tmp = "" + firstChar;
+                if (!_tmp.matches("[A-Z0-9]")) {
+                    hasFirstCharUppercase = false;
+                }
+
                 if (fileContent[i].matches(".*\\(\\).*")) {
                     fileContent[i] = fileContent[i].replaceAll("\\(.*\\).*", "");
                     fileContent[i] = fileContent[i].replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
                 }
 
-                methodNames.add(new TDTableItem(fileContent[i], hasTest, hasIgnore, hasTestInName));
+                methodNames.add(new TDTableItem(fileContent[i], hasTest, hasIgnore, hasTestInName, hasFirstCharUppercase));
             }
         }
 
