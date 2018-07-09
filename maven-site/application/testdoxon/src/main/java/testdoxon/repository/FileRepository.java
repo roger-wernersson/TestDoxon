@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import org.apache.maven.plugin.AbstractMojo;
 
 import testdoxon.exception.TDException;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDClass;
 import testdoxon.model.TDMethod;
 import testdoxon.util.TDGlobals;
@@ -82,6 +83,7 @@ public class FileRepository {
 
 			br.close();
 		} catch (IOException e) {
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 			throw new TDException(TDException.FILE_NOT_FOUND);
 		}
 
@@ -190,6 +192,7 @@ public class FileRepository {
 
 			return true;
 		} catch (FileNotFoundException e) {
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 			return false;
 		} finally {
 			if (out != null) {
@@ -210,7 +213,7 @@ public class FileRepository {
 			newContent = this.modifyMenu(htmlFilepaths, content, false);
 			this.saveToFile(TDGlobals.DESTINATION + "/allclasses-noframe.html", newContent);
 		} catch (TDException e) {
-
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 		}
 	}
 
@@ -258,7 +261,7 @@ public class FileRepository {
 		try {
 			content = this.readFile(baseClass);
 		} catch (TDException e) {
-			// Do nothing
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 		}
 		
 		// Modify content
