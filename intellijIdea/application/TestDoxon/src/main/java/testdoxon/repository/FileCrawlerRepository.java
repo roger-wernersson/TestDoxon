@@ -1,7 +1,9 @@
 package testdoxon.repository;
 
+import testdoxon.gui.ClassComboBox;
 import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
+import testdoxon.utils.DoxonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,20 +25,28 @@ public class FileCrawlerRepository {
      *
      * @param path
      */
-    public void checkFolderHierarchy(String path) {
-        this.testFiles.clear();
-        this.foldersToCheck.clear();
+    public void checkFolderHierarchy(String path, ClassComboBox testClassesComboBox) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                testFiles.clear();
+                foldersToCheck.clear();
 
-        this.listFolder(path);
+                listFolder(path);
 
-        while (this.foldersToCheck.size() != 0) {
-            for (String f : new ArrayList<String>(this.foldersToCheck)) {
-                this.listFolder(f);
-                this.foldersToCheck.remove(f);
+                while (foldersToCheck.size() != 0) {
+                    for (String f : new ArrayList<String>(foldersToCheck)) {
+                        listFolder(f);
+                        foldersToCheck.remove(f);
+                    }
+                }
+
+                TDLog.info("Testclasses in memory: " + testFiles.size(), TDLog.INFORMATION);
+                DoxonUtils.setComboBoxItems(testClassesComboBox, testFiles.toArray(new TestFile[testFiles.size()]));
             }
-        }
+        });
+        thread.start();
 
-        TDLog.info("Testclasses in memory: " + this.testFiles.size(), TDLog.INFORMATION);
     }
 
     /**
