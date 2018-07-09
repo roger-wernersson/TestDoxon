@@ -95,24 +95,29 @@ public class FileRepository {
 
 	private TDClass extractMethods(String filename, String filepath, String[] fileContent) {
 		TDClass tdClass = new TDClass(filename, filepath);
-
+		
 		for (int i = 0; i < fileContent.length; i++) {
-			// 1. Filter out all method names
-			Pattern pattern = Pattern
-					.compile("^[ \t\n]*(public)?[ \t\n]+void[ \t\n]+(test|should)([A-Z0-9]+.*\\(.*\\))");
-			Matcher matcher = pattern.matcher(fileContent[i]);
-
-			if (matcher.find()) {
-				String _strMatch = matcher.group(0);
-				_strMatch = _strMatch.replaceAll("(public|void|test)", "");
-				_strMatch = _strMatch.replaceAll("^[ \t\n]*", "");
-
+			if (fileContent[i].matches("^[ \t\n]*(public)?[ \t\n]*void[ \t\n]+.*\\(.*\\).*")) {
+				// Match on method name, now strip unwanted stuf! 
+				fileContent[i] = fileContent[i].replaceAll("(public|void|\\{|\\})", "");
+				fileContent[i] = fileContent[i].replaceAll("^[ \t\n]*", "");
+				
 				boolean hasTest = lookForAtTest(fileContent, i);
 				boolean hasIgnore = lookForAtIgnore(fileContent, i);
-
+				boolean hasTestInName = fileContent[i].matches("^test.*");
+				
+				fileContent[i] = fileContent[i].replaceAll("test", "");
+				
+				if (fileContent[i].matches(".*\\(\\).*")) {
+					fileContent[i] = fileContent[i].replaceAll("\\(.*\\).*", "");
+					fileContent[i] = fileContent[i].replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
+				}
+				
 				short picIndex = -1;
-				if (hasTest && hasIgnore) {
+				if (hasTest && hasIgnore && hasTestInName && hasTestInName) {
 					picIndex = TDGlobals.TEST_IGNORE;
+				} else if (!hasTestInName) {
+					picIndex = TDGlobals.MISSING_TEST_IN_NAME;
 				} else if (hasTest && !hasIgnore) {
 					picIndex = TDGlobals.TEST;
 				} else if (!hasTest && hasIgnore) {
@@ -120,22 +125,9 @@ public class FileRepository {
 				} else if (!hasTest && !hasIgnore) {
 					picIndex = TDGlobals.NONE;
 				}
-
-				// 2. Check if method name have arguments If not - do not continue
-				if (!_strMatch.matches(".*\\(\\)")) {
-					TDMethod method = new TDMethod(_strMatch, picIndex, TDGlobals.getPackage(filepath));
-					tdClass.addMethodname(method);
-				} else {
-					// 3. Extract method name and separate every word with a space and return
-					pattern = Pattern.compile("(.*[^ ]).*\\(");
-					matcher = pattern.matcher(_strMatch);
-
-					if (matcher.find()) {
-						String matchedWord = matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
-						TDMethod method = new TDMethod(matchedWord, picIndex, TDGlobals.getPackage(filepath));
-						tdClass.addMethodname(method);
-					}
-				}
+				
+				TDMethod method = new TDMethod(fileContent[i], picIndex, TDGlobals.getPackage(filepath));
+				tdClass.addMethodname(method);
 			}
 		}
 

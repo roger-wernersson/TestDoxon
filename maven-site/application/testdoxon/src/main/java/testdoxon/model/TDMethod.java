@@ -34,6 +34,8 @@ public class TDMethod {
 		imageFolder += "td_pics/";
 		
 		switch (this.picIndex) {
+			case TDGlobals.MISSING_TEST_IN_NAME:
+				return "<img src='" + imageFolder + "blue.png' />";
 			case TDGlobals.TEST:
 				return "<img src='" + imageFolder + "green.png' />";
 			case TDGlobals.IGNORE:
@@ -49,6 +51,8 @@ public class TDMethod {
 	
 	public String getToolTip () {
 		switch (this.picIndex) {
+		case TDGlobals.MISSING_TEST_IN_NAME:
+			return "Missing test in method name";
 		case TDGlobals.TEST:
 			return "Present: @Test, Missing: @Ignore";
 		case TDGlobals.IGNORE:
