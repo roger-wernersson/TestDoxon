@@ -18,7 +18,7 @@ public class MethodListItem extends DefaultListCellRenderer {
 
             label.setText(item.getMethodName());
             switch (item.getPictureIndex()) {
-                case TDTableItem.MISSING_TEST_IN_NAME:
+                case TDTableItem.BAD_METHOD_NAME:
                     label.setIcon(TestDoxonPluginIcons.blueDot);
                     break;
                 case TDTableItem.NONE:
