@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 
-import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.views.View;
 
@@ -89,7 +88,7 @@ public class UpdateOnSaveListener implements IResourceChangeListener {
 							try {
 								viewer.setInput(View.currentTestFile);
 							} catch (AssertionFailedException e) {
-								TDLog.info(e.getMessage(), TDLog.ERROR);
+								// Do nothing
 							}
 						}
 					});
