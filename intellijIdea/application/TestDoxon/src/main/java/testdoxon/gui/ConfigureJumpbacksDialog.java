@@ -35,6 +35,8 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
         header.setFont(new Font("Dialog", Font.BOLD, 12));
         panel.add(header);
 
+        Font font = header.getFont();
+
         SpinnerModel model = new SpinnerNumberModel(TDStatics.rootJumpbacks, 0, 10, 1);
         JSpinner jumpbacksSpinner = new JSpinner(model);
         jumpbacksSpinner.addChangeListener(this);
@@ -49,6 +51,7 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
         this.description = new JTextArea();
         this.description.setEnabled(false);
         this.description.setText(this.descText);
+        this.description.setFont(font);
         this.description.setAutoscrolls(true);
         this.description.setBackground(UIManager.getColor("Panel.background"));
 

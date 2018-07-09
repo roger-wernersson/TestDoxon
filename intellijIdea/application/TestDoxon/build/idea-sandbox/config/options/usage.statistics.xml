@@ -2,39 +2,24 @@
   <component name="ActionsCollector">
     <counts>
       <entry action="ActivateTestDoxonToolWindow" count="1" />
-      <entry action="CloseProject" count="1" />
-      <entry action="DialogOkAction Enter" count="5" />
-      <entry action="EditorBackSpace" count="38" />
-      <entry action="EditorDelete" count="8" />
-      <entry action="EditorDown" count="2" />
-      <entry action="EditorEnter" count="12" />
-      <entry action="EditorLeft" count="32" />
-      <entry action="EditorRight" count="56" />
-      <entry action="EditorUp" count="3" />
-      <entry action="NewClass" count="4" />
-      <entry action="NewDir" count="2" />
-      <entry action="NewProject" count="1" />
-      <entry action="OpenFile" count="2" />
-      <entry action="RenameElement" count="2" />
-      <entry action="SaveAll" count="14" />
     </counts>
   </component>
-  <component name="FeatureUsageStatistics" first-run="1530272215909" have-been-shown="false" show-in-other="true" show-in-compilation="true">
+  <component name="FeatureUsageStatistics" first-run="1531131169030" have-been-shown="false" show-in-other="true" show-in-compilation="true">
     <feature id="editing.completion.smarttype.afternew" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.camelHumps" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.second.smarttype.aslist" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.surroundwith.statement" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="refactoring.rename" count="2" last-shown="0" last-used="1530272285224" shown-count="0" />
+    <feature id="refactoring.rename" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.popup.action" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.cancelByControlArrows" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.finishBySmartEnter" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.popup.symbol" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="find.recent.search" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.completion.replace" count="0" last-shown="1531143016276" last-used="0" shown-count="82" />
+    <feature id="editing.completion.replace" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="switcher" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.complete.statement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.goto.inspection" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.completion.variable.name" count="43" last-shown="0" last-used="1531143016276" shown-count="0" />
+    <feature id="editing.completion.variable.name" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="navigation.popup.file" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.overrideimplement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.completion.smarttype.casting" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -75,7 +60,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="304" last-shown="0" last-used="1531145456185" shown-count="0" />
+    <feature id="editing.select.word" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -108,29 +93,13 @@
   </component>
   <component name="MainMenuCollector">
     <counts>
-      <entry path="File -&gt; Close Project" count="1" />
-      <entry path="File -&gt; New -&gt; Project..." count="1" />
-      <entry path="File -&gt; Open Recent -&gt; Reopen Project" count="1" />
-      <entry path="File -&gt; Open..." count="2" />
       <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="1" />
-    </counts>
-  </component>
-  <component name="ShortcutsCollector">
-    <counts>
-      <entry shortcut="Backspace" count="38" />
-      <entry shortcut="Ctrl+S" count="14" />
-      <entry shortcut="Delete" count="8" />
-      <entry shortcut="Down" count="2" />
-      <entry shortcut="Enter" count="12" />
-      <entry shortcut="Left" count="32" />
-      <entry shortcut="Right" count="56" />
-      <entry shortcut="Up" count="3" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="15" />
-      <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="2" />
+      <entry feature="ideaapp.started" count="3" />
+      <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="1" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
