@@ -16,10 +16,10 @@ public class TDLog {
 	public static final int WARNING = 2;
 	
 	public TDLog () {
-		
+		 
 	}
 	
-	public static void info (String message, int type) {
+	synchronized public static void info (String message, int type) {
 		PrintWriter out = null;
 		
 		try {

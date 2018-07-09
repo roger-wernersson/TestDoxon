@@ -63,6 +63,8 @@ public class MethodLabelProvider extends LabelProvider implements ITableLabelPro
 			TDTableItem _tmp = (TDTableItem) obj;
 			
 			switch(_tmp.getPictureIndex()) {
+				case TDTableItem.MISSING_TEST_IN_NAME:
+					return blueDot;
 				case TDTableItem.NONE:
 					return redDot;
 				case TDTableItem.TEST:
