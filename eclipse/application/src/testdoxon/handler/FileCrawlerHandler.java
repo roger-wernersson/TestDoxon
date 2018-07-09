@@ -39,8 +39,8 @@ public class FileCrawlerHandler {
 	 * 
 	 * @param path
 	 */
-	public void getAllTestClasses(String path) {
-		this.fileCrawlerRepository.checkFolderHierarchy(path);
+	public void getAllTestClasses(String path, ComboViewer testClassPathsComboBox) {
+		this.fileCrawlerRepository.checkFolderHierarchy(path, testClassPathsComboBox);
 	}
 
 	/**
