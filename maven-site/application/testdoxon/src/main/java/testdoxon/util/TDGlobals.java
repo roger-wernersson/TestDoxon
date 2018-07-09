@@ -6,7 +6,7 @@ public class TDGlobals {
 	public static final short TEST_IGNORE = 3;
 	public static final short NONE = 4;
 	public static final short BLUE_DOT = 5;
-	public static final short MISSING_TEST_IN_NAME = 6;
+	public static final short BAD_METHOD_NAME = 6;
 	
 	public static final String CONFIG_FILE = "./config.cfg";
 

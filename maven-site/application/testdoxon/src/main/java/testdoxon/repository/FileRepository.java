@@ -108,16 +108,23 @@ public class FileRepository {
 				
 				fileContent[i] = fileContent[i].replaceAll("test", "");
 				
+				boolean hasFirstCharUppercase = true;
+				char firstChar = fileContent[i].charAt(0);
+				String _tmp = "" + firstChar;
+				if (!_tmp.matches("[A-Z0-9]")) {
+					hasFirstCharUppercase = false;
+				}
+				
 				if (fileContent[i].matches(".*\\(\\).*")) {
 					fileContent[i] = fileContent[i].replaceAll("\\(.*\\).*", "");
 					fileContent[i] = fileContent[i].replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
 				}
 				
 				short picIndex = -1;
-				if (hasTest && hasIgnore && hasTestInName && hasTestInName) {
+				if (hasTest && hasIgnore && hasTestInName && hasTestInName && hasFirstCharUppercase) {
 					picIndex = TDGlobals.TEST_IGNORE;
-				} else if (!hasTestInName) {
-					picIndex = TDGlobals.MISSING_TEST_IN_NAME;
+				} else if (!hasTestInName || !hasFirstCharUppercase) {
+					picIndex = TDGlobals.BAD_METHOD_NAME;
 				} else if (hasTest && !hasIgnore) {
 					picIndex = TDGlobals.TEST;
 				} else if (!hasTest && hasIgnore) {
