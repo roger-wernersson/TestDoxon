@@ -1,6 +1,7 @@
 package testdoxon.repository;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDTableItem;
 
 import java.io.BufferedReader;
@@ -72,6 +73,7 @@ public class FileRepository {
 
             br.close();
         } catch (IOException e) {
+            TDLog.info(e.getMessage(), TDLog.ERROR);
             throw new TDException(TDException.FILE_NOT_FOUND);
         }
 

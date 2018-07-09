@@ -1,6 +1,7 @@
 package testdoxon.gui;
 
 import com.intellij.ui.components.JBScrollPane;
+import testdoxon.log.TDLog;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
 
@@ -76,13 +77,13 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
             TDStatics.prop.setProperty("jumpback", Integer.toString(jumpbacks));
             TDStatics.prop.store(out, null);
         } catch (IOException e) {
-            // Do nothing
+            TDLog.info(e.getMessage(), TDLog.ERROR);
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e1) {
-                    // Do nothing
+                    TDLog.info(e1.getMessage(), TDLog.ERROR);
                 }
             }
         }

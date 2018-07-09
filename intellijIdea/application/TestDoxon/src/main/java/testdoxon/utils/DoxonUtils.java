@@ -3,6 +3,7 @@ package testdoxon.utils;
 import testdoxon.exceptionHandler.TDException;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TDTableItem;
 import testdoxon.model.TestFile;
@@ -163,7 +164,7 @@ public class DoxonUtils {
                 }
                 return;
             } catch (TDException e) {
-                e.printStackTrace();
+                TDLog.info(e.getMessage(), TDLog.ERROR);
             }
         } else {
             header.setText("Test class not found");

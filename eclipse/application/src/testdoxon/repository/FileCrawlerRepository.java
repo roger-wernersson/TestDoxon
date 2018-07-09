@@ -19,6 +19,10 @@ package testdoxon.repository;
 import java.io.File;
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.swt.widgets.Display;
+
 import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
 
@@ -39,19 +43,38 @@ public class FileCrawlerRepository {
 	 * Recursively walk through folders
 	 * @param path
 	 */
-	public void checkFolderHierarchy(String path) {
-		this.testFiles.clear();
-		this.foldersToCheck.clear();
+	public void checkFolderHierarchy(String path, ComboViewer testClassPathsComboBox) {
+		Thread thread = new Thread(new Runnable() {
+			
+		public void run() {
+			testFiles.clear();
+			foldersToCheck.clear();
 
-		this.listFolder(path);
+			listFolder(path);
 
-		while (this.foldersToCheck.size() != 0) {
-			for (String f : new ArrayList<String>(this.foldersToCheck)) {
-				this.listFolder(f);
-				this.foldersToCheck.remove(f);
+			while (foldersToCheck.size() != 0) {
+				for (String f : new ArrayList<String>(foldersToCheck)) {
+					listFolder(f);
+					foldersToCheck.remove(f);
+				}
 			}
-		}
-		TDLog.info("TestClasses in memory: " + this.testFiles.size(), TDLog.INFORMATION);
+				TDLog.info("TestClasses in memory: " + testFiles.size(), TDLog.INFORMATION);
+				
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							testClassPathsComboBox.setInput(testFiles.toArray(new TestFile[testFiles.size()]));
+						} catch (AssertionFailedException e) {
+							TDLog.info(e.getMessage(), TDLog.ERROR);
+						}
+					}
+				});
+			}
+		
+		});
+		thread.start();
+		
 	}
 
 	/**

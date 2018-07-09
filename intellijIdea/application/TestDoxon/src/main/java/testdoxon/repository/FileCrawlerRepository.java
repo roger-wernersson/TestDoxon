@@ -1,5 +1,6 @@
 package testdoxon.repository;
 
+import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
 
 import java.io.File;
@@ -34,6 +35,8 @@ public class FileCrawlerRepository {
                 this.foldersToCheck.remove(f);
             }
         }
+
+        TDLog.info("Testclasses in memory: " + this.testFiles.size(), TDLog.INFORMATION);
     }
 
     /**

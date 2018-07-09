@@ -42,13 +42,11 @@ public class FileSavedListener implements ApplicationComponent, BulkFileListener
         VirtualFile[] files = FileEditorManager.getInstance(projects[0]).getSelectedFiles();
 
         for (VFileEvent event : events) {
-            //out of bounds här
             if (files[0].exists() && event.getFile().getCanonicalPath().equals(files[0].getCanonicalPath()) &&
                     (event.getFile().getName().matches("^Test.*\\.java") || event.getFile().getName().matches(".*Test\\.java"))) {
 
                 // The same file as the opened file and its a test class
                 TDStatics.currentTestFile = new TDFile(new File(event.getFile().getPath()));
-                //TDStatics.currentTestFile.setHeaderFilepath();
                 DoxonUtils.setListItems(this.testMethodList, this.header);
             }
         }
