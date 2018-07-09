@@ -146,7 +146,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
                 // Read in all test classes
                 String rootFolder = DoxonUtils.findRootFolder(currentFile.getPath());
                 if (rootFolder != null) {
-                    this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+                    this.fileCrawlerHandler.getAllTestClasses(rootFolder, this.testClassesComboBox);
 
                     // Update combobox
                     TestFile[] classes = fileCrawlerHandler.getAllTestClassesAsTestFileArray();

@@ -54,7 +54,7 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
                     boolean updated = false;
                     if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
                         this.lastUpdatedPath = rootFolder;
-                        this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+                        this.fileCrawlerHandler.getAllTestClasses(rootFolder, testClassesComboBox);
                         updated = true;
                     }
 
