@@ -1,6 +1,7 @@
 package testdoxon.gui;
 
 import com.intellij.ui.components.JBScrollPane;
+import testdoxon.log.TDLog;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
 
@@ -34,6 +35,8 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
         header.setFont(new Font("Dialog", Font.BOLD, 12));
         panel.add(header);
 
+        Font font = header.getFont();
+
         SpinnerModel model = new SpinnerNumberModel(TDStatics.rootJumpbacks, 0, 10, 1);
         JSpinner jumpbacksSpinner = new JSpinner(model);
         jumpbacksSpinner.addChangeListener(this);
@@ -48,6 +51,7 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
         this.description = new JTextArea();
         this.description.setEnabled(false);
         this.description.setText(this.descText);
+        this.description.setFont(font);
         this.description.setAutoscrolls(true);
         this.description.setBackground(UIManager.getColor("Panel.background"));
 
@@ -76,13 +80,13 @@ public class ConfigureJumpbacksDialog extends JDialog implements ChangeListener 
             TDStatics.prop.setProperty("jumpback", Integer.toString(jumpbacks));
             TDStatics.prop.store(out, null);
         } catch (IOException e) {
-            // Do nothing
+            TDLog.info(e.getMessage(), TDLog.ERROR);
         } finally {
             if (out != null) {
                 try {
                     out.close();
                 } catch (IOException e1) {
-                    // Do nothing
+                    TDLog.info(e1.getMessage(), TDLog.ERROR);
                 }
             }
         }

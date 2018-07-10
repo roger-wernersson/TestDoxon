@@ -27,6 +27,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 
 import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.util.DoxonUtils;
@@ -62,7 +63,7 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 				boolean updated = false;
 				if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {
 					this.lastUpdatedPath = rootFolder;
-					this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+					this.fileCrawlerHandler.getAllTestClasses(rootFolder, this.testClassPathsComboBox);
 					updated = true;
 				}
 				
@@ -78,7 +79,7 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 						try {
 							testClassPathsComboBox.setInput(fileCrawlerHandler.getAllTestClassesAsTestFileArray());
 						} catch (AssertionFailedException e) {
-							// Do nothing
+							TDLog.info(e.getMessage(), TDLog.ERROR);
 						}
 					}
 				});

@@ -11,6 +11,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Display;
 
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.views.View;
@@ -48,7 +49,7 @@ public class OpenClassAction extends Action {
 							try {
 								viewer.setInput(View.currentTestFile);
 							} catch (AssertionFailedException e) {
-								// Do nothing
+								TDLog.info(e.getMessage(), TDLog.WARNING);
 							}
 						}
 					});

@@ -38,18 +38,23 @@ public class FileSavedListener implements ApplicationComponent, BulkFileListener
 
     @Override
     public void after(@NotNull List<? extends VFileEvent> events) {
-        Project[] projects = ProjectManager.getInstance().getOpenProjects();
-        VirtualFile[] files = FileEditorManager.getInstance(projects[0]).getSelectedFiles();
+        if(events != null) {
+            Project[] projects = ProjectManager.getInstance().getOpenProjects();
 
-        for (VFileEvent event : events) {
-            //out of bounds här
-            if (files[0].exists() && event.getFile().getCanonicalPath().equals(files[0].getCanonicalPath()) &&
-                    (event.getFile().getName().matches("^Test.*\\.java") || event.getFile().getName().matches(".*Test\\.java"))) {
+            if (projects != null && projects.length > 0) {
+                VirtualFile[] files = FileEditorManager.getInstance(projects[0]).getSelectedFiles();
 
-                // The same file as the opened file and its a test class
-                TDStatics.currentTestFile = new TDFile(new File(event.getFile().getPath()));
-                //TDStatics.currentTestFile.setHeaderFilepath();
-                DoxonUtils.setListItems(this.testMethodList, this.header);
+                if (files != null && files.length > 0) {
+                    for (VFileEvent event : events) {
+                        if (files[0] != null && files[0].exists() && event.getFile().getCanonicalPath().equals(files[0].getCanonicalPath()) &&
+                                (event.getFile().getName().matches("^Test.*\\.java") || event.getFile().getName().matches(".*Test\\.java"))) {
+
+                            // The same file as the opened file and its a test class
+                            TDStatics.currentTestFile = new TDFile(new File(event.getFile().getPath()));
+                            DoxonUtils.setListItems(this.testMethodList, this.header);
+                        }
+                    }
+                }
             }
         }
     }

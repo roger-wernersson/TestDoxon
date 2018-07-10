@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
+import testdoxon.log.TDLog;
 import testdoxon.views.View;
 
 public class HeaderToolTipListener implements Listener {
@@ -60,7 +61,7 @@ public class HeaderToolTipListener implements Listener {
 						IDE.openEditor(iWorkbenchPage, marker, true);
 						marker.delete();
 					} catch (CoreException e2) {
-						e2.printStackTrace();
+						TDLog.info(e2.getMessage(), TDLog.ERROR);
 					}
 				}
 			}

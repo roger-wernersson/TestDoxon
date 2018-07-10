@@ -16,6 +16,7 @@ import testdoxon.gui.MethodListItem;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.*;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.utils.DoxonUtils;
@@ -51,6 +52,8 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.createListeners();
         this.loadProperties();
         this.setupPlugin();
+
+        TDLog.info("Log file: " + System.getProperty("user.dir"), TDLog.INFORMATION);
     }
 
     public void createToolWindowContent(@NotNull Project project, @NotNull com.intellij.openapi.wm.ToolWindow toolWindow) {
@@ -66,13 +69,13 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
             TDStatics.prop.load(input);
             TDStatics.rootJumpbacks = Integer.parseInt(TDStatics.prop.getProperty("jumpback"));
         } catch (IOException e) {
-            // Do nothing
+            TDLog.info(e.getMessage(), TDLog.ERROR);
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    // Do nothing
+                    TDLog.info(e.getMessage(), TDLog.ERROR);
                 }
             }
         }
@@ -143,7 +146,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
                 // Read in all test classes
                 String rootFolder = DoxonUtils.findRootFolder(currentFile.getPath());
                 if (rootFolder != null) {
-                    this.fileCrawlerHandler.getAllTestClasses(rootFolder);
+                    this.fileCrawlerHandler.getAllTestClasses(rootFolder, this.testClassesComboBox);
 
                     // Update combobox
                     TestFile[] classes = fileCrawlerHandler.getAllTestClassesAsTestFileArray();

@@ -20,10 +20,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import testdoxon.exceptionHandler.TDException;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDTableItem;
 
 public class FileRepository {
@@ -91,6 +90,7 @@ public class FileRepository {
 
 			br.close();
 		} catch (IOException e) {
+			TDLog.info(e.getMessage(), TDLog.ERROR);
 			throw new TDException(TDException.FILE_NOT_FOUND);
 		}
 
@@ -109,33 +109,32 @@ public class FileRepository {
 	 */
 	private TDTableItem[] extractMethodNames(String[] fileContent) {
 		ArrayList<TDTableItem> methodNames = new ArrayList<>();
-
+		
 		for (int i = 0; i < fileContent.length; i++) {
-			// 1. Filter out all method names
-			Pattern pattern = Pattern.compile("^[ \t\n]*(public)?[ \t\n]+void[ \t\n]+(test|should)([A-Z0-9]+.*\\(.*\\))");
-			Matcher matcher = pattern.matcher(fileContent[i]);
-
-			if (matcher.find()) {
-				String _strMatch = matcher.group(0);
-				_strMatch = _strMatch.replaceAll("(public|void|test)", "");
-				_strMatch = _strMatch.replaceAll("^[ \t\n]*", "");
+			if (fileContent[i].matches("^[ \t\n]*(public)?[ \t\n]*void[ \t\n]+.*\\(.*\\).*")) {
+				// Match on method name, now strip unwanted stuf! 
+				fileContent[i] = fileContent[i].replaceAll("(public|void|\\{|\\})", "");
+				fileContent[i] = fileContent[i].replaceAll("^[ \t\n]*", "");
 				
 				boolean hasTest = lookForAtTest(fileContent, i);
 				boolean hasIgnore = lookForAtIgnore(fileContent, i);
-
-				// 2. Check if method name have arguments If not - do not continue
-				if (!_strMatch.matches(".*\\(\\)")) {
-					methodNames.add(new TDTableItem(_strMatch, hasTest, hasIgnore));
-				} else {
-					// 3. Extract method name and separate every word with a space and return
-					pattern = Pattern.compile("(.*[^ ]).*\\(");
-					matcher = pattern.matcher(_strMatch);
-
-					if (matcher.find()) {
-						methodNames.add(new TDTableItem(matcher.group(1).replaceAll("([A-Z0-9][a-z0-9]*)", "$0 "),
-								hasTest, hasIgnore));
-					}
+				boolean hasTestInName = fileContent[i].matches("^test.*");
+				
+				fileContent[i] = fileContent[i].replaceAll("test", "");
+				
+				boolean hasFirstCharUppercase = true;
+				char firstChar = fileContent[i].charAt(0);
+				String _tmp = "" + firstChar;
+				if (!_tmp.matches("[A-Z0-9]")) {
+					hasFirstCharUppercase = false;
 				}
+				
+				if (fileContent[i].matches(".*\\(\\).*")) {
+					fileContent[i] = fileContent[i].replaceAll("\\(.*\\).*", "");
+					fileContent[i] = fileContent[i].replaceAll("([A-Z0-9][a-z0-9]*)", "$0 ");
+				}
+				
+				methodNames.add(new TDTableItem(fileContent[i], hasTest, hasIgnore, hasTestInName, hasFirstCharUppercase));	
 			}
 		}
 

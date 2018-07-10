@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.swt.widgets.Display;
 
+import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
 
@@ -38,8 +39,8 @@ public class FileCrawlerHandler {
 	 * 
 	 * @param path
 	 */
-	public void getAllTestClasses(String path) {
-		this.fileCrawlerRepository.checkFolderHierarchy(path);
+	public void getAllTestClasses(String path, ComboViewer testClassPathsComboBox) {
+		this.fileCrawlerRepository.checkFolderHierarchy(path, testClassPathsComboBox);
 	}
 
 	/**
@@ -93,7 +94,7 @@ public class FileCrawlerHandler {
 					try {
 						testClassPathsComboBox.setInput(foundedFilepaths.toArray(new TestFile[foundedFilepaths.size()]));
 					} catch (AssertionFailedException e) {
-						// Do nothing
+						TDLog.info(e.getMessage(), TDLog.WARNING);
 					}
 				}
 			});

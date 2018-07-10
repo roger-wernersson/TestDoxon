@@ -25,6 +25,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Display;
 
 import testdoxon.handler.FileHandler;
+import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.views.View;
 
@@ -193,7 +194,7 @@ public class DoxonUtils {
 					try {
 						viewer.setInput(View.currentTestFile);
 					} catch (AssertionFailedException e) {
-						// Do nothing
+						TDLog.info(e.getMessage(), TDLog.WARNING);
 					}
 
 				}
