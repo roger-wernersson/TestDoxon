@@ -1,7 +1,7 @@
 <application>
   <component name="ActionsCollector">
     <counts>
-      <entry action="ActivateTestDoxonToolWindow" count="2" />
+      <entry action="ActivateTestDoxonToolWindow" count="3" />
       <entry action="NewProject" count="3" />
     </counts>
   </component>
@@ -95,12 +95,12 @@
   <component name="MainMenuCollector">
     <counts>
       <entry path="File -&gt; New -&gt; Project..." count="3" />
-      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="2" />
+      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="3" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="7" />
+      <entry feature="ideaapp.started" count="9" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="2" />
     </counts>
   </component>
