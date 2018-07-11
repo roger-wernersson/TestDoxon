@@ -1,3 +1,8 @@
+target/
+*.asc
+*.jar
+build/
+*.class
 
 # Created by https://www.gitignore.io/api/intellij+all
 
