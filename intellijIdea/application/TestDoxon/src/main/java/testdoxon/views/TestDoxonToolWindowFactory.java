@@ -95,12 +95,29 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         topNorth.setBackground(this.widgetColor);
 
         JMenuBar menu = new JMenuBar();
+        menu.setBorderPainted(false);
+        menu.setBackground(new Color(240,240,240));
+
+        // LOGO button
+        JButton logo = new JButton(TestDoxonPluginIcons.LOGO);
+        logo.setMaximumSize(new Dimension(30, 50));
+        logo.setBackground(null);
+        logo.setBorderPainted(false);
+        logo.setContentAreaFilled(false);
+        logo.setFocusPainted(false);
+        logo.setOpaque(false);
+        menu.add(logo);
 
         // Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from www.flaticon.com
         // Configure button
         JButton configure = new JButton();
         configure.setIcon(TestDoxonPluginIcons.COG);
         configure.setMaximumSize(new Dimension(30, 50));
+        configure.setBackground(null);
+        configure.setBorderPainted(false);
+        configure.setContentAreaFilled(false);
+        configure.setFocusPainted(false);
+        configure.setOpaque(false);
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
 
@@ -109,6 +126,11 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         JButton statistic = new JButton();
         statistic.setIcon(TestDoxonPluginIcons.STAT);
         statistic.setMaximumSize(new Dimension(30, 50));
+        statistic.setBackground(null);
+        statistic.setBorderPainted(false);
+        statistic.setContentAreaFilled(false);
+        statistic.setFocusPainted(false);
+        statistic.setOpaque(false);
         statistic.addActionListener(new ConfigureMenuButtonListener());
         menu.add(statistic);
 
@@ -123,7 +145,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         topPanel.add(topNorth, BorderLayout.PAGE_START);
 
-        this.header = new JTextArea("Selected a class");
+        this.header = new JTextArea("Select a class");
         //this.header.setHorizontalAlignment(SwingConstants.CENTER);
         this.header.setLineWrap(true);
         this.header.setWrapStyleWord(true);
