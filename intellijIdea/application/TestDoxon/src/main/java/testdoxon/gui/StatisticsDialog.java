@@ -1,5 +1,7 @@
 package testdoxon.gui;
 
+import testdoxon.handler.FileCrawlerHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class StatisticsDialog extends JDialog {
     final int WIDTH = 250;
     final int HEIGHT = 150;
 
-    public StatisticsDialog () {
+    public StatisticsDialog (FileCrawlerHandler fileCrawlerHandler) {
         super();
         this.setSize(new Dimension(this.WIDTH, this.HEIGHT));
         this.setTitle("Statistics...");
@@ -39,7 +41,7 @@ public class StatisticsDialog extends JDialog {
         b.gridy = 0;
         b.gridx = 1;
 
-        JLabel labelTestClasses = new JLabel ("0");
+        JLabel labelTestClasses = new JLabel (Integer.toString(fileCrawlerHandler.getNrOfTestClasses()));
         labelTestClasses.setHorizontalAlignment(JLabel.CENTER);
         labelTestClasses.setPreferredSize(rightDimension);
         labelTestClasses.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));

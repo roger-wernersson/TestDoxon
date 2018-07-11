@@ -136,7 +136,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         statistic.setContentAreaFilled(false);
         statistic.setFocusPainted(false);
         statistic.setOpaque(false);
-        statistic.addActionListener(new StatisticMenuButtonListener());
+        statistic.addActionListener(new StatisticMenuButtonListener(this.fileCrawlerHandler));
         menu.add(statistic);
 
         topNorth.add(menu);

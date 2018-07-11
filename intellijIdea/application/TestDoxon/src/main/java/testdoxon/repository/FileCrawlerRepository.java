@@ -94,4 +94,6 @@ public class FileCrawlerRepository {
     public ArrayList<TestFile> getAllTestFiles() {
         return this.testFiles;
     }
+
+    public int getNrOfTestClasses() { return this.testFiles.size(); }
 }
