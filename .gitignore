@@ -5,6 +5,8 @@ build/
 bin/
 *.class
 intellijIdea/application/TestDoxon/build/
+**/build/
+
 
 # Created by https://www.gitignore.io/api/intellij+all
 

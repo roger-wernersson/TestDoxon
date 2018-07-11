@@ -144,14 +144,14 @@ public class DoxonUtils {
         }
     }
 
-    public static void findFileToOpen(JList methodList, JLabel header) {
+    public static void findFileToOpen(JList methodList, JTextArea header) {
         DoxonUtils du = new DoxonUtils();
         du.findFileToOpen();
 
         DoxonUtils.setListItems(methodList, header);
     }
 
-    synchronized public static void setListItems(JList methodList, JLabel header) {
+    synchronized public static void setListItems(JList methodList, JTextArea header) {
         if (TDStatics.currentTestFile != null) {
             FileHandler fileHandler = new FileHandler();
             try {

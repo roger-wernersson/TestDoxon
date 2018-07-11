@@ -33,7 +33,7 @@ import java.io.InputStream;
 
 
 public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
-    private JLabel header;
+    private JTextArea header;
     private ClassComboBox testClassesComboBox;
     private JPanel content;
     private JBList testMethodList;
@@ -100,11 +100,18 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.testClassesComboBox = new ClassComboBox();
         top.add(this.testClassesComboBox);
 
-        this.header = new JBLabel("Selected a class");
-        this.header.setHorizontalAlignment(SwingConstants.CENTER);
+        this.header = new JTextArea("Selected a class");
+        //this.header.setHorizontalAlignment(SwingConstants.CENTER);
+        this.header.setLineWrap(true);
+        this.header.setWrapStyleWord(true);
+        this.header.setBackground(this.widgetColor);
         this.header.setForeground(new Color(0, 0, 0));
+        this.header.setEditable(false);
         this.header.setFont(new Font("Dialog", Font.BOLD, 12));
         top.add(this.header);
+
+        JTextPane pane = new JTextPane();
+        pane.setText("Select a class");
 
         this.testMethodList = new JBList();
         this.testMethodList.setBackground(this.widgetColor);

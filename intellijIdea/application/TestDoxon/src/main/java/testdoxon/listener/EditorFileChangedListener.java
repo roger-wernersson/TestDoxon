@@ -22,12 +22,12 @@ public class EditorFileChangedListener implements ApplicationComponent, FileEdit
     private final MessageBusConnection messageBusConnection;
     private FileCrawlerHandler fileCrawlerHandler;
     private JBList testMethodList;
-    private JLabel header;
+    private JTextArea header;
     private ClassComboBox testClassesComboBox;
 
     private String lastUpdatedPath;
 
-    public EditorFileChangedListener(FileCrawlerHandler fileCrawlerHandler, ClassComboBox testClassesComboBox, JBList testMethodList, JLabel header) {
+    public EditorFileChangedListener(FileCrawlerHandler fileCrawlerHandler, ClassComboBox testClassesComboBox, JBList testMethodList, JTextArea header) {
         this.testMethodList = testMethodList;
         this.header = header;
         this.testClassesComboBox = testClassesComboBox;
