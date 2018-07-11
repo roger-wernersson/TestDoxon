@@ -1,1 +1,9 @@
+testdoxon\model\TDClass.class
 testdoxon\log\TDLog.class
+testdoxon\repository\FileRepository.class
+testdoxon\generator\HtmlParser.class
+testdoxon\util\TDGlobals.class
+testdoxon\plugin\TestdoxonPlugin.class
+testdoxon\exception\TDException.class
+testdoxon\model\TDMethod.class
+testdoxon\handler\FileHandler.class
