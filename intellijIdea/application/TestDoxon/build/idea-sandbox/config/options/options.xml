@@ -1,5 +1,7 @@
 <application>
   <component name="PropertiesComponent">
+    <property name="Darcula.savedEditorTheme" value="_@user_Darcula" />
+    <property name="Default.savedEditorTheme" value="_@user_Default" />
     <property name="android-component-compatibility-check" value="1531130775106" />
     <property name="com.intellij.diagnostic.IdeErrorsDialogactiveTab" value="0" />
     <property name="com.intellij.openapi.roots.ui.configuration.TabbedModuleEditor.selectedEditor" value="Sources" />

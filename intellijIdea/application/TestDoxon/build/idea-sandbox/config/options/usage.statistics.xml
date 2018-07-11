@@ -13,6 +13,8 @@
       <entry action="NewDir" count="1" />
       <entry action="NewProject" count="3" />
       <entry action="SaveAll" count="1" />
+      <entry action="ShowProjectStructureSettings" count="1" />
+      <entry action="ShowSettings" count="2" />
     </counts>
   </component>
   <component name="FeatureUsageStatistics" first-run="1531131169030" have-been-shown="false" show-in-other="true" show-in-compilation="true">
@@ -71,7 +73,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="68" last-shown="0" last-used="1531303658969" shown-count="0" />
+    <feature id="editing.select.word" count="78" last-shown="0" last-used="1531307445929" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -105,6 +107,8 @@
   <component name="MainMenuCollector">
     <counts>
       <entry path="File -&gt; New -&gt; Project..." count="3" />
+      <entry path="File -&gt; Project Structure..." count="1" />
+      <entry path="File -&gt; Settings..." count="2" />
       <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="4" />
     </counts>
   </component>
@@ -119,9 +123,15 @@
       <entry shortcut="Up" count="2" />
     </counts>
   </component>
+  <component name="ToolbarClicksCollector">
+    <counts>
+      <entry action="Show Options@ToolWindowHeader" count="1" />
+    </counts>
+  </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="63" />
+      <entry feature="ide.settings.Appearance" count="2" />
+      <entry feature="ideaapp.started" count="79" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="2" />
     </counts>
   </component>

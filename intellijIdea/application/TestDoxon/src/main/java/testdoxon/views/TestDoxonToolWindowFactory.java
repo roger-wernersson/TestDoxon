@@ -95,24 +95,29 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         topNorth.setBackground(this.widgetColor);
 
         JMenuBar menu = new JMenuBar();
+        menu.setPreferredSize(new Dimension(20, 20));
         menu.setBorderPainted(false);
-        menu.setBackground(new Color(240,240,240));
 
-        // LOGO button
-        JButton logo = new JButton(TestDoxonPluginIcons.LOGO);
-        logo.setMaximumSize(new Dimension(30, 50));
+        // Logo
+        JButton logo = new JButton();
+        logo.setIcon(TestDoxonPluginIcons.LOGO);
+        logo.setPreferredSize(new Dimension(30, 50));
         logo.setBackground(null);
         logo.setBorderPainted(false);
         logo.setContentAreaFilled(false);
         logo.setFocusPainted(false);
         logo.setOpaque(false);
+        logo.setDisabledIcon(TestDoxonPluginIcons.LOGO);
+        logo.setEnabled(false);
         menu.add(logo);
+
+        menu.add(Box.createHorizontalGlue());
 
         // Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from www.flaticon.com
         // Configure button
         JButton configure = new JButton();
         configure.setIcon(TestDoxonPluginIcons.COG);
-        configure.setMaximumSize(new Dimension(30, 50));
+        configure.setPreferredSize(new Dimension(30, 50));
         configure.setBackground(null);
         configure.setBorderPainted(false);
         configure.setContentAreaFilled(false);
@@ -125,13 +130,13 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         // Statistics button
         JButton statistic = new JButton();
         statistic.setIcon(TestDoxonPluginIcons.STAT);
-        statistic.setMaximumSize(new Dimension(30, 50));
+        statistic.setPreferredSize(new Dimension(30, 50));
         statistic.setBackground(null);
         statistic.setBorderPainted(false);
         statistic.setContentAreaFilled(false);
         statistic.setFocusPainted(false);
         statistic.setOpaque(false);
-        statistic.addActionListener(new ConfigureMenuButtonListener());
+        statistic.addActionListener(new StatisticMenuButtonListener());
         menu.add(statistic);
 
         topNorth.add(menu);
