@@ -4,12 +4,14 @@ import testdoxon.gui.ClassComboBox;
 import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
 import testdoxon.utils.DoxonUtils;
+import testdoxon.utils.TDStatics;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class FileCrawlerRepository {
     private ArrayList<TestFile> testFiles;
+    private ArrayList<TestFile> prodFiles;
     private ArrayList<String> foldersToCheck;
 
     /**
@@ -18,6 +20,7 @@ public class FileCrawlerRepository {
     public FileCrawlerRepository() {
         this.testFiles = new ArrayList<>();
         this.foldersToCheck = new ArrayList<>();
+        this.prodFiles = new ArrayList<>();
     }
 
     /**
@@ -29,8 +32,10 @@ public class FileCrawlerRepository {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                Long last = System.currentTimeMillis();
                 testFiles.clear();
                 foldersToCheck.clear();
+                prodFiles.clear();
 
                 listFolder(path);
 
@@ -43,6 +48,7 @@ public class FileCrawlerRepository {
 
                 TDLog.info("Testclasses in memory: " + testFiles.size(), TDLog.INFORMATION);
                 DoxonUtils.setComboBoxItems(testClassesComboBox, testFiles.toArray(new TestFile[testFiles.size()]));
+                TDStatics.ms_recursiveRead = System.currentTimeMillis() - last;
             }
         });
         thread.start();
@@ -64,6 +70,8 @@ public class FileCrawlerRepository {
                     if (f.isFile()) {
                         if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
                             this.testFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
+                        } else if (f.getName().matches(".*\\.java")) {
+                            this.prodFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
                         }
                     } else if (f.isDirectory()) {
                         this.foldersToCheck.add(f.getAbsolutePath());
@@ -96,4 +104,5 @@ public class FileCrawlerRepository {
     }
 
     public int getNrOfTestClasses() { return this.testFiles.size(); }
+    public int getNrOfProdClasses() { return this.prodFiles.size(); }
 }

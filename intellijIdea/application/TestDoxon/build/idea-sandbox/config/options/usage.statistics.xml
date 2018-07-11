@@ -4,7 +4,7 @@
       <entry action="ActivateTestDoxonToolWindow" count="4" />
       <entry action="DialogCancelAction Escape" count="1" />
       <entry action="DialogOkAction Enter" count="4" />
-      <entry action="EditorBackSpace" count="15" />
+      <entry action="EditorBackSpace" count="18" />
       <entry action="EditorDown" count="2" />
       <entry action="EditorEnter" count="5" />
       <entry action="EditorLeft" count="1" />
@@ -13,7 +13,7 @@
       <entry action="NewClass" count="3" />
       <entry action="NewDir" count="1" />
       <entry action="NewProject" count="3" />
-      <entry action="SaveAll" count="1" />
+      <entry action="SaveAll" count="2" />
       <entry action="ShowProjectStructureSettings" count="1" />
       <entry action="ShowSettings" count="6" />
     </counts>
@@ -74,7 +74,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="86" last-shown="0" last-used="1531314435866" shown-count="0" />
+    <feature id="editing.select.word" count="113" last-shown="0" last-used="1531316723865" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -115,8 +115,8 @@
   </component>
   <component name="ShortcutsCollector">
     <counts>
-      <entry shortcut="Backspace" count="15" />
-      <entry shortcut="Ctrl+S" count="1" />
+      <entry shortcut="Backspace" count="18" />
+      <entry shortcut="Ctrl+S" count="2" />
       <entry shortcut="Down" count="2" />
       <entry shortcut="Enter" count="5" />
       <entry shortcut="Escape" count="1" />
@@ -133,7 +133,7 @@
   <component name="UsageTrigger">
     <counts>
       <entry feature="ide.settings.Appearance" count="5" />
-      <entry feature="ideaapp.started" count="107" />
+      <entry feature="ideaapp.started" count="114" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="2" />
     </counts>
   </component>

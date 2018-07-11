@@ -106,4 +106,5 @@ public class FileCrawlerHandler {
     }
 
     public int getNrOfTestClasses() { return this.fileCrawlerRepository.getNrOfTestClasses(); }
+    public int getNrOfProdClasses() { return this.fileCrawlerRepository.getNrOfProdClasses(); }
 }

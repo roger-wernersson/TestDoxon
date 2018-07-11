@@ -14,5 +14,7 @@ public class TDStatics {
 
     public static String CONFIG_FILE = "config.cfg";
 
+    public static long ms_recursiveRead = 0;
+
     public static Properties prop = new Properties();
 }

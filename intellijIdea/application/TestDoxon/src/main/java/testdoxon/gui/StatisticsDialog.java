@@ -1,6 +1,7 @@
 package testdoxon.gui;
 
 import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.utils.TDStatics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -50,7 +51,7 @@ public class StatisticsDialog extends JDialog {
         c.gridy = 1;
         c.gridx = 0;
 
-        JLabel label2 = new JLabel ("Prod. classes w/o tests");
+        JLabel label2 = new JLabel ("Prod. classes in memory");
         label2.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
         label2.setPreferredSize(leftDimension);
         label2.setBackground(new Color(0, 102, 153));
@@ -62,7 +63,7 @@ public class StatisticsDialog extends JDialog {
         d.gridy = 1;
         d.gridx = 1;
 
-        JLabel labelProduction = new JLabel ("0");
+        JLabel labelProduction = new JLabel (Integer.toString(fileCrawlerHandler.getNrOfProdClasses()));
         labelProduction.setHorizontalAlignment(JLabel.CENTER);
         labelProduction.setPreferredSize(rightDimension);
         labelProduction.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
@@ -71,7 +72,7 @@ public class StatisticsDialog extends JDialog {
         e.gridy = 2;
         e.gridx = 0;
 
-        JLabel label3 = new JLabel ("Bad method names");
+        JLabel label3 = new JLabel ("Last lookup time (ms)");
         label3.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
         label3.setPreferredSize(leftDimension);
         label3.setBackground(new Color(0, 102, 153));
@@ -83,10 +84,10 @@ public class StatisticsDialog extends JDialog {
         f.gridy = 2;
         f.gridx = 1;
 
-        JLabel labelMethodNames = new JLabel ("0");
-        labelMethodNames.setHorizontalAlignment(JLabel.CENTER);
-        labelMethodNames.setPreferredSize(rightDimension);
-        labelMethodNames.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
+        JLabel labelFindTime = new JLabel (Long.toString(TDStatics.ms_recursiveRead));
+        labelFindTime.setHorizontalAlignment(JLabel.CENTER);
+        labelFindTime.setPreferredSize(rightDimension);
+        labelFindTime.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
 
         con.add(label, a);
         con.add(labelTestClasses, b);
@@ -95,7 +96,7 @@ public class StatisticsDialog extends JDialog {
         con.add(labelProduction, d);
 
         con.add(label3, e);
-        con.add(labelMethodNames, f);
+        con.add(labelFindTime, f);
 
         container.add(con);
         this.pack();
