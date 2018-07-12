@@ -6,7 +6,8 @@ bin/
 *.class
 intellijIdea/application/TestDoxon/build/
 **/build/
-
+*.lock
+./**/build/**/*.*
 
 # Created by https://www.gitignore.io/api/intellij+all
 
