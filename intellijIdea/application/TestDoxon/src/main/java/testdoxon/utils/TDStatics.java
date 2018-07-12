@@ -17,4 +17,6 @@ public class TDStatics {
     public static long ms_recursiveRead = 0;
 
     public static Properties prop = new Properties();
+
+    public static boolean sortMethodList = false;
 }

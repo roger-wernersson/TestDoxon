@@ -9,6 +9,7 @@ public interface TestDoxonPluginIcons {
     Icon COG = IconLoader.getIcon("/icons/cog.png");
     Icon STAT = IconLoader.getIcon("/icons/stat.png");
     Icon LIST = IconLoader.getIcon("/icons/list.png");
+    Icon SORT = IconLoader.getIcon("/icons/sort.png");
     Icon redDot = IconLoader.getIcon("/icons/testDox-red8px.png");
     Icon blueDot = IconLoader.getIcon("/icons/testDox-blue8px.png");
     Icon grayDot = IconLoader.getIcon("/icons/testDox-gray8px.png");
