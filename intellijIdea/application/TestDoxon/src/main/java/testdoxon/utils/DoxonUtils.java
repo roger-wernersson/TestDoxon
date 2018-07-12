@@ -158,6 +158,22 @@ public class DoxonUtils {
                 header.setText(TDStatics.currentTestFile.getHeaderName());
                 TDTableItem[] items = fileHandler.getMethodsFromFile(TDStatics.currentTestFile.getAbsolutePath());
                 if (items != null) {
+
+                    if (TDStatics.sortMethodList) {
+                        // Sorting array
+                        for (int i = 1; i < items.length; ++i) {
+                            TDTableItem key = items[i];
+                            int j = i - 1;
+
+                            while (j >= 0 && items[j].getMethodName().compareTo(key.getMethodName()) > 0) {
+                                items[j + 1] = items[j];
+                                j = j - 1;
+                            }
+                            items[j + 1] = key;
+                        }
+
+                    }
+
                     methodList.setListData(items);
                 } else {
                     methodList.setListData(new String[]{});
