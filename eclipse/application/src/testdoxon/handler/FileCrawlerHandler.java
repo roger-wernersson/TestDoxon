@@ -137,5 +137,8 @@ public class FileCrawlerHandler {
 	public void addToList (TestFile testFile) {
 		this.fileCrawlerRepository.addToList(testFile);
 	}
+	
+    public int getNrOfTestClasses() { return this.fileCrawlerRepository.getNrOfTestClasses(); }
+    public int getNrOfProdClasses() { return this.fileCrawlerRepository.getNrOfProdClasses(); }
 
 }

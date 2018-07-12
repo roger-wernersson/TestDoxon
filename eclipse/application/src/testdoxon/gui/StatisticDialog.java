@@ -2,25 +2,26 @@ package testdoxon.gui;
 
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import testdoxon.handler.FileCrawlerHandler;
+import testdoxon.views.View;
 
 
 public class StatisticDialog extends Dialog {
 
-	public StatisticDialog(Shell parent) {
+	private FileCrawlerHandler fileCrawlerHandler;
+	public StatisticDialog(Shell parent, FileCrawlerHandler fileCrawlerHandler) {
 		super(parent);
+		this.fileCrawlerHandler = fileCrawlerHandler;
 		
 	}
 	
@@ -51,30 +52,30 @@ public class StatisticDialog extends Dialog {
 		
 		Label label = new Label(container, SWT.PUSH);
 		label.setBackground(new Color(null, 0, 105, 153));
-		label.setText("Hej");
+		label.setText("Test classes in memory");
 		label.setLayoutData(gdLeft);
 		
+		Label labelTestClasses = new Label(container, SWT.PUSH);
+		labelTestClasses.setText(Integer.toString(fileCrawlerHandler.getNrOfTestClasses()));
+		labelTestClasses.setLayoutData(gdRight);
+		
 		Label label2 = new Label(container, SWT.PUSH);
-		label2.setText("Hej2");
-		label2.setLayoutData(gdRight);
+		label2.setBackground(new Color(null, 0, 105, 153));
+		label2.setText("Prod. classes in memory");
+		label2.setLayoutData(gdLeft);
+		
+		Label labelProduction = new Label(container, SWT.PUSH);
+		labelProduction.setText(Integer.toString(fileCrawlerHandler.getNrOfProdClasses()));
+		labelProduction.setLayoutData(gdRight);
 		
 		Label label3 = new Label(container, SWT.PUSH);
 		label3.setBackground(new Color(null, 0, 105, 153));
-		label3.setText("Hej3");
+		label3.setText("Last lookup time (ms)");
 		label3.setLayoutData(gdLeft);
 		
-		Label label4 = new Label(container, SWT.PUSH);
-		label4.setText("Hej4");
-		label4.setLayoutData(gdRight);
-		
-		Label label5 = new Label(container, SWT.PUSH);
-		label5.setBackground(new Color(null, 0, 105, 153));
-		label5.setText("Hej5");
-		label5.setLayoutData(gdLeft);
-		
-		Label label6 = new Label(container, SWT.PUSH);
-		label6.setText("Hej6");
-		label6.setLayoutData(gdRight);
+		Label labelFindTime = new Label(container, SWT.PUSH);
+		labelFindTime.setText(Long.toString(View.ms_recursiveRead));
+		labelFindTime.setLayoutData(gdRight);
 
 		
 		

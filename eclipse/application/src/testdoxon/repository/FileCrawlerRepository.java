@@ -25,10 +25,12 @@ import org.eclipse.swt.widgets.Display;
 
 import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
+import testdoxon.views.View;
 
 public class FileCrawlerRepository {
 
 	private ArrayList<TestFile> testFiles;
+	private ArrayList<TestFile> prodFiles;
 	private ArrayList<String> foldersToCheck;
 
 	/**
@@ -36,6 +38,7 @@ public class FileCrawlerRepository {
 	 */
 	public FileCrawlerRepository() {
 		this.testFiles = new ArrayList<>();
+		this.prodFiles = new ArrayList<>();
 		this.foldersToCheck = new ArrayList<>();
 	}
 
@@ -48,8 +51,10 @@ public class FileCrawlerRepository {
 		Thread thread = new Thread(new Runnable() {
 
 			public void run() {
+				Long last = System.currentTimeMillis();
 				testFiles.clear();
 				foldersToCheck.clear();
+				prodFiles.clear();
 
 				listFolder(path);
 
@@ -71,6 +76,7 @@ public class FileCrawlerRepository {
 						}
 					}
 				});
+				View.ms_recursiveRead = System.currentTimeMillis() - last;
 			}
 
 		});
@@ -93,7 +99,9 @@ public class FileCrawlerRepository {
 					if (f.isFile()) {
 						if (f.getName().matches("^Test.*\\.java") || f.getName().matches(".*Test\\.java")) {
 							this.testFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
-						}
+						}else if (f.getName().matches(".*\\.java")) {
+                            this.prodFiles.add(new TestFile(f.getName(), f.getAbsolutePath()));
+                        }
 					} else if (f.isDirectory()) {
 						this.foldersToCheck.add(f.getAbsolutePath());
 					}
@@ -124,5 +132,10 @@ public class FileCrawlerRepository {
 	public ArrayList<TestFile> getAllTestFiles() {
 		return this.testFiles;
 	}
+	
+    public int getNrOfTestClasses() { return this.testFiles.size(); }
+    public int getNrOfProdClasses() { return this.prodFiles.size(); }
+    public ArrayList<TestFile> getTestFiles () { return this.testFiles; }
+    public ArrayList<TestFile> getProdFiles () { return this.prodFiles; }
 
 }

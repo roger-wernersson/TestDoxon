@@ -103,6 +103,7 @@ public class View extends ViewPart {
 	public static String rootFolder = "";
 	public static int rootJumpbacks = 0;
 	public static Properties prop;
+	public static long ms_recursiveRead = 0;
 
 	// Listeners
 	private IResourceChangeListener saveFileListener;
@@ -286,7 +287,7 @@ public class View extends ViewPart {
 		showStatistics = new Action() {
 			public void run() {
 				StatisticDialog dialog = new 
-				StatisticDialog(Display.getCurrent().getActiveShell());
+				StatisticDialog(Display.getCurrent().getActiveShell(), fileCrawlerHandler);
 				dialog.open();
 			}
 		};
