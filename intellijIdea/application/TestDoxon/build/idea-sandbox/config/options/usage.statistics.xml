@@ -82,7 +82,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="455" last-shown="0" last-used="1531398025605" shown-count="0" />
+    <feature id="editing.select.word" count="456" last-shown="0" last-used="1531401956512" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -148,7 +148,7 @@
     <counts>
       <entry feature="ide.settings.Appearance" count="7" />
       <entry feature="ide.settings.General" count="1" />
-      <entry feature="ideaapp.started" count="182" />
+      <entry feature="ideaapp.started" count="183" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="2" />
     </counts>
   </component>

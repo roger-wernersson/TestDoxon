@@ -129,6 +129,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         sortBtn.setContentAreaFilled(false);
         sortBtn.setFocusPainted(false);
         sortBtn.setOpaque(true);
+        sortBtn.setToolTipText("Sort method list");
         sortBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,6 +163,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         configure.setContentAreaFilled(false);
         configure.setFocusPainted(false);
         configure.setOpaque(true);
+        configure.setToolTipText("Configure jumpbacks");
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
 
@@ -175,6 +177,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         listSingleFiles.setContentAreaFilled(false);
         listSingleFiles.setFocusPainted(false);
         listSingleFiles.setOpaque(true);
+        listSingleFiles.setToolTipText("List non-pair classes");
         listSingleFiles.addActionListener(new ListMenuButtonListener(this.fileCrawlerHandler));
         menu.add(listSingleFiles);
 
@@ -188,6 +191,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         statistic.setContentAreaFilled(false);
         statistic.setFocusPainted(false);
         statistic.setOpaque(true);
+        statistic.setToolTipText("Show statistics");
         statistic.addActionListener(new StatisticMenuButtonListener(this.fileCrawlerHandler));
         menu.add(statistic);
 
