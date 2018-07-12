@@ -25,6 +25,8 @@ public class TestFile {
         return this.filename;
     }
 
+    public String getFilenameWithoutTest () { return this.filename.replaceAll("Test", ""); }
+
     public boolean compareFilename(String filename) {
         return this.filename.equals(filename);
     }

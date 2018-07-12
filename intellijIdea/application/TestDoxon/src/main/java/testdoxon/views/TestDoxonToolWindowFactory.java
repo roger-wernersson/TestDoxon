@@ -12,6 +12,7 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
 import testdoxon.gui.ClassComboBox;
+import testdoxon.gui.ConfigureJumpbacksDialog;
 import testdoxon.gui.MethodListItem;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
@@ -24,7 +25,10 @@ import testdoxon.utils.TDStatics;
 import testdoxon.utils.TestDoxonPluginIcons;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -86,32 +90,89 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.content.setLayout(new BorderLayout());
         this.content.setBackground(this.widgetColor);
 
-        JPanel top = new JPanel();
-        top.setLayout(new GridLayout(3, 1));
-        top.setBackground(this.widgetColor);
+        JPanel topNorth = new JPanel();
+        topNorth.setLayout(new GridLayout(2, 1));
+        topNorth.setBackground(this.widgetColor);
 
         JMenuBar menu = new JMenuBar();
-        JMenuItem configure = new JMenuItem();
-        configure.setIcon(TestDoxonPluginIcons.LOGO);
+        menu.setPreferredSize(new Dimension(20, 20));
+        menu.setBorderPainted(false);
+
+        // Logo
+        JButton logo = new JButton();
+        logo.setIcon(TestDoxonPluginIcons.LOGO);
+        logo.setPreferredSize(new Dimension(30, 50));
+        logo.setBackground(null);
+        logo.setBorderPainted(false);
+        logo.setContentAreaFilled(false);
+        logo.setFocusPainted(false);
+        logo.setOpaque(false);
+        logo.setDisabledIcon(TestDoxonPluginIcons.LOGO);
+        logo.setEnabled(false);
+        menu.add(logo);
+
+        menu.add(Box.createHorizontalGlue());
+
+        // Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from www.flaticon.com
+        // Configure button
+        JButton configure = new JButton();
+        configure.setIcon(TestDoxonPluginIcons.COG);
+        configure.setPreferredSize(new Dimension(30, 50));
+        configure.setBackground(null);
+        configure.setBorderPainted(false);
+        configure.setContentAreaFilled(false);
+        configure.setFocusPainted(false);
+        configure.setOpaque(false);
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
-        top.add(menu);
+
+        // Icon made by <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> from www.flaticon.com
+        // List button
+        JButton listSingleFiles = new JButton();
+        listSingleFiles.setIcon(TestDoxonPluginIcons.LIST);
+        listSingleFiles.setPreferredSize(new Dimension(30, 50));
+        listSingleFiles.setBackground(null);
+        listSingleFiles.setBorderPainted(false);
+        listSingleFiles.setContentAreaFilled(false);
+        listSingleFiles.setFocusPainted(false);
+        listSingleFiles.setOpaque(false);
+        listSingleFiles.addActionListener(new ListMenuButtonListener(this.fileCrawlerHandler));
+        menu.add(listSingleFiles);
+
+        // Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from www.flaticon.com
+        // Statistics button
+        JButton statistic = new JButton();
+        statistic.setIcon(TestDoxonPluginIcons.STAT);
+        statistic.setPreferredSize(new Dimension(30, 50));
+        statistic.setBackground(null);
+        statistic.setBorderPainted(false);
+        statistic.setContentAreaFilled(false);
+        statistic.setFocusPainted(false);
+        statistic.setOpaque(false);
+        statistic.addActionListener(new StatisticMenuButtonListener(this.fileCrawlerHandler));
+        menu.add(statistic);
+
+        topNorth.add(menu);
 
         this.testClassesComboBox = new ClassComboBox();
-        top.add(this.testClassesComboBox);
+        topNorth.add(this.testClassesComboBox);
 
-        this.header = new JTextArea("Selected a class");
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+        topPanel.setBackground(this.widgetColor);
+
+        topPanel.add(topNorth, BorderLayout.PAGE_START);
+
+        this.header = new JTextArea("Select a class");
         //this.header.setHorizontalAlignment(SwingConstants.CENTER);
         this.header.setLineWrap(true);
         this.header.setWrapStyleWord(true);
         this.header.setBackground(this.widgetColor);
         this.header.setForeground(new Color(0, 0, 0));
+        this.header.setMargin(new Insets(5,10,5,10));
         this.header.setEditable(false);
         this.header.setFont(new Font("Dialog", Font.BOLD, 12));
-        top.add(this.header);
-
-        JTextPane pane = new JTextPane();
-        pane.setText("Select a class");
+        topPanel.add(this.header, BorderLayout.CENTER);
 
         this.testMethodList = new JBList();
         this.testMethodList.setBackground(this.widgetColor);
@@ -123,7 +184,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         scrollPane.setViewportView(this.testMethodList);
 
-        content.add(top, BorderLayout.PAGE_START);
+        content.add(topPanel, BorderLayout.PAGE_START);
         content.add(scrollPane, BorderLayout.CENTER);
     }
 
