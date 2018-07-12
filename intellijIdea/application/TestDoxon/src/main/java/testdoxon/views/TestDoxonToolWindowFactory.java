@@ -126,6 +126,19 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
 
+        // Icon made by <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> from www.flaticon.com
+        // List button
+        JButton listSingleFiles = new JButton();
+        listSingleFiles.setIcon(TestDoxonPluginIcons.LIST);
+        listSingleFiles.setPreferredSize(new Dimension(30, 50));
+        listSingleFiles.setBackground(null);
+        listSingleFiles.setBorderPainted(false);
+        listSingleFiles.setContentAreaFilled(false);
+        listSingleFiles.setFocusPainted(false);
+        listSingleFiles.setOpaque(false);
+        listSingleFiles.addActionListener(new ListMenuButtonListener(this.fileCrawlerHandler));
+        menu.add(listSingleFiles);
+
         // Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from www.flaticon.com
         // Statistics button
         JButton statistic = new JButton();

@@ -5,6 +5,7 @@ import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
 import testdoxon.utils.DoxonUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FileCrawlerHandler {
@@ -100,11 +101,53 @@ public class FileCrawlerHandler {
     public boolean listContains(String path) {
         return this.fileCrawlerRepository.listContains(path);
     }
-
     public void addToList(TestFile testFile) {
         this.fileCrawlerRepository.addToList(testFile);
     }
-
     public int getNrOfTestClasses() { return this.fileCrawlerRepository.getNrOfTestClasses(); }
     public int getNrOfProdClasses() { return this.fileCrawlerRepository.getNrOfProdClasses(); }
+
+    public TestFile[] getAllSingleTestClasses () {
+        ArrayList<TestFile> testFiles = fileCrawlerRepository.getTestFiles();
+        ArrayList<TestFile> prodFiles = fileCrawlerRepository.getProdFiles();
+
+        ArrayList<TestFile> singleTestClasses = new ArrayList<>();
+
+        for (int i = 0; i < testFiles.size(); i++) {
+            boolean found = false;
+            for (int j = 0; j < prodFiles.size(); j++) {
+                if (testFiles.get(i).getFilenameWithoutTest().equals(prodFiles.get(j).getFilename())) {
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                singleTestClasses.add(testFiles.get(i));
+            }
+        }
+
+        return singleTestClasses.toArray(new TestFile[singleTestClasses.size()]);
+    }
+
+    public TestFile[] getAllSingleProdClasses () {
+        ArrayList<TestFile> testFiles = fileCrawlerRepository.getTestFiles();
+        ArrayList<TestFile> prodFiles = fileCrawlerRepository.getProdFiles();
+
+        ArrayList<TestFile> singleProdClasses = new ArrayList<>();
+
+        for (int i = 0; i < prodFiles.size(); i++) {
+            boolean found = false;
+            for (int j = 0; j <testFiles.size(); j++) {
+                if (prodFiles.get(i).getFilename().equals(testFiles.get(j).getFilenameWithoutTest())) {
+                    found = true;
+                }
+            }
+
+            if (!found) {
+                singleProdClasses.add(prodFiles.get(i));
+            }
+        }
+
+        return singleProdClasses.toArray(new TestFile[singleProdClasses.size()]);
+    }
 }
