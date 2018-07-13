@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/TestDoxon_Tools_0.0.9.6.jar" id="TestDoxon_Tools" version="0.0.9.6">
+   <feature url="features/TestDoxon_Tools_1.0.0.jar" id="TestDoxon_Tools" version="1.0.0">
       <category name="Alpha"/>
    </feature>
    <category-def name="Alpha" label="Alpha"/>
