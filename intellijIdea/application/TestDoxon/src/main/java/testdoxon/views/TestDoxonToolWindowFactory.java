@@ -14,11 +14,13 @@ import org.jetbrains.annotations.NotNull;
 import testdoxon.gui.ClassComboBox;
 import testdoxon.gui.ConfigureJumpbacksDialog;
 import testdoxon.gui.MethodListItem;
+import testdoxon.gui.MethodListModel;
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.handler.FileHandler;
 import testdoxon.listener.*;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
+import testdoxon.model.TDTableItem;
 import testdoxon.model.TestFile;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
@@ -30,10 +32,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
@@ -106,12 +112,46 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         logo.setBorderPainted(false);
         logo.setContentAreaFilled(false);
         logo.setFocusPainted(false);
-        logo.setOpaque(false);
+        logo.setOpaque(true);
         logo.setDisabledIcon(TestDoxonPluginIcons.LOGO);
         logo.setEnabled(false);
         menu.add(logo);
 
         menu.add(Box.createHorizontalGlue());
+
+        // Icon made by <a href="https://www.flaticon.com/authors/vectors-market">Vectors Market</a> from www.flaticon.com
+        // Sort button
+        JButton sortBtn = new JButton();
+        sortBtn.setIcon(TestDoxonPluginIcons.SORT);
+        sortBtn.setPreferredSize(new Dimension(30, 50));
+        sortBtn.setBackground(null);
+        sortBtn.setBorderPainted(false);
+        sortBtn.setContentAreaFilled(false);
+        sortBtn.setFocusPainted(false);
+        sortBtn.setOpaque(true);
+        sortBtn.setToolTipText("Sort method list");
+        sortBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (TDStatics.sortMethodList) {
+                    TDStatics.sortMethodList = false;
+                    sortBtn.setBackground(null);
+                    DoxonUtils.setListItems(testMethodList, header);
+
+                } else {
+                    TDStatics.sortMethodList = true;
+                    sortBtn.setBackground(new Color (0,255,0));
+                    sortBtn.setSelected(false);
+                    DoxonUtils.setListItems(testMethodList, header);
+                }
+            }
+        });
+        menu.add(sortBtn);
+
+        JSeparator sep = new JSeparator(JSeparator.VERTICAL);
+        sep.setPreferredSize(new Dimension(1, 50));
+        sep.setMaximumSize(new Dimension(1, 50));
+        menu.add(sep);
 
         // Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from www.flaticon.com
         // Configure button
@@ -122,7 +162,8 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         configure.setBorderPainted(false);
         configure.setContentAreaFilled(false);
         configure.setFocusPainted(false);
-        configure.setOpaque(false);
+        configure.setOpaque(true);
+        configure.setToolTipText("Configure jumpbacks");
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
 
@@ -135,7 +176,8 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         listSingleFiles.setBorderPainted(false);
         listSingleFiles.setContentAreaFilled(false);
         listSingleFiles.setFocusPainted(false);
-        listSingleFiles.setOpaque(false);
+        listSingleFiles.setOpaque(true);
+        listSingleFiles.setToolTipText("List non-pair classes");
         listSingleFiles.addActionListener(new ListMenuButtonListener(this.fileCrawlerHandler));
         menu.add(listSingleFiles);
 
@@ -148,7 +190,8 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         statistic.setBorderPainted(false);
         statistic.setContentAreaFilled(false);
         statistic.setFocusPainted(false);
-        statistic.setOpaque(false);
+        statistic.setOpaque(true);
+        statistic.setToolTipText("Show statistics");
         statistic.addActionListener(new StatisticMenuButtonListener(this.fileCrawlerHandler));
         menu.add(statistic);
 
@@ -164,7 +207,6 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         topPanel.add(topNorth, BorderLayout.PAGE_START);
 
         this.header = new JTextArea("Select a class");
-        //this.header.setHorizontalAlignment(SwingConstants.CENTER);
         this.header.setLineWrap(true);
         this.header.setWrapStyleWord(true);
         this.header.setBackground(this.widgetColor);
@@ -174,7 +216,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         this.header.setFont(new Font("Dialog", Font.BOLD, 12));
         topPanel.add(this.header, BorderLayout.CENTER);
 
-        this.testMethodList = new JBList();
+        this.testMethodList = new JBList(new MethodListModel());
         this.testMethodList.setBackground(this.widgetColor);
         this.testMethodList.setCellRenderer(new MethodListItem());
 
