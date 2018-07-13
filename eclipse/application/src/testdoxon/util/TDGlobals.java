@@ -11,7 +11,7 @@ public class TDGlobals {
 
 	public static TDFile currentOpenFile;
 	public static TDFile currentTestFile;
-
+ 
 	public static String orgRootFolder = "";
 	public static String rootFolder = "";
 	public static int rootJumpbacks = 0;

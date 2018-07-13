@@ -45,7 +45,7 @@ public class ListDialog extends Dialog implements SelectionListener {
 		Composite container = (Composite) super.createDialogArea(parent);
 
 		container.setLayout(new GridLayout(1, true));
-
+ 
 		FillLayout fl = new FillLayout(SWT.FILL);
 		fl.type = SWT.VERTICAL;
 		Composite labelComp = new Composite(container, SWT.NONE);

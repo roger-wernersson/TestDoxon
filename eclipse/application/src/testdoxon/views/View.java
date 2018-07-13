@@ -96,6 +96,7 @@ public class View extends ViewPart {
 	private Action showListDialog;
 	private Action sortButton;
 
+	
 	private MethodTableContentProvider contentProvider;
 
 	private FileHandler fileHandler;
