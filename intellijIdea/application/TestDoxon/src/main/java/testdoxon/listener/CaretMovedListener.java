@@ -17,12 +17,12 @@ import java.io.File;
 public class CaretMovedListener implements CaretListener {
 
     private FileCrawlerHandler fileCrawlerHandler;
-    private JLabel header;
+    private JTextArea header;
     private JBList testMethodList;
     private ClassComboBox testClassesComboBox;
     private String firstTestFilepath, secondTestFilepath;
 
-    public CaretMovedListener (FileCrawlerHandler fileCrawlerHandler, JLabel header, JBList testMethodList, ClassComboBox testClassesComboBox) {
+    public CaretMovedListener (FileCrawlerHandler fileCrawlerHandler, JTextArea header, JBList testMethodList, ClassComboBox testClassesComboBox) {
 
         this.fileCrawlerHandler = fileCrawlerHandler;
         this.header = header;

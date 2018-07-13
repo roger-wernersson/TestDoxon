@@ -31,7 +31,7 @@ import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
 import testdoxon.util.DoxonUtils;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class UpdateOnFileChangedListener implements ISelectionListener {
 	private FileCrawlerHandler fileCrawlerHandler;
@@ -54,11 +54,11 @@ public class UpdateOnFileChangedListener implements ISelectionListener {
 		if (arg0.getTitle().matches(".*\\.java")) {
 			File file = (File) arg0.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(File.class);
 
-			if (View.currentOpenFile == null || !file.getName().equals(View.currentOpenFile.getName())) {
-				View.currentOpenFile = new TDFile(file);
+			if (TDGlobals.currentOpenFile == null || !file.getName().equals(TDGlobals.currentOpenFile.getName())) {
+				TDGlobals.currentOpenFile = new TDFile(file);
 
 				// Get all test classes
-				String rootFolder = DoxonUtils.findRootFolder(View.currentOpenFile.getAbsolutePath());
+				String rootFolder = DoxonUtils.findRootFolder(TDGlobals.currentOpenFile.getAbsolutePath());
 				// Only update if root folders differ
 				boolean updated = false;
 				if (this.lastUpdatedPath == null || (rootFolder != null && !this.lastUpdatedPath.equals(rootFolder))) {

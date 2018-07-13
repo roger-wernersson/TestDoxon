@@ -24,9 +24,9 @@ public class FileSavedListener implements ApplicationComponent, BulkFileListener
 
     private final MessageBusConnection messageBusConnection;
     private JBList testMethodList;
-    private JLabel header;
+    private JTextArea header;
 
-    public FileSavedListener(JBList testMethodList, JLabel header) {
+    public FileSavedListener(JBList testMethodList, JTextArea header) {
         this.testMethodList = testMethodList;
         this.header = header;
         this.messageBusConnection = ApplicationManager.getApplication().getMessageBus().connect();

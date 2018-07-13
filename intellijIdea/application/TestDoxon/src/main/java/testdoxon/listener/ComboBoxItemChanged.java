@@ -12,10 +12,10 @@ import java.awt.event.ItemListener;
 import java.io.File;
 
 public class ComboBoxItemChanged implements ItemListener {
-    private JLabel header;
+    private JTextArea header;
     private JBList testMethodList;
 
-    public ComboBoxItemChanged(JBList testMethodList, JLabel header) {
+    public ComboBoxItemChanged(JBList testMethodList, JTextArea header) {
         this.testMethodList = testMethodList;
         this.header = header;
     }
