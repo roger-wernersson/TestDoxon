@@ -1,49 +1,17 @@
 package testdoxon.gui;
 
-import java.net.URL;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.osgi.framework.Bundle;
 
 import testdoxon.model.TDTableItem;
+import testdoxon.util.TDGlobals;
 
 public class MethodLabelProvider extends LabelProvider implements ITableLabelProvider {
-	public final Image redDot;
-	public final Image greenDot;
-	public final Image grayDot;
-	public final Image blueDot;
-	public final Image yellowDot;
+	
 	
 	public MethodLabelProvider () {
-		Bundle bundle = Platform.getBundle("TestDoxon");
-		URL url = null;
-		ImageDescriptor imageDesc = null;
 		
-		url = FileLocator.find(bundle, new Path("icons/testDox-red8px.png"), null);
-		imageDesc = ImageDescriptor.createFromURL(url);
-		this.redDot = imageDesc.createImage();
-		
-		url = FileLocator.find(bundle, new Path("icons/testDox-green8px.png"), null);
-		imageDesc = ImageDescriptor.createFromURL(url);
-		this.greenDot = imageDesc.createImage();
-		
-		url = FileLocator.find(bundle, new Path("icons/testDox-gray8px.png"), null);
-		imageDesc = ImageDescriptor.createFromURL(url);
-		this.grayDot = imageDesc.createImage();
-		
-		url = FileLocator.find(bundle, new Path("icons/testDox-blue8px.png"), null);
-		imageDesc = ImageDescriptor.createFromURL(url);
-		this.blueDot = imageDesc.createImage();
-		
-		url = FileLocator.find(bundle, new Path("icons/testDox-yellow8px.png"), null);
-		imageDesc = ImageDescriptor.createFromURL(url);
-		this.yellowDot = imageDesc.createImage();
 	}
 	
 	public String getColumnText(Object obj, int index) {
@@ -64,20 +32,20 @@ public class MethodLabelProvider extends LabelProvider implements ITableLabelPro
 			
 			switch(_tmp.getPictureIndex()) {
 				case TDTableItem.BAD_METHOD_NAME:
-					return blueDot;
+					return TDGlobals.blueDot;
 				case TDTableItem.NONE:
-					return redDot;
+					return TDGlobals.redDot;
 				case TDTableItem.TEST:
-					return greenDot;
+					return TDGlobals.greenDot;
 				case TDTableItem.IGNORE:
-					return grayDot;
+					return TDGlobals.grayDot;
 				case TDTableItem.BOTH_TEST_IGNORE:
-					return yellowDot;
+					return TDGlobals.yellowDot;
 				default:
-					return blueDot;
+					return TDGlobals.blueDot;
 			}
 		}
 		
-		return blueDot;
+		return TDGlobals.blueDot;
 	}
 }

@@ -31,7 +31,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.ViewPart;
 
 import testdoxon.model.TDFile;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class UpdateOnSaveListener implements IResourceChangeListener {
 	private TableViewer viewer;
@@ -77,16 +77,16 @@ public class UpdateOnSaveListener implements IResourceChangeListener {
 			File file = iEditorPart.getEditorInput().getAdapter(File.class);
 			if (file != null) {
 				// Always update on save
-				View.currentOpenFile = new TDFile(file);
-				View.currentTestFile = View.currentOpenFile;
-				View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
+				TDGlobals.currentOpenFile = new TDFile(file);
+				TDGlobals.currentTestFile = TDGlobals.currentOpenFile;
+				TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentOpenFile.getAbsolutePath());
 
-				if (View.currentTestFile != null && this.viewer != null) {
+				if (TDGlobals.currentTestFile != null && this.viewer != null) {
 					Display.getDefault().syncExec(new Runnable() {
 						@Override
 						public void run() {
 							try {
-								viewer.setInput(View.currentTestFile);
+								viewer.setInput(TDGlobals.currentTestFile);
 							} catch (AssertionFailedException e) {
 								// Do nothing
 							}

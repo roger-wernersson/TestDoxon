@@ -14,7 +14,7 @@ import testdoxon.handler.FileHandler;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.model.TestFile;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class OpenClassAction extends Action {
 
@@ -34,19 +34,19 @@ public class OpenClassAction extends Action {
 		if (obj != null && obj instanceof TestFile) {
 			TestFile _tmp = (TestFile) obj;
 			
-			if (View.currentTestFile == null || !_tmp.getFilepath().equals(View.currentTestFile.getAbsolutePath())) {
+			if (TDGlobals.currentTestFile == null || !_tmp.getFilepath().equals(TDGlobals.currentTestFile.getAbsolutePath())) {
 				FileHandler filehandler = new FileHandler();
 				if (filehandler.fileExists(_tmp.getFilepath())) {
-					View.currentTestFile = new TDFile(new File(_tmp.getFilepath()));
-					View.currentTestFile.setHeaderFilepath(View.currentTestFile.getAbsolutePath());
+					TDGlobals.currentTestFile = new TDFile(new File(_tmp.getFilepath()));
+					TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentTestFile.getAbsolutePath());
 				}
 
-				if (View.currentTestFile != null) {
+				if (TDGlobals.currentTestFile != null) {
 					Display.getDefault().syncExec(new Runnable() {
 						@Override
 						public void run() {
 							try {
-								viewer.setInput(View.currentTestFile);
+								viewer.setInput(TDGlobals.currentTestFile);
 							} catch (AssertionFailedException e) {
 								TDLog.info(e.getMessage(), TDLog.WARNING);
 							}

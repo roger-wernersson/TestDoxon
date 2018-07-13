@@ -33,7 +33,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 
 import testdoxon.log.TDLog;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class HeaderToolTipListener implements Listener {
 
@@ -45,8 +45,8 @@ public class HeaderToolTipListener implements Listener {
 			
 			@Override
 			public void handleEvent(Event arg0) {
-				if(View.currentTestFile != null) {					
-					IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
+				if(TDGlobals.currentTestFile != null) {					
+					IPath location = Path.fromOSString(TDGlobals.currentTestFile.getAbsolutePath());
 					IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 					
 					IWorkbenchPage iWorkbenchPage = view.getSite().getPage();
@@ -70,7 +70,7 @@ public class HeaderToolTipListener implements Listener {
 	
 	@Override
 	public void handleEvent(Event arg0) {
-		header.setToolTipText(View.currentTestFile.getAbsolutePath());
+		header.setToolTipText(TDGlobals.currentTestFile.getAbsolutePath());
 	}
 
 }

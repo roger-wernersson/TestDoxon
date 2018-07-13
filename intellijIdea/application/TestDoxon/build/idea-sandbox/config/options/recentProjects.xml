@@ -3,6 +3,7 @@
     <option name="recentPaths">
       <list>
         <option value="$USER_HOME$/IdeaProjects/untitled4" />
+        <option value="$USER_HOME$/IdeaProjects/asdasd" />
         <option value="$USER_HOME$/IdeaProjects/untitled3" />
         <option value="$USER_HOME$/IdeaProjects/untitled2" />
         <option value="$USER_HOME$/IdeaProjects/untitled1" />
@@ -17,6 +18,17 @@
     <option name="pid" value="" />
     <option name="additionalInfo">
       <map>
+        <entry key="$USER_HOME$/IdeaProjects/asdasd">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="IC-181.5087.20" />
+              <option name="productionCode" value="IC" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1531481833171" />
+              <option name="buildTimestamp" value="1526508291584" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
         <entry key="$USER_HOME$/IdeaProjects/untitled1">
           <value>
             <RecentProjectMetaInfo>
@@ -56,8 +68,8 @@
               <option name="build" value="IC-181.5087.20" />
               <option name="productionCode" value="IC" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1531481516227" />
-              <option name="buildTimestamp" value="1526508284872" />
+              <option name="projectOpenTimestamp" value="1531481988685" />
+              <option name="buildTimestamp" value="1526508262773" />
             </RecentProjectMetaInfo>
           </value>
         </entry>

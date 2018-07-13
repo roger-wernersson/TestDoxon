@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Display;
 import testdoxon.handler.FileHandler;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
-import testdoxon.views.View;
 
 public class DoxonUtils {
 
@@ -99,7 +98,7 @@ public class DoxonUtils {
 			return null;
 		}
 		
-		View.orgRootFolder = filepath;
+		TDGlobals.orgRootFolder = filepath;
 		
 		String[] parts;
 		if (System.getProperty("os.name").contains("Windows")) {
@@ -125,11 +124,11 @@ public class DoxonUtils {
 		}
 
 		String newFilepath = "";
-		for(int i = 0; i < (filepathBuilder.size() - View.rootJumpbacks); i++) {
+		for(int i = 0; i < (filepathBuilder.size() - TDGlobals.rootJumpbacks); i++) {
 			newFilepath += filepathBuilder.get(i) + "/";
 		}
 		
-		View.rootFolder = newFilepath;
+		TDGlobals.rootFolder = newFilepath;
 		return newFilepath;
 	}
 
@@ -162,37 +161,37 @@ public class DoxonUtils {
 	 * @param viewer
 	 */
 	public static void findFileToOpen(TableViewer viewer) {
-		if (View.currentOpenFile != null) {
+		if (TDGlobals.currentOpenFile != null) {
 			// If a test class already is open
-			if (View.currentOpenFile.getName().matches("^Test.*") || View.currentOpenFile.getName().matches(".*Test.java")) {
-				View.currentTestFile = View.currentOpenFile;
+			if (TDGlobals.currentOpenFile.getName().matches("^Test.*") || TDGlobals.currentOpenFile.getName().matches(".*Test.java")) {
+				TDGlobals.currentTestFile = TDGlobals.currentOpenFile;
 				// If a regular class is open
 			} else {
 				
-				String testFilepath = DoxonUtils.createTestPath(View.currentOpenFile);
-				String newTestFilepathPre = testFilepath + "Test" + View.currentOpenFile.getName();
+				String testFilepath = DoxonUtils.createTestPath(TDGlobals.currentOpenFile);
+				String newTestFilepathPre = testFilepath + "Test" + TDGlobals.currentOpenFile.getName();
 				
-				String newTestFilepathPost = testFilepath + View.currentOpenFile.getName().replaceAll("\\.java", "") + "Test.java";
+				String newTestFilepathPost = testFilepath + TDGlobals.currentOpenFile.getName().replaceAll("\\.java", "") + "Test.java";
 
 				FileHandler filehandler = new FileHandler();
 				if (filehandler.fileExists(newTestFilepathPre)) {
-					View.currentTestFile = new TDFile(new File(newTestFilepathPre));
+					TDGlobals.currentTestFile = new TDFile(new File(newTestFilepathPre));
 				} else if (filehandler.fileExists(newTestFilepathPost)) {
-					View.currentTestFile = new TDFile(new File(newTestFilepathPost));
+					TDGlobals.currentTestFile = new TDFile(new File(newTestFilepathPost));
 				}else {
-					View.currentTestFile = null;
+					TDGlobals.currentTestFile = null;
 				}
 			}
 
-			if (View.currentTestFile != null) {
-				View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
+			if (TDGlobals.currentTestFile != null) {
+				TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentOpenFile.getAbsolutePath());
 			}
 
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
 					try {
-						viewer.setInput(View.currentTestFile);
+						viewer.setInput(TDGlobals.currentTestFile);
 					} catch (AssertionFailedException e) {
 						TDLog.info(e.getMessage(), TDLog.WARNING);
 					}
