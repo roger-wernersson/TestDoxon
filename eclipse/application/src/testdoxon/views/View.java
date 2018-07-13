@@ -19,12 +19,16 @@ package testdoxon.views;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.AssertionFailedException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -33,6 +37,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.FontDescriptor;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -52,10 +57,10 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.ISelectionService;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.Bundle;
 
 import testdoxon.gui.ClassPathsComboContentProvider;
 import testdoxon.gui.ConfJumpbackDialog;
@@ -73,11 +78,10 @@ import testdoxon.listener.TDPartListener;
 import testdoxon.listener.UpdateOnFileChangedListener;
 import testdoxon.listener.UpdateOnSaveListener;
 import testdoxon.log.TDLog;
-import testdoxon.model.TDFile;
+import testdoxon.util.TDGlobals;
 
 public class View extends ViewPart {
 	public static final String ID = "testdoxon.views.View";
-	public static final String CONFIG_FILE = "config.cfg";
 
 	private Color widgetColor;
 
@@ -90,20 +94,12 @@ public class View extends ViewPart {
 	private Action configureRootFolder;
 	private Action showStatistics;
 	private Action showListDialog;
+	private Action sortButton;
 
 	private MethodTableContentProvider contentProvider;
 
 	private FileHandler fileHandler;
 	private FileCrawlerHandler fileCrawlerHandler;
-
-	public static TDFile currentOpenFile;
-	public static TDFile currentTestFile;
-
-	public static String orgRootFolder = "";
-	public static String rootFolder = "";
-	public static int rootJumpbacks = 0;
-	public static Properties prop;
-	public static long ms_recursiveRead = 0;
 
 	// Listeners
 	private IResourceChangeListener saveFileListener;
@@ -118,22 +114,65 @@ public class View extends ViewPart {
 		this.fileCrawlerHandler = new FileCrawlerHandler();
 		this.contentProvider = null;
 
-		View.currentOpenFile = null;
-		View.currentTestFile = null;
-		View.prop = new Properties();
+		TDGlobals.currentOpenFile = null;
+		TDGlobals.currentTestFile = null;
+		TDGlobals.prop = new Properties();
+		this.loadImages();
 		this.loadProperties();
 		
 		TDLog.info("Log file: " + System.getProperty("user.dir"), TDLog.INFORMATION);
 
 		this.widgetColor = new Color(null, 255, 255, 230);
 	}
+	
+	private void loadImages() {
+		Bundle bundle = Platform.getBundle("TestDoxon");
+		URL url = null;
+		ImageDescriptor imageDesc = null;
+		
+		url = FileLocator.find(bundle, new Path("icons/testDox-red8px.png"), null);
+		imageDesc = ImageDescriptor.createFromURL(url);
+		TDGlobals.redDot = imageDesc.createImage();
+		
+		url = FileLocator.find(bundle, new Path("icons/testDox-green8px.png"), null);
+		imageDesc = ImageDescriptor.createFromURL(url);
+		TDGlobals.greenDot = imageDesc.createImage();
+		
+		url = FileLocator.find(bundle, new Path("icons/testDox-gray8px.png"), null);
+		imageDesc = ImageDescriptor.createFromURL(url);
+		TDGlobals.grayDot = imageDesc.createImage();
+		
+		url = FileLocator.find(bundle, new Path("icons/testDox-blue8px.png"), null);
+		imageDesc = ImageDescriptor.createFromURL(url);
+		TDGlobals.blueDot = imageDesc.createImage();
+		
+		url = FileLocator.find(bundle, new Path("icons/testDox-yellow8px.png"), null);
+		imageDesc = ImageDescriptor.createFromURL(url);
+		TDGlobals.yellowDot = imageDesc.createImage();
+		
+		url = FileLocator.find(bundle, new Path("icons/cog.png"), null);
+		TDGlobals.cog = ImageDescriptor.createFromURL(url);
+		
+		url = FileLocator.find(bundle, new Path("icons/stat.png"), null);
+		TDGlobals.stat = ImageDescriptor.createFromURL(url);
+		
+		url = FileLocator.find(bundle, new Path("icons/list.png"), null);
+		TDGlobals.list = ImageDescriptor.createFromURL(url);
+		
+		url = FileLocator.find(bundle, new Path("icons/sort.png"), null);
+		TDGlobals.sort = ImageDescriptor.createFromURL(url);
+		
+		url = FileLocator.find(bundle, new Path("icons/sortDisabled.png"), null);
+		TDGlobals.sortDisabled = ImageDescriptor.createFromURL(url);
+		
+	}
 
 	private void loadProperties() {
 		InputStream input = null;
 		try {
-			input = new FileInputStream(View.CONFIG_FILE);
-			View.prop.load(input);
-			View.rootJumpbacks = Integer.parseInt(View.prop.getProperty("jumpback"));
+			input = new FileInputStream(TDGlobals.CONFIG_FILE);
+			TDGlobals.prop.load(input);
+			TDGlobals.rootJumpbacks = Integer.parseInt(TDGlobals.prop.getProperty("jumpback"));
 		} catch (IOException e) {
 			TDLog.info(e.getMessage(), TDLog.ERROR);
 		} finally {
@@ -264,9 +303,11 @@ public class View extends ViewPart {
 	}
 
 	private void fillLocalToolBar(IToolBarManager manager) {
+		manager.add(sortButton);
+		manager.add(new Separator());
 		manager.add(configureRootFolder);
-		manager.add(showStatistics);
 		manager.add(showListDialog);
+		manager.add(showStatistics);
 	}
 
 	private void makeActions() {
@@ -280,9 +321,8 @@ public class View extends ViewPart {
 				 dialog.open();
 			}
 		};
-		configureRootFolder.setText("Configure software");
-		configureRootFolder.setImageDescriptor(
-				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_HOME_NAV));
+		configureRootFolder.setText("Configure jumpback");
+		configureRootFolder.setImageDescriptor(TDGlobals.cog);
 		
 		showStatistics = new Action() {
 			public void run() {
@@ -292,19 +332,34 @@ public class View extends ViewPart {
 			}
 		};
 		showStatistics.setText("Statistics");
-		showStatistics.setImageDescriptor(
-				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_ETOOL_HOME_NAV_DISABLED));
+		showStatistics.setImageDescriptor(TDGlobals.stat);
 		
 		showListDialog = new Action() {
 			public void run() {
 				ListDialog dialog = new
-				ListDialog(Display.getCurrent().getActiveShell());
+				ListDialog(Display.getCurrent().getActiveShell(), fileCrawlerHandler);
 				dialog.open();
 			}
 		};
-		showListDialog.setText("List");
-		showListDialog.setImageDescriptor(
-				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_DEC_FIELD_WARNING));
+		showListDialog.setText("List non-pair classes");		
+		showListDialog.setImageDescriptor(TDGlobals.list);
+		
+		sortButton = new Action() {
+			public void run() {
+				if(TDGlobals.shouldSort) {
+					TDGlobals.shouldSort = false;
+					viewer.setComparator(null);
+					sortButton.setImageDescriptor(TDGlobals.sortDisabled);
+				} else {
+					TDGlobals.shouldSort = true;
+					viewer.setComparator(new SortByNameSorter());
+					sortButton.setImageDescriptor(TDGlobals.sort);
+				}
+			}
+		};
+		sortButton.setText("Sort");
+		sortButton.setImageDescriptor(TDGlobals.sort);
+		
 	}
 
 	private void hookActions() {

@@ -1,7 +1,7 @@
 <application>
   <component name="ActionsCollector">
     <counts>
-      <entry action="ActivateTestDoxonToolWindow" count="4" />
+      <entry action="ActivateTestDoxonToolWindow" count="5" />
       <entry action="DialogCancelAction Escape" count="1" />
       <entry action="DialogOkAction Enter" count="8" />
       <entry action="EditorBackSpace" count="19" />
@@ -112,7 +112,7 @@
       <entry path="File -&gt; New -&gt; Project..." count="3" />
       <entry path="File -&gt; Project Structure..." count="1" />
       <entry path="File -&gt; Settings..." count="6" />
-      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="4" />
+      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="5" />
     </counts>
   </component>
   <component name="ShortcutsCollector">
@@ -135,8 +135,9 @@
   <component name="UsageTrigger">
     <counts>
       <entry feature="ide.settings.Appearance" count="5" />
-      <entry feature="ideaapp.started" count="156" />
+      <entry feature="ideaapp.started" count="157" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="2" />
+      <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />

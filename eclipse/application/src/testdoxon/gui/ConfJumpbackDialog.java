@@ -27,7 +27,7 @@ import org.osgi.framework.Bundle;
 
 import testdoxon.log.TDLog;
 import testdoxon.util.DoxonUtils;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class ConfJumpbackDialog extends Dialog {
 	
@@ -47,7 +47,7 @@ public class ConfJumpbackDialog extends Dialog {
 		
 		ConfJumpbackDialog.setDefaultImage(testDox_img);
 		
-		String path = View.rootFolder;
+		String path = TDGlobals.rootFolder;
 		if(path == null || path.isEmpty()) {
 			path = "Select a class to see root folder.";
 		}
@@ -76,7 +76,7 @@ public class ConfJumpbackDialog extends Dialog {
 		spinner.setMaximum(10);
 		spinner.setIncrement(1);
 		spinner.setMinimum(0);
-		spinner.setSelection(View.rootJumpbacks);
+		spinner.setSelection(TDGlobals.rootJumpbacks);
 		
 		this.description = new Text(container, SWT.MULTI | SWT.READ_ONLY);
 		this.description.setText(this.descText);		
@@ -86,12 +86,12 @@ public class ConfJumpbackDialog extends Dialog {
 			public void modifyText(ModifyEvent arg0) {
 				if(arg0.getSource() instanceof Spinner) {
 					Spinner _tmp = (Spinner) arg0.getSource();
-					View.rootJumpbacks = _tmp.getSelection();
-					String newPath = DoxonUtils.findRootFolder(View.orgRootFolder);
+					TDGlobals.rootJumpbacks = _tmp.getSelection();
+					String newPath = DoxonUtils.findRootFolder(TDGlobals.orgRootFolder);
 					
 					if(newPath == null || newPath.isEmpty()) {
 						newPath = "Invalid number of jumpbacks.";
-						View.rootFolder = newPath;
+						TDGlobals.rootFolder = newPath;
 					} else {
 						this.saveProperty(_tmp.getSelection());
 					}
@@ -105,10 +105,10 @@ public class ConfJumpbackDialog extends Dialog {
 				OutputStream out = null;
 				
 				try {
-					out = new FileOutputStream(View.CONFIG_FILE);
+					out = new FileOutputStream(TDGlobals.CONFIG_FILE);
 					
-					View.prop.setProperty("jumpback", Integer.toString(jumpbacks));
-					View.prop.store(out, null);
+					TDGlobals.prop.setProperty("jumpback", Integer.toString(jumpbacks));
+					TDGlobals.prop.store(out, null);
 					
 				} catch (IOException e) {
 					TDLog.info(e.getMessage(), TDLog.ERROR);
