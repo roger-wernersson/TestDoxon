@@ -119,7 +119,6 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
         menu.add(Box.createHorizontalGlue());
 
-        // Icon made by <a href="https://www.flaticon.com/authors/vectors-market">Vectors Market</a> from www.flaticon.com
         // Sort button
         JButton sortBtn = new JButton();
         sortBtn.setIcon(TestDoxonPluginIcons.SORT);
@@ -135,14 +134,13 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
             public void actionPerformed(ActionEvent e) {
                 if (TDStatics.sortMethodList) {
                     TDStatics.sortMethodList = false;
-                    sortBtn.setBackground(null);
                     DoxonUtils.setListItems(testMethodList, header);
+                    sortBtn.setIcon(TestDoxonPluginIcons.SORT_DISABLED);
 
                 } else {
                     TDStatics.sortMethodList = true;
-                    sortBtn.setBackground(new Color (0,255,0));
-                    sortBtn.setSelected(false);
                     DoxonUtils.setListItems(testMethodList, header);
+                    sortBtn.setIcon(TestDoxonPluginIcons.SORT);
                 }
             }
         });
@@ -153,7 +151,6 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         sep.setMaximumSize(new Dimension(1, 50));
         menu.add(sep);
 
-        // Icon made by <a href="https://www.flaticon.com/authors/gregor-cresnar">Gregor Cresnar</a> from www.flaticon.com
         // Configure button
         JButton configure = new JButton();
         configure.setIcon(TestDoxonPluginIcons.COG);
@@ -167,7 +164,6 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         configure.addActionListener(new ConfigureMenuButtonListener());
         menu.add(configure);
 
-        // Icon made by <a href="https://www.flaticon.com/authors/smashicons">Smashicons</a> from www.flaticon.com
         // List button
         JButton listSingleFiles = new JButton();
         listSingleFiles.setIcon(TestDoxonPluginIcons.LIST);
@@ -181,7 +177,6 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
         listSingleFiles.addActionListener(new ListMenuButtonListener(this.fileCrawlerHandler));
         menu.add(listSingleFiles);
 
-        // Icon made by <a href="https://www.flaticon.com/authors/freepik">Freepik</a> from www.flaticon.com
         // Statistics button
         JButton statistic = new JButton();
         statistic.setIcon(TestDoxonPluginIcons.STAT);

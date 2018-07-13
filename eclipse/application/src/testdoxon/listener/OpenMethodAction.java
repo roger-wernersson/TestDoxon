@@ -58,7 +58,6 @@ public class OpenMethodAction extends Action {
 
 	public void run() {
 		ISelection selection = viewer.getSelection();
-		@SuppressWarnings("unused")
 		Object obj = ((IStructuredSelection) selection).getFirstElement();
 
 		if (obj instanceof TDTableItem) {

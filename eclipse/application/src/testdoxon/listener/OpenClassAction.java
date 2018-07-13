@@ -29,7 +29,6 @@ public class OpenClassAction extends Action {
 	public void run() {
 		ISelection selection = testClassPaths.getSelection();
 
-		@SuppressWarnings("unused")
 		Object obj = ((IStructuredSelection) selection).getFirstElement();
 
 		if (obj != null && obj instanceof TestFile) {
