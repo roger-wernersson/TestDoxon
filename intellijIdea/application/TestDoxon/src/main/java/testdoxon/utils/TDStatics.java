@@ -18,5 +18,5 @@ public class TDStatics {
 
     public static Properties prop = new Properties();
 
-    public static boolean sortMethodList = false;
+    public static boolean sortMethodList = true;
 }
