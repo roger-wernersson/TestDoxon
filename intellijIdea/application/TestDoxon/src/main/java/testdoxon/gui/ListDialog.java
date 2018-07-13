@@ -6,16 +6,11 @@ import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.model.TestFile;
 
 import javax.swing.*;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
+
 
 public class ListDialog extends JDialog implements ActionListener {
 
@@ -106,8 +101,6 @@ public class ListDialog extends JDialog implements ActionListener {
     }
 
     private void showAllProdClasses (){
-        System.out.println("Show alla PROD classes!");
-
         DefaultTableModel model = (DefaultTableModel) this.classesTable.getModel();
         model.setRowCount(0);
 
