@@ -42,7 +42,7 @@ import testdoxon.exceptionHandler.TDException;
 import testdoxon.handler.FileHandler;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDTableItem;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class OpenMethodAction extends Action {
 
@@ -67,7 +67,7 @@ public class OpenMethodAction extends Action {
 			File file = (File) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
 					.getEditorInput().getAdapter(File.class);
 
-			if (file.getAbsolutePath().equals(View.currentTestFile.getAbsolutePath().toString())) {
+			if (file.getAbsolutePath().equals(TDGlobals.currentTestFile.getAbsolutePath().toString())) {
 				// Opened class is the correct Test class, so just move to the correct line in
 				// that class.
 				ITextEditor editor = (ITextEditor) view.getSite().getWorkbenchWindow().getActivePage()
@@ -81,7 +81,7 @@ public class OpenMethodAction extends Action {
 						int lineNumber = 1;
 						try {
 							lineNumber = fileHandler.getLineNumberOfSpecificMethod(
-									View.currentTestFile.getAbsolutePath(), _tmp.getMethodName());
+									TDGlobals.currentTestFile.getAbsolutePath(), _tmp.getMethodName());
 							if (lineNumber == -1) {
 								lineNumber = 1;
 							}
@@ -100,7 +100,7 @@ public class OpenMethodAction extends Action {
 
 			} else {
 				// Open Test class and jump to correct line
-				IPath location = Path.fromOSString(View.currentTestFile.getAbsolutePath());
+				IPath location = Path.fromOSString(TDGlobals.currentTestFile.getAbsolutePath());
 				IFile iFile = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(location);
 
 				if (iFile != null) {

@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
 
 import testdoxon.log.TDLog;
 import testdoxon.model.TestFile;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class FileCrawlerRepository {
 
@@ -76,7 +76,7 @@ public class FileCrawlerRepository {
 						}
 					}
 				});
-				View.ms_recursiveRead = System.currentTimeMillis() - last;
+				TDGlobals.ms_recursiveRead = System.currentTimeMillis() - last;
 			}
 
 		});

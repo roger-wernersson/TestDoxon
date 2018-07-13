@@ -30,7 +30,7 @@ import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
 import testdoxon.util.DoxonUtils;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 public class UpdateOnCaretMovedListener implements CaretListener {
 	private FileCrawlerHandler fileCrawlerHandler;
@@ -58,35 +58,35 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 			String firstFileToLookFor = "Test" + word + ".java";
 			String secondFileToLookFor = word + "Test.java";
 
-			if (View.currentOpenFile != null) {
+			if (TDGlobals.currentOpenFile != null) {
 				this.firstTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(firstFileToLookFor,
-						View.currentOpenFile.getAbsolutePath(), View.currentOpenFile.getName(),
+						TDGlobals.currentOpenFile.getAbsolutePath(), TDGlobals.currentOpenFile.getName(),
 						this.testClassPathsComboBox);
 
 				this.secondTestFilepath = fileCrawlerHandler.getTestFilepathFromFilename(secondFileToLookFor,
-						View.currentOpenFile.getAbsolutePath(), View.currentOpenFile.getName(),
+						TDGlobals.currentOpenFile.getAbsolutePath(), TDGlobals.currentOpenFile.getName(),
 						this.testClassPathsComboBox);
 				
 				checkFileExists();
 
-				if ((this.firstTestFilepath != null && !this.firstTestFilepath.equals(View.currentTestFile.getAbsolutePath())) || 
-						(this.secondTestFilepath != null && !this.secondTestFilepath.equals(View.currentTestFile.getAbsolutePath())) ) {
+				if ((this.firstTestFilepath != null && !this.firstTestFilepath.equals(TDGlobals.currentTestFile.getAbsolutePath())) || 
+						(this.secondTestFilepath != null && !this.secondTestFilepath.equals(TDGlobals.currentTestFile.getAbsolutePath())) ) {
 					
-					if(this.firstTestFilepath != null && !this.firstTestFilepath.equals(View.currentTestFile.getAbsolutePath())) {
-						View.currentTestFile = new TDFile(new File(firstTestFilepath));
-						View.currentTestFile.setHeaderFilepath(View.currentTestFile.getAbsolutePath());
+					if(this.firstTestFilepath != null && !this.firstTestFilepath.equals(TDGlobals.currentTestFile.getAbsolutePath())) {
+						TDGlobals.currentTestFile = new TDFile(new File(firstTestFilepath));
+						TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentTestFile.getAbsolutePath());
 					
-					}else if(this.secondTestFilepath != null && !this.secondTestFilepath.equals(View.currentTestFile.getAbsolutePath())) {
-						View.currentTestFile = new TDFile(new File(this.secondTestFilepath));
-						View.currentTestFile.setHeaderFilepath(View.currentTestFile.getAbsolutePath());
+					}else if(this.secondTestFilepath != null && !this.secondTestFilepath.equals(TDGlobals.currentTestFile.getAbsolutePath())) {
+						TDGlobals.currentTestFile = new TDFile(new File(this.secondTestFilepath));
+						TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentTestFile.getAbsolutePath());
 					}
 
-					if (View.currentTestFile != null) {
+					if (TDGlobals.currentTestFile != null) {
 						Display.getDefault().syncExec(new Runnable() {
 							@Override
 							public void run() {
 								try {
-									viewer.setInput(View.currentTestFile);
+									viewer.setInput(TDGlobals.currentTestFile);
 								} catch (AssertionFailedException e) {
 									TDLog.info(e.getMessage(), TDLog.WARNING);
 								}
@@ -98,7 +98,7 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 		}
 		
 		else {
-			if (View.currentTestFile != null && View.currentOpenFile != null && !View.currentTestFile.getPath().equals(View.currentOpenFile.getPath())) {
+			if (TDGlobals.currentTestFile != null && TDGlobals.currentOpenFile != null && !TDGlobals.currentTestFile.getPath().equals(TDGlobals.currentOpenFile.getPath())) {
 
 				// Show current class test class.
 				this.findFileToOpen();
@@ -119,24 +119,24 @@ public class UpdateOnCaretMovedListener implements CaretListener {
 	}
 
 	private void findFileToOpen() {
-		if (View.currentOpenFile != null) {
+		if (TDGlobals.currentOpenFile != null) {
 			// If a test class already is open
-			if (View.currentOpenFile.getName().matches("^Test.*")) {
-				View.currentTestFile = View.currentOpenFile;
+			if (TDGlobals.currentOpenFile.getName().matches("^Test.*")) {
+				TDGlobals.currentTestFile = TDGlobals.currentOpenFile;
 				// If a regular class is open
 			} else {
-				String newTestFilepath = DoxonUtils.createTestPath(View.currentOpenFile) + "Test"
-						+ View.currentOpenFile.getName();
-				View.currentTestFile = new TDFile(new File(newTestFilepath));
+				String newTestFilepath = DoxonUtils.createTestPath(TDGlobals.currentOpenFile) + "Test"
+						+ TDGlobals.currentOpenFile.getName();
+				TDGlobals.currentTestFile = new TDFile(new File(newTestFilepath));
 			}
-			View.currentTestFile.setHeaderFilepath(View.currentOpenFile.getAbsolutePath());
+			TDGlobals.currentTestFile.setHeaderFilepath(TDGlobals.currentOpenFile.getAbsolutePath());
 
-			if (View.currentTestFile != null) {
+			if (TDGlobals.currentTestFile != null) {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
 						try {
-							viewer.setInput(View.currentTestFile);
+							viewer.setInput(TDGlobals.currentTestFile);
 						} catch (AssertionFailedException e) {
 							TDLog.info(e.getMessage(), TDLog.WARNING);
 						}

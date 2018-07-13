@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 import testdoxon.handler.FileCrawlerHandler;
-import testdoxon.views.View;
+import testdoxon.util.TDGlobals;
 
 
 public class StatisticDialog extends Dialog {
@@ -74,7 +74,7 @@ public class StatisticDialog extends Dialog {
 		label3.setLayoutData(gdLeft);
 		
 		Label labelFindTime = new Label(container, SWT.PUSH);
-		labelFindTime.setText(Long.toString(View.ms_recursiveRead));
+		labelFindTime.setText(Long.toString(TDGlobals.ms_recursiveRead));
 		labelFindTime.setLayoutData(gdRight);
 
 		
