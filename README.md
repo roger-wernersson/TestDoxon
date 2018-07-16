@@ -22,3 +22,6 @@ Here follows guides for developers on how to get started with each of the plugin
 	Now you can modify the code and test your solution.
 
 ## Maven-site plugin 
+ - Install maven Apache maven 3.5.3
+ - Pull the code from git and open it in a IDE of your choice.
+ - Run Install.bat
