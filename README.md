@@ -1,5 +1,6 @@
 # TestDoxon
-Create documentation based on the TestDox standard.
+TestDoxon is an open-source test tool project for Eclipse, IntelliJ and maven site.
+Here follows guides for developers on how to get started with each of the plugins.
 ## Eclipse plugin
  - Pull the code from git and open the project in Eclipse IDE. 
  - Go to the Eclipse marketplace and install “Eclipse PDE 3.10 Luna”. 
