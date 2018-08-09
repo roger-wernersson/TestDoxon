@@ -1,5 +1,7 @@
 package testdoxon.gui;
 
+import java.io.File;
+
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,11 +14,13 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.internal.ide.registry.SystemEditorOrTextEditorStrategy;
 
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.model.TestFile;
@@ -28,6 +32,8 @@ public class ListDialog extends Dialog implements SelectionListener {
 	private Table table;
 	private Label label;
 	private FileCrawlerHandler fileCrawlerHandler;
+	private Thread testThread;
+	private Thread prodThread;
 
 	public ListDialog(Shell parent, FileCrawlerHandler fileCrawlerHandler) {
 		super(parent);
@@ -90,36 +96,78 @@ public class ListDialog extends Dialog implements SelectionListener {
 		return container;
 	}
 
+	@SuppressWarnings("deprecation")
 	private void showAllTestClasses() {
-		this.table.removeAll();
-
-		TestFile[] testFiles = this.fileCrawlerHandler.getAllSingleTestClasses();
-		this.label.setText("(" + testFiles.length + ") Test classes without a corresponding production class");
-
-		if (testFiles != null && testFiles.length > 0) {
-			for (int i = 0; i < testFiles.length; i++) {
-				TableItem item = new TableItem(this.table, SWT.NONE);
-				item.setText(0, testFiles[i].getFilename());
-				item.setText(1, testFiles[i].getPackage());
-				item.setText(2, testFiles[i].getFilepath());
-			}
+		updateDescriptionText("Please wait while we are gathering information. This may take a while.");
+		
+		if(prodThread != null && prodThread.isAlive()) {
+			prodThread.stop();
 		}
+		
+		testThread = new Thread(new Runnable() {
+			public void run () {
+				TestFile[] testFiles = fileCrawlerHandler.getAllSingleTestClasses();
+				updateDescriptionText("(" + testFiles.length + ") Test classes without a corresponding production class");
+				clearTable();
+				if (testFiles != null && testFiles.length > 0) {
+					for (int i = 0; i < testFiles.length; i++) {
+						updateListItem(testFiles[i]);
+					}
+				}
+			}
+		});
+		testThread.start();
 	}
+	
 
 	private void showAllProdClasses() {
-		this.table.removeAll();
+		updateDescriptionText("Please wait while we are gathering information. This may take a while.");
 		
-		TestFile[] prodFiles = this.fileCrawlerHandler.getAllSingleProdClasses();
-		this.label.setText("(" + prodFiles.length + ") Production classes without a corresponding test class");
-
-		if (prodFiles != null && prodFiles.length > 0) {
-			for (int i = 0; i < prodFiles.length; i++) {
-				TableItem item = new TableItem(this.table, SWT.NONE);
-				item.setText(0, prodFiles[i].getFilename());
-				item.setText(1, prodFiles[i].getPackage());
-				item.setText(2, prodFiles[i].getFilepath());
-			}
+		if(testThread != null && testThread.isAlive()) {
+			testThread.stop();
 		}
+		
+		prodThread = new Thread(new Runnable() {
+			public void run () {
+				TestFile[] prodFiles = fileCrawlerHandler.getAllSingleProdClasses();				
+				updateDescriptionText("(" + prodFiles.length + ") Production classes without a corresponding test class");
+				clearTable();
+				if (prodFiles != null && prodFiles.length > 0) {
+					for (int i = 0; i < prodFiles.length; i++) {
+						updateListItem(prodFiles[i]);
+					}
+				}
+			}
+		});
+		
+		prodThread.start();
+	}
+	
+	synchronized void updateDescriptionText (String msg) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				label.setText(msg);
+			}
+		});
+	}
+	
+	synchronized void updateListItem (TestFile testFile) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(0, testFile.getFilename());
+				item.setText(1, testFile.getPackage());
+				item.setText(2, testFile.getFilepath());
+			}
+		});
+	}
+	
+	synchronized void clearTable() {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				table.removeAll();
+			}
+		});
 	}
 
 	@Override
@@ -140,9 +188,10 @@ public class ListDialog extends Dialog implements SelectionListener {
 	public void widgetSelected(SelectionEvent arg0) {
 		if (arg0.getSource() instanceof Button) {
 			Button button = (Button) arg0.getSource();
-			if (button.getText().equals("Test classes")) {
+			
+			if (button.getText().equals("Test classes") && button.getSelection()) {
 				this.showAllTestClasses();
-			} else {
+			} else if (button.getText().equals("Production classes") && button.getSelection()){
 				this.showAllProdClasses();
 			}
 
