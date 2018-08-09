@@ -39,7 +39,7 @@ public class OpenClassAction extends Action {
 			
 			File file = new File(_tmp.getFilepath());
 			if(!file.exists()) {
-				TDLog.info(_tmp.getFilename() + " does not exists. Removing file from database.", TDLog.ERROR);
+				TDLog.info(_tmp.getFilename() + " does not exist. Removing file from database.", TDLog.ERROR);
 				fileCrawlerHandler.removeEntry(_tmp);
 				this.testClassPaths.remove(_tmp);
 			} else {
