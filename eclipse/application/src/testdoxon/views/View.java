@@ -313,7 +313,7 @@ public class View extends ViewPart {
 
 	private void makeActions() {
 		dblClickTableViewer = new OpenMethodAction(this.viewer, this, this.fileHandler);
-		selectionChangedComboViewer = new OpenClassAction(this.testClassPaths, this.viewer);
+		selectionChangedComboViewer = new OpenClassAction(this.testClassPaths, this.viewer, this.fileCrawlerHandler);
 
 		configureRootFolder = new Action() {
 			public void run() {

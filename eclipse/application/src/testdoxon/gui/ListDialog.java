@@ -1,7 +1,5 @@
 package testdoxon.gui;
 
-import java.io.File;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,7 +18,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.internal.ide.registry.SystemEditorOrTextEditorStrategy;
 
 import testdoxon.handler.FileCrawlerHandler;
 import testdoxon.model.TestFile;
@@ -37,6 +34,7 @@ public class ListDialog extends Dialog implements SelectionListener {
 
 	public ListDialog(Shell parent, FileCrawlerHandler fileCrawlerHandler) {
 		super(parent);
+		this.setShellStyle(SWT.TITLE | SWT.MIN | SWT.MAX | SWT.CLOSE | SWT.RESIZE);
 		this.fileCrawlerHandler = fileCrawlerHandler;
 	}
 
