@@ -196,4 +196,5 @@ public class DoxonUtils {
             testClassesComboBox.addItem(testFile);
         }
     }
+
 }

@@ -20,6 +20,9 @@ public class ListDialog extends JDialog implements ActionListener {
     private JLabel description;
     private JBTable classesTable;
 
+    private Thread testThread;
+    private Thread prodThread;
+
     public ListDialog (FileCrawlerHandler fileCrawlerHandler) {
         super();
         this.fileCrawlerHandler = fileCrawlerHandler;
@@ -27,7 +30,6 @@ public class ListDialog extends JDialog implements ActionListener {
         this.setSize(new Dimension(this.WIDTH, this.HEIGHT));
         this.setTitle("List single files...");
         this.setLocationRelativeTo(null);
-        this.setResizable(false);
 
         Container container = this.getContentPane();
 
@@ -88,29 +90,56 @@ public class ListDialog extends JDialog implements ActionListener {
     }
 
     private void showAllTestClasses (){
+        updateDescriptionText("Please wait while we are gathering information. This may take a while.");
         DefaultTableModel model = (DefaultTableModel) this.classesTable.getModel();
         model.setRowCount(0);
 
-        TestFile[] testFiles = this.fileCrawlerHandler.getAllSingleTestClasses();
-        if (testFiles != null && testFiles.length > 0) {
-            for (TestFile testFile : testFiles) {
-                model.addRow(new Object[]{testFile.getFilename(), testFile.getPackage(), testFile.getFilepath()});
-            }
+        if(prodThread != null && prodThread.isAlive()) {
+            prodThread.stop();
         }
-        this.description.setText("(" + testFiles.length + ") Test classes without a corresponding production class");
+
+        testThread = new Thread(new Runnable() {
+            public void run() {
+                TestFile[] testFiles = fileCrawlerHandler.getAllSingleTestClasses();
+
+                if (testFiles != null && testFiles.length > 0) {
+                    for (TestFile testFile : testFiles) {
+                        model.addRow(new Object[]{testFile.getFilename(), testFile.getPackage(), testFile.getFilepath()});
+                    }
+                }
+                updateDescriptionText("(" + testFiles.length + ") Test classes without a corresponding production class");
+            }
+        });
+        testThread.start();
+
     }
 
     private void showAllProdClasses (){
+        updateDescriptionText("Please wait while we are gathering information. This may take a while.");
         DefaultTableModel model = (DefaultTableModel) this.classesTable.getModel();
         model.setRowCount(0);
 
-        TestFile[] prodFiles = this.fileCrawlerHandler.getAllSingleProdClasses();
-        if (prodFiles != null && prodFiles.length > 0) {
-            for (TestFile testFile : prodFiles) {
-                model.addRow(new Object[]{testFile.getFilename(), testFile.getPackage(), testFile.getFilepath()});
-            }
+        if(testThread != null && testThread.isAlive()) {
+            testThread.stop();
         }
 
-        this.description.setText("(" + prodFiles.length + ") Production classes without a corresponding test class");
+        prodThread = new Thread(new Runnable() {
+            public void run() {
+                TestFile[] prodFiles = fileCrawlerHandler.getAllSingleProdClasses();
+
+                if (prodFiles != null && prodFiles.length > 0) {
+                    for (TestFile testFile : prodFiles) {
+                        model.addRow(new Object[]{testFile.getFilename(), testFile.getPackage(), testFile.getFilepath()});
+                    }
+                }
+                updateDescriptionText("(" + prodFiles.length + ") Production classes without a corresponding test class");
+            }
+        });
+        prodThread.start();
     }
+
+    synchronized void updateDescriptionText (String msg) {
+        this.description.setText(msg);
+    }
+
 }

@@ -137,5 +137,9 @@ public class FileCrawlerRepository {
     public int getNrOfProdClasses() { return this.prodFiles.size(); }
     public ArrayList<TestFile> getTestFiles () { return this.testFiles; }
     public ArrayList<TestFile> getProdFiles () { return this.prodFiles; }
+    
+    public boolean removeEntry (TestFile testFile) {
+    	return this.testFiles.remove(testFile);
+    }
 
 }

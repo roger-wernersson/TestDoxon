@@ -5,7 +5,6 @@ import testdoxon.handler.FileCrawlerHandler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 public class StatisticMenuButtonListener implements ActionListener {
 

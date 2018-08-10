@@ -5,7 +5,6 @@ import testdoxon.model.TestFile;
 import testdoxon.repository.FileCrawlerRepository;
 import testdoxon.utils.DoxonUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FileCrawlerHandler {
@@ -149,5 +148,9 @@ public class FileCrawlerHandler {
         }
 
         return singleProdClasses.toArray(new TestFile[singleProdClasses.size()]);
+    }
+
+    public boolean removeEntry(TestFile testFile){
+        return fileCrawlerRepository.removeEntry(testFile);
     }
 }
