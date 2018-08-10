@@ -6,7 +6,7 @@
   <id>testdoxon.TestDoxon</id>
   <name>TestDoxon</name>
   <vendor email="testdoxon@gmail.com" url="https://testdoxon.tumblr.com/">TestDoxon</vendor>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>
     An open-source test tool project for Eclipse, IntelliJ and maven site.
     </description>

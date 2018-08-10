@@ -3,7 +3,6 @@ package testdoxon.gui;
 import testdoxon.model.TestFile;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class SingleClassListItem extends DefaultListCellRenderer {

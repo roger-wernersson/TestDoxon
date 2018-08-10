@@ -5,14 +5,12 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import org.jetbrains.annotations.NotNull;
 import testdoxon.gui.ClassComboBox;
-import testdoxon.gui.ConfigureJumpbacksDialog;
 import testdoxon.gui.MethodListItem;
 import testdoxon.gui.MethodListModel;
 import testdoxon.handler.FileCrawlerHandler;
@@ -20,17 +18,13 @@ import testdoxon.handler.FileHandler;
 import testdoxon.listener.*;
 import testdoxon.log.TDLog;
 import testdoxon.model.TDFile;
-import testdoxon.model.TDTableItem;
 import testdoxon.model.TestFile;
 import testdoxon.utils.DoxonUtils;
 import testdoxon.utils.TDStatics;
 import testdoxon.utils.TestDoxonPluginIcons;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +32,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolWindowFactory {
