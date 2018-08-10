@@ -150,4 +150,8 @@ public class FileCrawlerHandler {
 
         return singleProdClasses.toArray(new TestFile[singleProdClasses.size()]);
     }
+
+    public boolean removeEntry(TestFile testFile){
+        return fileCrawlerRepository.removeEntry(testFile);
+    }
 }

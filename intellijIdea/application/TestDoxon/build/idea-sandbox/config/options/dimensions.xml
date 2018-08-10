@@ -5,7 +5,7 @@
     <location key="com.intellij.ide.util.TipDialog.0.0.1920.1096" x="657" y="383" />
     <location key="IdeErrosDialog.0.0.1920.1096" x="466" y="344" />
     <location key="new project wizard.0.0.1920.1200" x="605" y="103" />
-    <location key="WELCOME_SCREEN.0.0.1920.1200" x="962" y="517" />
+    <location key="WELCOME_SCREEN.0.0.1920.1200" x="962" y="477" />
     <location key="com.intellij.ide.util.TipDialog.0.0.1920.1200" x="693" y="387" />
     <location key="IdeErrosDialog.0.0.1920.1200" x="571" y="353" />
     <location key="com.intellij.ide.util.TipDialog.-1920.0.1920.1200" x="-1260" y="426" />
@@ -14,6 +14,8 @@
     <location key="SettingsEditor.0.0.1920.1200" x="440" y="189" />
     <location key="IdeErrosDialog.-1920.0.1920.1200" x="-1477" y="223" />
     <location key="FileChooserDialogImpl.0.0.1920.1200" x="742" y="227" />
+    <location key="FileChooserDialogImpl.1920.0.1920.1200" x="2660" y="350" />
+    <location key="new project wizard.1920.0.1920.1200" x="2517" y="220" />
     <size key="new project wizard.0.0.1920.1096" width="899" height="795" />
     <size key="IdeErrosDialog.0.0.1920.1096" width="1044" height="434" />
     <size key="SettingsEditor.-1920.0.1920.1200" width="1366" height="768" />
