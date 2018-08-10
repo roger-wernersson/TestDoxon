@@ -227,7 +227,7 @@ public class TestDoxonToolWindowFactory implements com.intellij.openapi.wm.ToolW
 
     private void createListeners() {
         this.testMethodList.addMouseListener(new DoubleClickMethodName());
-        this.testClassesComboBox.addItemListener(new ComboBoxItemChanged(this.testMethodList, this.header));
+        this.testClassesComboBox.addActionListener(new ComboBoxItemChanged(this.testMethodList, this.header, this.fileCrawlerHandler, this.testClassesComboBox));
         this.header.addMouseListener(new HeaderDoubleClick());
 
         FileSavedListener fileSavedListener = new FileSavedListener(this.testMethodList, this.header);
