@@ -1,7 +1,4 @@
 <idea-plugin>
-  <change-notes>
-      Add change notes here.&lt;br&gt;
-      &lt;em&gt;most HTML tags may be used&lt;/em&gt;</change-notes>
   <idea-version since-build="181.5087" until-build="181.*"/>
   <id>testdoxon.TestDoxon</id>
   <name>TestDoxon</name>
