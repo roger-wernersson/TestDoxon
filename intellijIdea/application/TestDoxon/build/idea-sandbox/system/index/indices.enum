@@ -91,3 +91,6 @@ java.method.parameter.types
 java.class.shortname
 java.class.fqn
 java.module.name
+json.file.root.values
+java.binary.plus.expression
+yaml.keys.name

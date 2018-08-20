@@ -15,17 +15,17 @@
       </list>
     </option>
     <option name="lastPath" value="$USER_HOME$/IdeaProjects/asd" />
-    <option name="pid" value="" />
+    <option name="pid" value="11484" />
     <option name="additionalInfo">
       <map>
         <entry key="$USER_HOME$/IdeaProjects/asd">
           <value>
             <RecentProjectMetaInfo>
-              <option name="build" value="IC-181.5087.20" />
+              <option name="build" value="IC-182.3684.90" />
               <option name="productionCode" value="IC" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1534144827917" />
-              <option name="buildTimestamp" value="1526508287759" />
+              <option name="projectOpenTimestamp" value="1534764220732" />
+              <option name="buildTimestamp" value="1532376671435" />
             </RecentProjectMetaInfo>
           </value>
         </entry>
