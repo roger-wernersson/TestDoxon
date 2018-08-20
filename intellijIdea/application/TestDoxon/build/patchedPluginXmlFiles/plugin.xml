@@ -1,5 +1,5 @@
 <idea-plugin>
-  <idea-version since-build="181.5087" until-build="181.*"/>
+  <idea-version since-build="182.3684" until-build="182.*"/>
   <id>testdoxon.TestDoxon</id>
   <name>TestDoxon</name>
   <vendor email="testdoxon@gmail.com" url="https://testdoxon.tumblr.com/">TestDoxon</vendor>
