@@ -2,7 +2,7 @@
   <component name="ActionsCollector">
     <counts>
       <entry action="$Delete" count="8" />
-      <entry action="ActivateTestDoxonToolWindow" count="3" />
+      <entry action="ActivateTestDoxonToolWindow" count="4" />
       <entry action="DialogOkAction Enter" count="13" />
       <entry action="EditorBackSpace" count="16" />
       <entry action="EditorDelete" count="9" />
@@ -16,6 +16,19 @@
       <entry action="OpenFile" count="3" />
       <entry action="SaveAll" count="1" />
     </counts>
+  </component>
+  <component name="FUSApplicationUsageTrigger">
+    <session id="655482535">
+      <usages-collector id="statistics.lifecycle.app">
+        <counts>
+          <entry key="ide.close" value="2" />
+          <entry key="ide.error" value="3" />
+          <entry key="ide.freeze.10" value="2" />
+          <entry key="ide.freeze.22" value="1" />
+          <entry key="ide.start" value="2" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FeatureUsageStatistics" first-run="1533820639742" have-been-shown="false" show-in-other="true" show-in-compilation="true">
     <feature id="editing.completion.smarttype.afternew" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -73,7 +86,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="100" last-shown="0" last-used="1534764623799" shown-count="0" />
+    <feature id="editing.select.word" count="104" last-shown="0" last-used="1534766138938" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -108,7 +121,7 @@
     <counts>
       <entry path="File -&gt; New -&gt; Project..." count="1" />
       <entry path="File -&gt; Open..." count="3" />
-      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="3" />
+      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="4" />
     </counts>
   </component>
   <component name="ShortcutsCollector">
@@ -125,12 +138,12 @@
   <component name="ToolWindowCollector">
     <counts>
       <entry toolWindow="Project by Activation" count="1" />
-      <entry toolWindow="TestDoxon by Activation" count="3" />
+      <entry toolWindow="TestDoxon by Activation" count="4" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="28" />
+      <entry feature="ideaapp.started" count="30" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
