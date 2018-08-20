@@ -2,7 +2,7 @@
   <component name="ActionsCollector">
     <counts>
       <entry action="$Delete" count="8" />
-      <entry action="ActivateTestDoxonToolWindow" count="2" />
+      <entry action="ActivateTestDoxonToolWindow" count="3" />
       <entry action="DialogOkAction Enter" count="13" />
       <entry action="EditorBackSpace" count="16" />
       <entry action="EditorDelete" count="9" />
@@ -73,7 +73,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="98" last-shown="0" last-used="1534764197289" shown-count="0" />
+    <feature id="editing.select.word" count="100" last-shown="0" last-used="1534764623799" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -108,7 +108,7 @@
     <counts>
       <entry path="File -&gt; New -&gt; Project..." count="1" />
       <entry path="File -&gt; Open..." count="3" />
-      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="2" />
+      <entry path="View -&gt; Tool Windows -&gt; TestDoxon" count="3" />
     </counts>
   </component>
   <component name="ShortcutsCollector">
@@ -125,12 +125,12 @@
   <component name="ToolWindowCollector">
     <counts>
       <entry toolWindow="Project by Activation" count="1" />
-      <entry toolWindow="TestDoxon by Activation" count="2" />
+      <entry toolWindow="TestDoxon by Activation" count="3" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="27" />
+      <entry feature="ideaapp.started" count="28" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
