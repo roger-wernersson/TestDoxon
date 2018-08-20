@@ -1,6 +1,6 @@
 <application>
   <component name="PathMacrosImpl">
     <macro name="MAVEN_REPOSITORY" value="C:\Users\etenphi\.m2\repository" />
-    <macro name="KOTLIN_BUNDLED" value="C:\Users\etenphi\.gradle\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\2018.2\23c6ef0bbf1c37259081353251774c1afd9d4797\ideaIC-2018.2\plugins\Kotlin\kotlinc" />
+    <macro name="KOTLIN_BUNDLED" value="C:\Users\etenphi\.gradle\caches\modules-2\files-2.1\com.jetbrains.intellij.idea\ideaIC\LATEST-EAP-SNAPSHOT\fcb66fea071aa9c4de3a607c505f61d29ac56d8e\ideaIC-LATEST-EAP-SNAPSHOT\plugins\Kotlin\kotlinc" />
   </component>
 </application>
