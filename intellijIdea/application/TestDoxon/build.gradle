@@ -20,4 +20,6 @@ intellij {
     version ''
 }
 patchPluginXml {
+    untilBuild '199.*'
+    sinceBuild '181.*'
 }

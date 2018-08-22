@@ -21,11 +21,11 @@
     <session id="655482535">
       <usages-collector id="statistics.lifecycle.app">
         <counts>
-          <entry key="ide.close" value="2" />
-          <entry key="ide.error" value="3" />
+          <entry key="ide.close" value="8" />
+          <entry key="ide.error" value="5" />
           <entry key="ide.freeze.10" value="2" />
           <entry key="ide.freeze.22" value="1" />
-          <entry key="ide.start" value="2" />
+          <entry key="ide.start" value="8" />
         </counts>
       </usages-collector>
     </session>
@@ -86,7 +86,7 @@
     <feature id="editing.completion.postfix" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="refactoring.introduceVariable.incompleteStatement" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="dir.diff" count="0" last-shown="0" last-used="0" shown-count="0" />
-    <feature id="editing.select.word" count="104" last-shown="0" last-used="1534766138938" shown-count="0" />
+    <feature id="editing.select.word" count="108" last-shown="0" last-used="1534928558067" shown-count="0" />
     <feature id="editing.add.carets.using.double.ctrl" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="codeassists.quickjavadoc.lookup" count="0" last-shown="0" last-used="0" shown-count="0" />
     <feature id="ui.scheme.quickswitch" count="0" last-shown="0" last-used="0" shown-count="0" />
@@ -138,12 +138,12 @@
   <component name="ToolWindowCollector">
     <counts>
       <entry toolWindow="Project by Activation" count="1" />
-      <entry toolWindow="TestDoxon by Activation" count="4" />
+      <entry toolWindow="TestDoxon by Activation" count="7" />
     </counts>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="ideaapp.started" count="30" />
+      <entry feature="ideaapp.started" count="36" />
     </counts>
   </component>
   <component name="UsagesStatistic" show-notification="false" />
